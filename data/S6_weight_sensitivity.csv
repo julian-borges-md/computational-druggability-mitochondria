@@ -1,0 +1,16 @@
+Gene,Target,"Top-5 membership over 20,000 random weightings (%)"
+DNM1L,TGT_016,100.0
+NFE2L2,TGT_024,100.0
+LONP1,TGT_023,98.2
+SDHA,TGT_007,94.9
+CLPP,TGT_025,57.5
+ATP5F1A,TGT_010,25.6
+PINK1,TGT_018,18.4
+PPARGC1A,TGT_020,5.4
+,,
+Mean Spearman rank correlation vs base weighting: 0.982,,
+"First wave, base",DNM1L; NFE2L2; LONP1; SDHA; CLPP,
+"First wave, equal (0.2 each)",DNM1L; NFE2L2; SDHA; LONP1; CLPP,
+"First wave, structure-heavy (D1 .40)",DNM1L; SDHA; LONP1; NFE2L2; ATP5F1A,
+"First wave, evidence-heavy (D3+D4 .30 each)",CLPP; NFE2L2; DNM1L; LONP1; POLG,
+"First wave, precedent-free (D4=0)",DNM1L; NFE2L2; SDHA; LONP1; PINK1,

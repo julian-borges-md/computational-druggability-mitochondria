@@ -1,0 +1,79 @@
+[
+ {
+  "test": "tier vs composite",
+  "n": 25,
+  "rho": -0.709,
+  "perm_p": 0.0002,
+  "ci": [
+   -0.864,
+   -0.431
+  ],
+  "bh_q": 0.0014
+ },
+ {
+  "test": "tier vs D4 precedent",
+  "n": 25,
+  "rho": -0.663,
+  "perm_p": 0.00126,
+  "ci": [
+   -0.889,
+   -0.368
+  ],
+  "bh_q": 0.0044
+ },
+ {
+  "test": "tier vs D5 delivery",
+  "n": 25,
+  "rho": -0.508,
+  "perm_p": 0.01204,
+  "ci": [
+   -0.783,
+   -0.119
+  ],
+  "bh_q": 0.0281
+ },
+ {
+  "test": "tier vs D3 bioactivity",
+  "n": 25,
+  "rho": -0.482,
+  "perm_p": 0.01719,
+  "ci": [
+   -0.755,
+   -0.14
+  ],
+  "bh_q": 0.0301
+ },
+ {
+  "test": "tier vs D1 site druggability",
+  "n": 17,
+  "rho": -0.037,
+  "perm_p": 0.92652,
+  "ci": [
+   -0.666,
+   0.57
+  ],
+  "bh_q": 0.9265
+ },
+ {
+  "test": "D1 site vs D4 precedent (central null)",
+  "n": 17,
+  "rho": -0.1,
+  "perm_p": 0.70257,
+  "ci": [
+   -0.747,
+   0.531
+  ],
+  "bh_q": 0.8197
+ },
+ {
+  "test": "D1 site vs D3 bioactivity",
+  "n": 17,
+  "rho": 0.263,
+  "perm_p": 0.30476,
+  "ci": [
+   -0.282,
+   0.692
+  ],
+  "bh_q": 0.4267
+ }
+]

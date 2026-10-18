@@ -1,0 +1,4542 @@
+metadata:
+  document_id: DRUGGABILITY_REGISTRY_MITOCOREX_v1.3
+  supersedes: druggability_registry_v1.2.yaml (version 1.2, 2026-09-11) and all earlier versions, which
+    must not be cited
+  project: MitoCorex
+  engine: DrugSynth AI
+  chapter: 2B.1
+  version: '1.3'
+  date_created: '2026-09-30'
+  author: Julian Yin Vieira Borges, MD
+  orcid: 0009-0001-9929-3135
+  manuscript_id: CSBR-D-26-00031
+  upstream_file: pathway_registry_v1.yaml (Chapter 2A.2)
+  identifier_policy: TGT_001 to TGT_025 is the single canonical identifier namespace for this manuscript
+    and all its supplementary files. The MITO_TGT_NNN namespace used by target_registry.yaml, pocket_library.yaml
+    and SMILES_compound_library.csv indexes a DIFFERENT 25 protein set and must never be joined on the
+    numeric suffix. 24 of 25 numeric slots collide between the two namespaces.
+  assessment_framework:
+  - fpocket 4.0 (Le Guilloux et al. 2009), default parameters, executed 23 August 2026 and re-executed
+    on corrected inputs 1 September 2026
+  - RCSB Protein Data Bank human experimental structures, verified by UniProt accession
+  - AlphaFold Protein Structure Database v6 where no human experimental structure exists
+  - ChEMBL bioactivity data (ligand efficiency evidence)
+  - Regulatory status verified against FDA, EMA and ClinicalTrials.gov, August 2026
+  tools_not_executed:
+  - SiteMap 3.5 (Schrodinger), no licence available; all prior SiteMap Dscore values in pocket_library.yaml
+    were literature referenced estimates and have been withdrawn
+  - DoGSiteScorer, not executed; claim withdrawn from Methods
+  changes_from_v1_0:
+  - Added executed fpocket 4.0 output for all 25 targets (previously absent).
+  - Replaced every cited PDB identifier with a human structure verified by UniProt accession; 19 prior
+    identifiers across 14 targets did not contain the target protein and are recorded under structural_evidence.withdrawn_pdb_citations.
+  - Corrected pharmacological precedent for NDUFV1, SDHA, DNM1L, PINK1, NFE2L2 and CLPP.
+  - Replaced the delivery profile summary with a mutually exclusive, exhaustive five category partition
+    covering all 25 targets.
+  - Added an explicit legacy identifier crosswalk to the MITO_TGT namespace.
+  - Reinstated ligand_efficiency_evidence_published, which was inadvertently dropped when v1.1 was first
+    assembled, and paired it with the ChEMBL derived observed value.
+  changes_from_v1_1:
+  - MT-ND1 fpocket output in v1.1 described the entire respiratory Complex I, not the MT-ND1 chain. An
+    abandoned script wrote the full complex to the pipeline path and left fpocket running on it; the pipeline
+    later overwrote the file with the correctly extracted chain but skipped re-execution because an output
+    directory already existed. Reported values were 648 pockets and a 7837.219 A3 cavity. The correct
+    values are 27 pockets and a 1773.902 A3 maximum pocket. Scope of the defect is MT-ND1 only; all 25
+    targets were re-executed and every other target reproduces exactly.
+  - 'Ligand, cofactor, metal and lipid removal before pocket detection is now disclosed, and a holo arm
+    retaining them is reported alongside the apo arm for every target. The effect is bidirectional: removal
+    inflates the score for SDHA by 0.244 and deflates it for TOMM40 by 0.380.'
+  - TFAM reassessed on 3TMM (full protein) rather than 3FGH (HMG box 2 only). SOD2 reassessed on 1LUV
+    (human wild type) rather than 9NSJ (Q143N mutant expressed in Escherichia coli). ATP5F1A reassessed
+    on 8H9E chain A rather than chains A and B, which lie 58 A apart.
+  - MT-CYB precedent corrected from 3 to 0 and KEAP1 from 3 to 1; both breached the rule stated in Methods
+    2.4.
+  - The isolation_artefact_risk field is removed. It was assigned by hand, no script produced it, and
+    it did not correlate with newly exposed surface area. Three pocket selection specifications are reported
+    instead.
+  - 'Tier concordance recomputed on the corrected matrix: rho -0.181, p 0.387 (v1.1 reported -0.078, p
+    0.711).'
+  - Every correlation now carries a 95 per cent confidence interval and the panel carries a minimum detectable
+    effect size.
+  - 'Per target UniProt sequence coverage computed and carried: reference length from UniProt, the residue
+    range the PDB entry declares, residues actually resolved in each retained chain, and the resulting
+    coverage percentage. Four assessments fall below 60 per cent: LONP1 19.8 (proteolytic domain only),
+    OPA1 34.4, DNM1L 46.5 and KEAP1 46.6. Three of these four carry first wave targets, so the coverage
+    limitation is stated wherever the first wave is reported.'
+  - The construct fragment field no longer defaults to "full construct" where the PDB entry leaves pdbx_fragment
+    empty. An absent annotation is now reported as "not stated in the entry"; the coverage block carries
+    the substantive answer.
+  analysis_set: All 25 targets enter every reported comparison. No exclusion rule is applied. Methods
+    2.2 of the first revision stated that six targets were excluded; that exclusion was never implemented
+    and the statement has been withdrawn.
+  revision_R2_changes:
+  - Structural dimension (D1, D2) is now scored at an a priori therapeutic site, defined before pocket
+    comparison and anchored on the bound cofactor/inhibitor or on UniProt active/binding residues, in
+    the isolated chain and the biological assembly specifications (reviewer comments 2, 3).
+  - The eight targets with no defined small-molecule site carry NA on the structural dimensions rather
+    than a low score; their composite is the weight-renormalised mean over available dimensions (comment
+    8).
+  - D3 renamed bioactivity evidence (chemical matter abundance); it is a curated pChEMBL>=5 compound count
+    and explicitly not a per-compound ligand efficiency (comments 1, 7).
+  - Inference by permutation test and percentile bootstrap; Benjamini-Hochberg across a seven-test family
+    (comment 5). Composite normalisation and weight robustness fully specified (comment 6).
+  - Every value regenerated from a single matrix by a single statistics script and verified by an automated
+    cross-document consistency check before release (comment 10).
+druggability_tiers:
+  tier_1:
+    label: HIGH DRUGGABILITY
+    criteria: Accessible binding pocket with defined geometry; ligand efficiency evidence in ChEMBL; PDB
+      structure available; pharmacological precedent exists; no prohibitive delivery barrier
+  tier_2:
+    label: MODERATE DRUGGABILITY
+    criteria: Binding site exists but is partially occluded, membrane-embedded, or lacks small molecule
+      precedent; PDB structure available or homology model adequate; mitochondrial delivery feasible
+  tier_3:
+    label: LOW DRUGGABILITY
+    criteria: Transmembrane channel or structural scaffold without defined small molecule pocket; delivery
+      severely constrained; no existing pharmacological precedent
+targets:
+  TGT_001:
+    canonical_target_id: TGT_001
+    gene_symbol: MT-ND1
+    uniprot: P03886
+    legacy_identifiers:
+      mitocorex_target_registry_id: MITO_TGT_001
+      mitocorex_pocket_library_id: MITO_PKT_001
+      note: MITO_TGT_NNN identifiers belong to a different 25 protein MitoCorex series and are NOT interchangeable
+        with TGT_NNN. See id_crosswalk_v1.1.csv.
+    druggability_tier: 2
+    binding_site_type: Structural subunit of Complex I; no defined catalytic active site; quinone binding
+      region proximity
+    pocket_accessibility: Transmembrane; deeply embedded in IMM
+    ligand_efficiency_evidence_published: WEAK, no co-crystal structures with small molecule ligands at
+      ND1 specifically
+    structural_evidence:
+      assessed_structure: 9I4I
+      assessed_protein: MT-ND1
+      structure_source: RCSB_human
+      chains_assessed: s
+      experimental_method: ''
+      resolution_angstrom: 2.63
+      organism: Homo sapiens
+      withdrawn_pdb_citations:
+      - pdb_id: 7LPW
+        actual_content: Crystal Structure of HIV-1 RT in Complex with NBD-14189
+      mutation: none recorded in the entry
+      fragment: not stated in the entry
+      uniprot_coverage:
+        uniprot_sequence_length: 318
+        uniprot_range_declared_by_entry: 1-318
+        residues_resolved_per_retained_chain: s:316
+        coverage_percent: 99.4
+        basis: amino acid residues resolved in the single best retained chain, divided by the UniProt
+          reference sequence length
+        partial: false
+    fpocket_v4_0:
+      executed: fpocket 4.0 (Le Guilloux et al. 2009), default parameters, re-executed 1 September 2026
+      determinism_check: three independent runs on an identical input file return identical output
+      structure: 9I4I
+      chains_retained: s
+      n_chains_in_entity: 1
+      n_chains_retained: 1
+      chain_cap: at most two chains of the matching polymer entity are retained; where the entity carries
+        more, this is a deliberate and disclosed truncation
+      apo:
+        preparation: ligands, cofactors, metals, lipids and waters removed
+        n_heteroatoms_removed: 52
+        n_pockets_detected: 27
+        rank1_druggability_score: 0.293
+        rank1_pocket_volume_A3: 760.745
+        max_druggability_score: 0.87
+        max_druggability_pocket_rank: 21
+        max_pocket_volume_A3: 1773.902
+        max_pocket_apolar_sasa_A2: 313.884
+        max_pocket_polarity: 19.0
+      holo:
+        preparation: waters removed only; ligands, cofactors, metals and lipids retained
+        n_pockets_detected: 27
+        rank1_druggability_score: 0.108
+        rank1_pocket_volume_A3: 457.912
+        max_druggability_score: 0.87
+        max_druggability_pocket_rank: 21
+        max_pocket_volume_A3: 1793.371
+        max_pocket_apolar_sasa_A2: 313.884
+        max_pocket_polarity: 19.0
+      delta_drugscore_apo_minus_holo: 0.0
+      analysis_set: all 25 targets enter every reported comparison; no target is excluded on any structural
+        ground
+      full_pocket_listing: SupplementaryTable_S3_fpocket_all_pockets.csv
+      superseded_by: 'site_matched_R2: the apo/holo whole-structure pocket scores below are retained for
+        provenance; the current structural score is the site-matched value'
+    pharmacological_precedent:
+    - compound: Rotenone (Complex I broadly)
+      class: Natural product
+      site: Quinone binding region (ND1 adjacent)
+      status: Research tool; not ND1-specific
+    mechanism_of_action_class: Structural stabilizer; allotopic rescue of assembly (gene therapy angle);
+      indirect via quinone channel targeting
+    delivery:
+      category: D_gene_therapy_primary
+      strategy: Allotopic expression, heteroplasmy shifting or mitochondrial base editing
+      binding_site_compartment: IMM, mtDNA encoded
+      encoding: mtDNA
+    design_priority: MODERATE
+    design_rationale: null
+    quantitative_scores:
+      D1_pocket_druggability:
+        apo_max: 0.87
+        holo_max: 0.87
+        apo_rank1: 0.293
+        normalised_apo_max: 0.7615
+      D2_pocket_geometry:
+        apo_max_volume_A3: 1773.9
+        normalised_log10: 0.7344
+      D3_ligand_efficiency:
+        chembl_target: CHEMBL2111
+        n_compounds_at_or_below_10uM: 1
+        class_published: ABSENT
+        class_observed: MODERATE
+        reclassified: true
+        normalised_log10: 0.1189
+      D4_pharmacological_precedent:
+        score: 0
+        score_in_v1_1: 0
+        basis: none at this site
+        normalised: 0.0
+      D5_delivery_feasibility:
+        score: 0
+        category: D_gene_therapy_primary
+        normalised: 0.0
+      weights:
+        D1: 0.25
+        D2: 0.15
+        D3: 0.2
+        D4: 0.2
+        D5: 0.2
+      composite:
+        apo_max: 0.3243
+        holo_max: 0.3197
+        apo_rank1: 0.2159
+      rank_of_25:
+        apo_max: 16
+        holo_max: 17
+        apo_rank1: 15
+    site_matched_R2:
+      a_priori_site: Complex I quinone cavity (ND1)
+      site_definition: ligand/cofactor anchored
+      anchor: quinone/UQ region
+      basis: rotenone and piericidin bind the ND1 Q-site; anchor by the quinone tunnel residues
+      D1_site_druggability:
+        isolated_chain: 0.021
+        biological_assembly: 0.995
+        best_context_used: 0.995
+      D2_site_volume_A3:
+        isolated_chain: 339.2
+        biological_assembly: 1295.6
+        best_context_used: 1295.6
+      global_best_pocket_exploratory: 0.021
+    bioactivity_evidence_R2:
+      definition: distinct ChEMBL compounds; count of chemical matter, not a per-compound ligand efficiency
+      chembl_target: CHEMBL2111
+      status: OK
+      n_at_or_below_10uM: 1
+      n_pchembl_ge5: 1
+      n_pchembl_ge5_binding_assay: 1
+      used_in_composite: n_pchembl_ge5
+    bioactivity_evidence_note: field ligand_efficiency_evidence_published is retained for provenance only;
+      the dimension is renamed bioactivity evidence and uses the pChEMBL count above
+    quantitative_scores_v1_3:
+      composite: 0.3608
+      rank: 13
+      published_tier: 2
+      site_tier: D
+      D1_norm: 0.995
+      D2_norm: 0.588
+      D3_norm: 0.1194
+      D4_precedent: 0
+      D5_delivery: 0
+      weights:
+        D1: 0.25
+        D2: 0.15
+        D3: 0.2
+        D4: 0.2
+        D5: 0.2
+      missing_data_rule: weight-renormalised mean over available dimensions
+  TGT_002:
+    canonical_target_id: TGT_002
+    gene_symbol: MT-ND4
+    uniprot: P03905
+    legacy_identifiers:
+      mitocorex_target_registry_id: NOT_IN_THAT_SERIES
+      mitocorex_pocket_library_id: NOT_IN_THAT_SERIES
+      note: MITO_TGT_NNN identifiers belong to a different 25 protein MitoCorex series and are NOT interchangeable
+        with TGT_NNN. See id_crosswalk_v1.1.csv.
+    druggability_tier: 2
+    binding_site_type: Proton-translocating TMH bundle; no solvent-exposed ligand pocket
+    pocket_accessibility: Fully transmembrane
+    ligand_efficiency_evidence_published: WEAK
+    structural_evidence:
+      assessed_structure: 9I4I
+      assessed_protein: MT-ND4
+      structure_source: RCSB_human
+      chains_assessed: r
+      experimental_method: ''
+      resolution_angstrom: 2.63
+      organism: Homo sapiens
+      withdrawn_pdb_citations: []
+      mutation: none recorded in the entry
+      fragment: not stated in the entry
+      uniprot_coverage:
+        uniprot_sequence_length: 459
+        uniprot_range_declared_by_entry: 1-459
+        residues_resolved_per_retained_chain: r:459
+        coverage_percent: 100.0
+        basis: amino acid residues resolved in the single best retained chain, divided by the UniProt
+          reference sequence length
+        partial: false
+    fpocket_v4_0:
+      executed: fpocket 4.0 (Le Guilloux et al. 2009), default parameters, re-executed 1 September 2026
+      determinism_check: three independent runs on an identical input file return identical output
+      structure: 9I4I
+      chains_retained: r
+      n_chains_in_entity: 1
+      n_chains_retained: 1
+      chain_cap: at most two chains of the matching polymer entity are retained; where the entity carries
+        more, this is a deliberate and disclosed truncation
+      apo:
+        preparation: ligands, cofactors, metals, lipids and waters removed
+        n_heteroatoms_removed: 52
+        n_pockets_detected: 38
+        rank1_druggability_score: 0.29
+        rank1_pocket_volume_A3: 1004.728
+        max_druggability_score: 0.875
+        max_druggability_pocket_rank: 37
+        max_pocket_volume_A3: 628.992
+        max_pocket_apolar_sasa_A2: 191.28
+        max_pocket_polarity: 3.0
+      holo:
+        preparation: waters removed only; ligands, cofactors, metals and lipids retained
+        n_pockets_detected: 38
+        rank1_druggability_score: 0.29
+        rank1_pocket_volume_A3: 1027.314
+        max_druggability_score: 0.875
+        max_druggability_pocket_rank: 37
+        max_pocket_volume_A3: 642.868
+        max_pocket_apolar_sasa_A2: 191.28
+        max_pocket_polarity: 3.0
+      delta_drugscore_apo_minus_holo: 0.0
+      analysis_set: all 25 targets enter every reported comparison; no target is excluded on any structural
+        ground
+      full_pocket_listing: SupplementaryTable_S3_fpocket_all_pockets.csv
+      superseded_by: 'site_matched_R2: the apo/holo whole-structure pocket scores below are retained for
+        provenance; the current structural score is the site-matched value'
+    pharmacological_precedent: []
+    mechanism_of_action_class: Proton pump stabilizer; indirect via assembly factor targeting
+    delivery:
+      category: D_gene_therapy_primary
+      strategy: Allotopic expression, heteroplasmy shifting or mitochondrial base editing
+      binding_site_compartment: IMM, mtDNA encoded
+      encoding: mtDNA
+    design_priority: LOW
+    design_rationale: null
+    quantitative_scores:
+      D1_pocket_druggability:
+        apo_max: 0.875
+        holo_max: 0.875
+        apo_rank1: 0.29
+        normalised_apo_max: 0.7706
+      D2_pocket_geometry:
+        apo_max_volume_A3: 629.0
+        normalised_log10: 0.3829
+      D3_ligand_efficiency:
+        chembl_target: CHEMBL4499
+        n_compounds_at_or_below_10uM: 6
+        class_published: ABSENT
+        class_observed: MODERATE
+        reclassified: true
+        normalised_log10: 0.3337
+      D4_pharmacological_precedent:
+        score: 0
+        score_in_v1_1: 0
+        basis: none at this site
+        normalised: 0.0
+      D5_delivery_feasibility:
+        score: 0
+        category: D_gene_therapy_primary
+        normalised: 0.0
+      weights:
+        D1: 0.25
+        D2: 0.15
+        D3: 0.2
+        D4: 0.2
+        D5: 0.2
+      composite:
+        apo_max: 0.3168
+        holo_max: 0.3124
+        apo_rank1: 0.2053
+      rank_of_25:
+        apo_max: 17
+        holo_max: 18
+        apo_rank1: 19
+    site_matched_R2:
+      a_priori_site: proton-pumping TMH bundle
+      site_definition: no defined small-molecule site
+      anchor: UniProt active/binding residues (5 A neighbourhood)
+      basis: no defined small-molecule site; structural subunit
+      structural_dimension: NA
+      reason: no defined small-molecule site; structural dimensions not applicable
+    bioactivity_evidence_R2:
+      definition: distinct ChEMBL compounds; count of chemical matter, not a per-compound ligand efficiency
+      chembl_target: CHEMBL4499
+      status: OK
+      n_at_or_below_10uM: 6
+      n_pchembl_ge5: 6
+      n_pchembl_ge5_binding_assay: 6
+      used_in_composite: n_pchembl_ge5
+    bioactivity_evidence_note: field ligand_efficiency_evidence_published is retained for provenance only;
+      the dimension is renamed bioactivity evidence and uses the pChEMBL count above
+    quantitative_scores_v1_3:
+      composite: 0.1117
+      rank: 23
+      published_tier: 2
+      site_tier: N
+      D1_norm: null
+      D2_norm: null
+      D3_norm: 0.3352
+      D4_precedent: 0
+      D5_delivery: 0
+      weights:
+        D1: 0.25
+        D2: 0.15
+        D3: 0.2
+        D4: 0.2
+        D5: 0.2
+      missing_data_rule: weight-renormalised mean over available dimensions
+  TGT_003:
+    canonical_target_id: TGT_003
+    gene_symbol: MT-CYB
+    uniprot: P00156
+    legacy_identifiers:
+      mitocorex_target_registry_id: MITO_TGT_005
+      mitocorex_pocket_library_id: MITO_PKT_005
+      note: MITO_TGT_NNN identifiers belong to a different 25 protein MitoCorex series and are NOT interchangeable
+        with TGT_NNN. See id_crosswalk_v1.1.csv.
+    druggability_tier: 1
+    binding_site_type: Ubiquinone binding pockets (Qi site, matrix side; Qo site, IMS side)
+    pocket_accessibility: Accessible; partially membrane-embedded but pockets face aqueous chambers
+    ligand_efficiency_evidence_published: STRONG, multiple crystal structures with bound inhibitors
+    structural_evidence:
+      assessed_structure: 9HZL
+      assessed_protein: MT-CYB
+      structure_source: RCSB_human
+      chains_assessed: J;V
+      experimental_method: ''
+      resolution_angstrom: 2.52
+      organism: Homo sapiens
+      withdrawn_pdb_citations: []
+      mutation: none recorded in the entry
+      fragment: not stated in the entry
+      uniprot_coverage:
+        uniprot_sequence_length: 380
+        uniprot_range_declared_by_entry: 1-380
+        residues_resolved_per_retained_chain: J:379;V:379
+        coverage_percent: 99.7
+        basis: amino acid residues resolved in the single best retained chain, divided by the UniProt
+          reference sequence length
+        partial: false
+    fpocket_v4_0:
+      executed: fpocket 4.0 (Le Guilloux et al. 2009), default parameters, re-executed 1 September 2026
+      determinism_check: three independent runs on an identical input file return identical output
+      structure: 9HZL
+      chains_retained: J;V
+      n_chains_in_entity: 2
+      n_chains_retained: 2
+      chain_cap: at most two chains of the matching polymer entity are retained; where the entity carries
+        more, this is a deliberate and disclosed truncation
+      apo:
+        preparation: ligands, cofactors, metals, lipids and waters removed
+        n_heteroatoms_removed: 698
+        n_pockets_detected: 57
+        rank1_druggability_score: 0.015
+        rank1_pocket_volume_A3: 289.577
+        max_druggability_score: 0.99
+        max_druggability_pocket_rank: 53
+        max_pocket_volume_A3: 1996.056
+        max_pocket_apolar_sasa_A2: 508.55
+        max_pocket_polarity: 16.0
+      holo:
+        preparation: waters removed only; ligands, cofactors, metals and lipids retained
+        n_pockets_detected: 56
+        rank1_druggability_score: 0.871
+        rank1_pocket_volume_A3: 1507.901
+        max_druggability_score: 0.999
+        max_druggability_pocket_rank: 2
+        max_pocket_volume_A3: 1961.803
+        max_pocket_apolar_sasa_A2: 373.296
+        max_pocket_polarity: 16.0
+      delta_drugscore_apo_minus_holo: -0.009
+      analysis_set: all 25 targets enter every reported comparison; no target is excluded on any structural
+        ground
+      full_pocket_listing: SupplementaryTable_S3_fpocket_all_pockets.csv
+      superseded_by: 'site_matched_R2: the apo/holo whole-structure pocket scores below are retained for
+        provenance; the current structural score is the site-matched value'
+    pharmacological_precedent_corrected:
+      precedent_status: FDA approved
+      compound: Atovaquone
+      indication: antimalarial and anti Pneumocystis
+      site: Qo site
+      verified: DrugBank DB01117
+    mechanism_of_action_class: Competitive inhibitor of ubiquinone binding (Qi or Qo); complex III activity
+      modulator
+    delivery:
+      category: C_IMS_or_membrane_embedded
+      strategy: Matrix targeting peptide or cell penetrating peptide; intermembrane space or membrane
+        accessible
+      binding_site_compartment: IMM; Qo faces IMS, Qi faces matrix
+      encoding: mtDNA
+    design_priority: HIGH
+    design_rationale: Best-characterized pharmacological binding sites in ETC; atovaquone precedent demonstrates
+      clinical translatability. Primary target for Complex III rescue molecules.
+    precedent_score_correction:
+      score_in_v1_1: 3
+      score_in_v1_2: 0
+      reason: Atovaquone binds Plasmodium falciparum cytochrome b. Methods 2.4 states that a compound
+        acting on a pathogen orthologue is not precedent for the human protein. Section 3.5 of the submitted
+        manuscript said so while the table scored it 3.
+    quantitative_scores:
+      D1_pocket_druggability:
+        apo_max: 0.99
+        holo_max: 0.999
+        apo_rank1: 0.015
+        normalised_apo_max: 0.9817
+      D2_pocket_geometry:
+        apo_max_volume_A3: 1996.1
+        normalised_log10: 0.7744
+      D3_ligand_efficiency:
+        chembl_target: no human entity
+        n_compounds_at_or_below_10uM: 0
+        class_published: STRONG
+        class_observed: ABSENT
+        reclassified: true
+        normalised_log10: 0.0
+      D4_pharmacological_precedent:
+        score: 0
+        score_in_v1_1: 3
+        basis: none at the assessed site; atovaquone binds Plasmodium cytochrome b, not the human protein
+        normalised: 0.0
+      D5_delivery_feasibility:
+        score: 1
+        category: C_IMS_or_membrane_embedded
+        normalised: 0.3333
+      weights:
+        D1: 0.25
+        D2: 0.15
+        D3: 0.2
+        D4: 0.2
+        D5: 0.2
+      composite:
+        apo_max: 0.4282
+        holo_max: 0.4328
+        apo_rank1: 0.1868
+      rank_of_25:
+        apo_max: 10
+        holo_max: 9
+        apo_rank1: 21
+    first_wave_selection:
+      stage_2_verdict: FAIL
+      basis: atovaquone binds Plasmodium cytochrome b; human inhibition is an adverse effect. Precedent
+        now scored 0
+    site_matched_R2:
+      a_priori_site: Qi and Qo ubiquinone sites
+      site_definition: ligand/cofactor anchored
+      anchor: HEM/UQ
+      basis: antimycin/stigmatellin site; anchor by b-hemes and quinone
+      D1_site_druggability:
+        isolated_chain: 0.876
+        biological_assembly: 0.876
+        best_context_used: 0.876
+      D2_site_volume_A3:
+        isolated_chain: 1686.2
+        biological_assembly: 1680.1
+        best_context_used: 1686.2
+      global_best_pocket_exploratory: 0.876
+    bioactivity_evidence_R2:
+      definition: distinct ChEMBL compounds; count of chemical matter, not a per-compound ligand efficiency
+      chembl_target: ''
+      status: NO_ENTITY_coverage_gap
+      n_at_or_below_10uM: 0
+      n_pchembl_ge5: 0
+      n_pchembl_ge5_binding_assay: 0
+      used_in_composite: n_pchembl_ge5
+    bioactivity_evidence_note: field ligand_efficiency_evidence_published is retained for provenance only;
+      the dimension is renamed bioactivity evidence and uses the pChEMBL count above
+    quantitative_scores_v1_3:
+      composite: 0.3891
+      rank: 12
+      published_tier: 1
+      site_tier: D
+      D1_norm: 0.876
+      D2_norm: 0.6893
+      D3_norm: 0.0
+      D4_precedent: 0
+      D5_delivery: 1
+      weights:
+        D1: 0.25
+        D2: 0.15
+        D3: 0.2
+        D4: 0.2
+        D5: 0.2
+      missing_data_rule: weight-renormalised mean over available dimensions
+  TGT_004:
+    canonical_target_id: TGT_004
+    gene_symbol: MT-CO1
+    uniprot: P00395
+    legacy_identifiers:
+      mitocorex_target_registry_id: MITO_TGT_006
+      mitocorex_pocket_library_id: MITO_PKT_006
+      note: MITO_TGT_NNN identifiers belong to a different 25 protein MitoCorex series and are NOT interchangeable
+        with TGT_NNN. See id_crosswalk_v1.1.csv.
+    druggability_tier: 1
+    binding_site_type: Copper-containing binuclear center (CuA, CuB); heme a3 catalytic center
+    pocket_accessibility: Deep within protein core; substrate channel accessible from matrix
+    ligand_efficiency_evidence_published: MODERATE, active site well-characterized; fewer small molecule
+      inhibitors than Complex III
+    structural_evidence:
+      assessed_structure: 9I6F
+      assessed_protein: MT-CO1
+      structure_source: RCSB_human
+      chains_assessed: A
+      experimental_method: ''
+      resolution_angstrom: 2.95
+      organism: Homo sapiens
+      withdrawn_pdb_citations: []
+      mutation: none recorded in the entry
+      fragment: not stated in the entry
+      uniprot_coverage:
+        uniprot_sequence_length: 513
+        uniprot_range_declared_by_entry: 1-513
+        residues_resolved_per_retained_chain: A:513
+        coverage_percent: 100.0
+        basis: amino acid residues resolved in the single best retained chain, divided by the UniProt
+          reference sequence length
+        partial: false
+    fpocket_v4_0:
+      executed: fpocket 4.0 (Le Guilloux et al. 2009), default parameters, re-executed 1 September 2026
+      determinism_check: three independent runs on an identical input file return identical output
+      structure: 9I6F
+      chains_retained: A
+      n_chains_in_entity: 1
+      n_chains_retained: 1
+      chain_cap: at most two chains of the matching polymer entity are retained; where the entity carries
+        more, this is a deliberate and disclosed truncation
+      apo:
+        preparation: ligands, cofactors, metals, lipids and waters removed
+        n_heteroatoms_removed: 324
+        n_pockets_detected: 31
+        rank1_druggability_score: 0.001
+        rank1_pocket_volume_A3: 100.163
+        max_druggability_score: 1.0
+        max_druggability_pocket_rank: 31
+        max_pocket_volume_A3: 3880.987
+        max_pocket_apolar_sasa_A2: 903.94
+        max_pocket_polarity: 33.0
+      holo:
+        preparation: waters removed only; ligands, cofactors, metals and lipids retained
+        n_pockets_detected: 32
+        rank1_druggability_score: 0.87
+        rank1_pocket_volume_A3: 408.002
+        max_druggability_score: 0.907
+        max_druggability_pocket_rank: 8
+        max_pocket_volume_A3: 620.215
+        max_pocket_apolar_sasa_A2: 193.22
+        max_pocket_polarity: 4.0
+      delta_drugscore_apo_minus_holo: 0.093
+      analysis_set: all 25 targets enter every reported comparison; no target is excluded on any structural
+        ground
+      full_pocket_listing: SupplementaryTable_S3_fpocket_all_pockets.csv
+      superseded_by: 'site_matched_R2: the apo/holo whole-structure pocket scores below are retained for
+        provenance; the current structural score is the site-matched value'
+    pharmacological_precedent:
+    - compound: Cyanide (CN-)
+      class: Inorganic inhibitor
+      site: Heme a3/CuB binuclear center
+      status: Research tool; mechanistic probe only
+    - compound: Carbon monoxide (CO)
+      class: Gaseous inhibitor
+      site: Heme a3
+      status: Research probe; CORMs (CO-releasing molecules) in development
+    - compound: Azide
+      class: Inorganic inhibitor
+      site: Binuclear center
+      status: Research tool
+    mechanism_of_action_class: Binuclear center modulator; electron transfer rate modifier; copper chaperone
+      targeting
+    delivery:
+      category: C_IMS_or_membrane_embedded
+      strategy: Matrix targeting peptide or cell penetrating peptide; intermembrane space or membrane
+        accessible
+      binding_site_compartment: IMM; binuclear CuB/heme a3 centre
+      encoding: mtDNA
+    design_priority: HIGH
+    design_rationale: Largest subunit of Complex IV with established mechanistic pharmacology. Target
+      for copper replacement therapy in COX deficiency and copper-chelation strategies.
+    quantitative_scores:
+      D1_pocket_druggability:
+        apo_max: 1.0
+        holo_max: 0.907
+        apo_rank1: 0.001
+        normalised_apo_max: 1.0
+      D2_pocket_geometry:
+        apo_max_volume_A3: 3881.0
+        normalised_log10: 1.0
+      D3_ligand_efficiency:
+        chembl_target: CHEMBL6173
+        n_compounds_at_or_below_10uM: 10
+        class_published: MODERATE
+        class_observed: MODERATE
+        reclassified: false
+        normalised_log10: 0.4112
+      D4_pharmacological_precedent:
+        score: 1
+        score_in_v1_1: 1
+        basis: validated tool or preclinical compound
+        normalised: 0.3333
+      D5_delivery_feasibility:
+        score: 1
+        category: C_IMS_or_membrane_embedded
+        normalised: 0.3333
+      weights:
+        D1: 0.25
+        D2: 0.15
+        D3: 0.2
+        D4: 0.2
+        D5: 0.2
+      composite:
+        apo_max: 0.6156
+        holo_max: 0.5698
+        apo_rank1: 0.3656
+      rank_of_25:
+        apo_max: 4
+        holo_max: 5
+        apo_rank1: 9
+    first_wave_selection:
+      stage_2_verdict: FAIL
+      basis: mtDNA encoded, delivery category C, no rescue directed chemical matter
+    site_matched_R2:
+      a_priori_site: binuclear CuB-heme a3 centre
+      site_definition: ligand/cofactor anchored
+      anchor: HEA/CU
+      basis: catalytic centre; anchor by heme a3 and Cu
+      D1_site_druggability:
+        isolated_chain: 1.0
+        biological_assembly: 1.0
+        best_context_used: 1.0
+      D2_site_volume_A3:
+        isolated_chain: 3784.4
+        biological_assembly: 3584.5
+        best_context_used: 3784.4
+      global_best_pocket_exploratory: 1.0
+    bioactivity_evidence_R2:
+      definition: distinct ChEMBL compounds; count of chemical matter, not a per-compound ligand efficiency
+      chembl_target: CHEMBL6173
+      status: OK
+      n_at_or_below_10uM: 10
+      n_pchembl_ge5: 10
+      n_pchembl_ge5_binding_assay: 8
+      used_in_composite: n_pchembl_ge5
+    bioactivity_evidence_note: field ligand_efficiency_evidence_published is retained for provenance only;
+      the dimension is renamed bioactivity evidence and uses the pChEMBL count above
+    quantitative_scores_v1_3:
+      composite: 0.6159
+      rank: 3
+      published_tier: 1
+      site_tier: D
+      D1_norm: 1.0
+      D2_norm: 1.0
+      D3_norm: 0.4131
+      D4_precedent: 1
+      D5_delivery: 1
+      weights:
+        D1: 0.25
+        D2: 0.15
+        D3: 0.2
+        D4: 0.2
+        D5: 0.2
+      missing_data_rule: weight-renormalised mean over available dimensions
+  TGT_005:
+    canonical_target_id: TGT_005
+    gene_symbol: MT-ATP6
+    uniprot: P00846
+    legacy_identifiers:
+      mitocorex_target_registry_id: MITO_TGT_008
+      mitocorex_pocket_library_id: MITO_PKT_008
+      note: MITO_TGT_NNN identifiers belong to a different 25 protein MitoCorex series and are NOT interchangeable
+        with TGT_NNN. See id_crosswalk_v1.1.csv.
+    druggability_tier: 2
+    binding_site_type: Proton channel (a subunit of F0); oligomycin binding region (c-ring adjacent)
+    pocket_accessibility: Partially accessible via c-ring interface
+    ligand_efficiency_evidence_published: MODERATE, F0 complex resolved; specific ATP6 binding not characterized
+    structural_evidence:
+      assessed_structure: 8H9S
+      assessed_protein: MT-ATP6
+      structure_source: RCSB_human
+      chains_assessed: N
+      experimental_method: ''
+      resolution_angstrom: 2.53
+      organism: Homo sapiens
+      withdrawn_pdb_citations:
+      - pdb_id: 6TT1
+        actual_content: Crystal structure of 'Res_S2 mutant human Angiotensin-1 converting enz
+      mutation: none recorded in the entry
+      fragment: not stated in the entry
+      uniprot_coverage:
+        uniprot_sequence_length: 226
+        uniprot_range_declared_by_entry: 1-226
+        residues_resolved_per_retained_chain: N:223
+        coverage_percent: 98.7
+        basis: amino acid residues resolved in the single best retained chain, divided by the UniProt
+          reference sequence length
+        partial: false
+    fpocket_v4_0:
+      executed: fpocket 4.0 (Le Guilloux et al. 2009), default parameters, re-executed 1 September 2026
+      determinism_check: three independent runs on an identical input file return identical output
+      structure: 8H9S
+      chains_retained: N
+      n_chains_in_entity: 1
+      n_chains_retained: 1
+      chain_cap: at most two chains of the matching polymer entity are retained; where the entity carries
+        more, this is a deliberate and disclosed truncation
+      apo:
+        preparation: ligands, cofactors, metals, lipids and waters removed
+        n_heteroatoms_removed: 0
+        n_pockets_detected: 15
+        rank1_druggability_score: 0.062
+        rank1_pocket_volume_A3: 258.479
+        max_druggability_score: 0.625
+        max_druggability_pocket_rank: 8
+        max_pocket_volume_A3: 474.419
+        max_pocket_apolar_sasa_A2: 130.424
+        max_pocket_polarity: 3.0
+      holo:
+        preparation: waters removed only; ligands, cofactors, metals and lipids retained
+        n_pockets_detected: 15
+        rank1_druggability_score: 0.062
+        rank1_pocket_volume_A3: 267.216
+        max_druggability_score: 0.625
+        max_druggability_pocket_rank: 8
+        max_pocket_volume_A3: 473.027
+        max_pocket_apolar_sasa_A2: 130.424
+        max_pocket_polarity: 3.0
+      delta_drugscore_apo_minus_holo: 0.0
+      analysis_set: all 25 targets enter every reported comparison; no target is excluded on any structural
+        ground
+      full_pocket_listing: SupplementaryTable_S3_fpocket_all_pockets.csv
+      superseded_by: 'site_matched_R2: the apo/holo whole-structure pocket scores below are retained for
+        provenance; the current structural score is the site-matched value'
+    pharmacological_precedent:
+    - compound: Oligomycin (c-ring binding, not ATP6 directly)
+      class: Macrolide
+      site: c-ring (F0)
+      status: Research tool
+    mechanism_of_action_class: Proton flux modulator; c-ring interaction stabilizer
+    delivery:
+      category: D_gene_therapy_primary
+      strategy: Allotopic expression, heteroplasmy shifting or mitochondrial base editing
+      binding_site_compartment: IMM, mtDNA encoded
+      encoding: mtDNA
+    design_priority: MODERATE
+    design_rationale: null
+    quantitative_scores:
+      D1_pocket_druggability:
+        apo_max: 0.625
+        holo_max: 0.625
+        apo_rank1: 0.062
+        normalised_apo_max: 0.3119
+      D2_pocket_geometry:
+        apo_max_volume_A3: 474.4
+        normalised_log10: 0.2874
+      D3_ligand_efficiency:
+        chembl_target: CHEMBL6066982
+        n_compounds_at_or_below_10uM: 2
+        class_published: MODERATE
+        class_observed: MODERATE
+        reclassified: false
+        normalised_log10: 0.1884
+      D4_pharmacological_precedent:
+        score: 1
+        score_in_v1_1: 1
+        basis: validated tool or preclinical compound
+        normalised: 0.3333
+      D5_delivery_feasibility:
+        score: 0
+        category: D_gene_therapy_primary
+        normalised: 0.0
+      weights:
+        D1: 0.25
+        D2: 0.15
+        D3: 0.2
+        D4: 0.2
+        D5: 0.2
+      composite:
+        apo_max: 0.2254
+        holo_max: 0.2112
+        apo_rank1: 0.1646
+      rank_of_25:
+        apo_max: 22
+        holo_max: 23
+        apo_rank1: 23
+    site_matched_R2:
+      a_priori_site: a-subunit proton channel
+      site_definition: ligand/cofactor anchored
+      anchor: oligomycin region
+      basis: oligomycin binds the c-ring/a interface; anchor by the proton hemichannel residues
+      D1_site_druggability:
+        isolated_chain: null
+        biological_assembly: null
+        best_context_used: null
+      D2_site_volume_A3:
+        isolated_chain: null
+        biological_assembly: null
+        best_context_used: null
+      global_best_pocket_exploratory: null
+    bioactivity_evidence_R2:
+      definition: distinct ChEMBL compounds; count of chemical matter, not a per-compound ligand efficiency
+      chembl_target: CHEMBL6066982
+      status: OK
+      n_at_or_below_10uM: 2
+      n_pchembl_ge5: 2
+      n_pchembl_ge5_binding_assay: 2
+      used_in_composite: n_pchembl_ge5
+    bioactivity_evidence_note: field ligand_efficiency_evidence_published is retained for provenance only;
+      the dimension is renamed bioactivity evidence and uses the pChEMBL count above
+    quantitative_scores_v1_3:
+      composite: 0.1742
+      rank: 19
+      published_tier: 2
+      site_tier: D
+      D1_norm: null
+      D2_norm: null
+      D3_norm: 0.1892
+      D4_precedent: 1
+      D5_delivery: 0
+      weights:
+        D1: 0.25
+        D2: 0.15
+        D3: 0.2
+        D4: 0.2
+        D5: 0.2
+      missing_data_rule: weight-renormalised mean over available dimensions
+  TGT_006:
+    canonical_target_id: TGT_006
+    gene_symbol: NDUFV1
+    uniprot: P49821
+    legacy_identifiers:
+      mitocorex_target_registry_id: NOT_IN_THAT_SERIES
+      mitocorex_pocket_library_id: NOT_IN_THAT_SERIES
+      note: MITO_TGT_NNN identifiers belong to a different 25 protein MitoCorex series and are NOT interchangeable
+        with TGT_NNN. See id_crosswalk_v1.1.csv.
+    druggability_tier: 1
+    binding_site_type: FMN-binding domain; NADH binding cleft; iron-sulfur cluster N3 coordination site
+    pocket_accessibility: Peripheral matrix arm; fully solvent-exposed on matrix side
+    ligand_efficiency_evidence_published: STRONG, cryo-EM structures of intact Complex I; NDUFV1 subunit
+      resolved at high resolution
+    structural_evidence:
+      assessed_structure: 9I4I
+      assessed_protein: NDUFV1
+      structure_source: RCSB_human
+      chains_assessed: C
+      experimental_method: ''
+      resolution_angstrom: 2.63
+      organism: Homo sapiens
+      withdrawn_pdb_citations:
+      - pdb_id: 7LPW
+        actual_content: Crystal Structure of HIV-1 RT in Complex with NBD-14189
+      mutation: none recorded in the entry
+      fragment: not stated in the entry
+      uniprot_coverage:
+        uniprot_sequence_length: 464
+        uniprot_range_declared_by_entry: 1-464
+        residues_resolved_per_retained_chain: C:434
+        coverage_percent: 93.5
+        basis: amino acid residues resolved in the single best retained chain, divided by the UniProt
+          reference sequence length
+        partial: false
+    fpocket_v4_0:
+      executed: fpocket 4.0 (Le Guilloux et al. 2009), default parameters, re-executed 1 September 2026
+      determinism_check: three independent runs on an identical input file return identical output
+      structure: 9I4I
+      chains_retained: C
+      n_chains_in_entity: 1
+      n_chains_retained: 1
+      chain_cap: at most two chains of the matching polymer entity are retained; where the entity carries
+        more, this is a deliberate and disclosed truncation
+      apo:
+        preparation: ligands, cofactors, metals, lipids and waters removed
+        n_heteroatoms_removed: 39
+        n_pockets_detected: 25
+        rank1_druggability_score: 0.006
+        rank1_pocket_volume_A3: 629.832
+        max_druggability_score: 0.802
+        max_druggability_pocket_rank: 21
+        max_pocket_volume_A3: 627.135
+        max_pocket_apolar_sasa_A2: 185.975
+        max_pocket_polarity: 5.0
+      holo:
+        preparation: waters removed only; ligands, cofactors, metals and lipids retained
+        n_pockets_detected: 25
+        rank1_druggability_score: 0.072
+        rank1_pocket_volume_A3: 666.938
+        max_druggability_score: 0.802
+        max_druggability_pocket_rank: 20
+        max_pocket_volume_A3: 614.288
+        max_pocket_apolar_sasa_A2: 182.352
+        max_pocket_polarity: 5.0
+      delta_drugscore_apo_minus_holo: 0.0
+      analysis_set: all 25 targets enter every reported comparison; no target is excluded on any structural
+        ground
+      full_pocket_listing: SupplementaryTable_S3_fpocket_all_pockets.csv
+      superseded_by: 'site_matched_R2: the apo/holo whole-structure pocket scores below are retained for
+        provenance; the current structural score is the site-matched value'
+    pharmacological_precedent_corrected:
+      precedent_status: None validated at this site
+      compound: IACS-010759
+      site: binds the ND1 subunit (Asp199 to Lys262), NOT the NDUFV1 FMN or NADH site
+      verified: doi:10.1074/jbc.RA120.013366
+      caveat: Both phase 1 trials (NCT02882321, NCT03291938) discontinued for lactic acidaemia and peripheral
+        neurotoxicity with no RP2D established (doi:10.1038/s41591-022-02103-8). Prior attribution of
+        IACS-010759 to the NDUFV1 flavin site is withdrawn.
+    mechanism_of_action_class: FMN site modulator; NADH competitive inhibitor; electron transfer activator
+      (rescue of loss-of-function variants)
+    delivery:
+      category: B_matrix_MTP_or_TPP
+      strategy: Matrix targeting peptide or triphenylphosphonium cation conjugation
+      binding_site_compartment: matrix (Complex I N module)
+      encoding: nDNA
+    design_priority: HIGHEST
+    design_rationale: Nuclear-encoded, matrix-exposed, most thoroughly structurally characterized Complex
+      I subunit. Ideal primary target for a loss-of-function rescue molecule. Multiple clinical-stage
+      compounds provide design scaffolds.
+    quantitative_scores:
+      D1_pocket_druggability:
+        apo_max: 0.802
+        holo_max: 0.802
+        apo_rank1: 0.006
+        normalised_apo_max: 0.6367
+      D2_pocket_geometry:
+        apo_max_volume_A3: 627.1
+        normalised_log10: 0.3819
+      D3_ligand_efficiency:
+        chembl_target: CHEMBL6066881
+        n_compounds_at_or_below_10uM: 0
+        class_published: STRONG
+        class_observed: ABSENT
+        reclassified: true
+        normalised_log10: 0.0
+      D4_pharmacological_precedent:
+        score: 0
+        score_in_v1_1: 0
+        basis: none at this site
+        normalised: 0.0
+      D5_delivery_feasibility:
+        score: 2
+        category: B_matrix_MTP_or_TPP
+        normalised: 0.6667
+      weights:
+        D1: 0.25
+        D2: 0.15
+        D3: 0.2
+        D4: 0.2
+        D5: 0.2
+      composite:
+        apo_max: 0.3498
+        holo_max: 0.3425
+        apo_rank1: 0.192
+      rank_of_25:
+        apo_max: 15
+        holo_max: 15
+        apo_rank1: 20
+    first_wave_selection:
+      stage_2_verdict: HOLD
+      basis: zero ChEMBL compounds; IACS-010759 attribution withdrawn
+    site_matched_R2:
+      a_priori_site: FMN / NADH site
+      site_definition: ligand/cofactor anchored
+      anchor: FMN/SF4
+      basis: catalytic flavin; anchor by FMN
+      D1_site_druggability:
+        isolated_chain: 0.006
+        biological_assembly: 0.004
+        best_context_used: 0.006
+      D2_site_volume_A3:
+        isolated_chain: 647.4
+        biological_assembly: 640.5
+        best_context_used: 647.4
+      global_best_pocket_exploratory: 0.006
+    bioactivity_evidence_R2:
+      definition: distinct ChEMBL compounds; count of chemical matter, not a per-compound ligand efficiency
+      chembl_target: CHEMBL6066881
+      status: ENTITY_zero_potent_compounds
+      n_at_or_below_10uM: 0
+      n_pchembl_ge5: 0
+      n_pchembl_ge5_binding_assay: 0
+      used_in_composite: n_pchembl_ge5
+    bioactivity_evidence_note: field ligand_efficiency_evidence_published is retained for provenance only;
+      the dimension is renamed bioactivity evidence and uses the pChEMBL count above
+    quantitative_scores_v1_3:
+      composite: 0.1831
+      rank: 18
+      published_tier: 1
+      site_tier: D
+      D1_norm: 0.006
+      D2_norm: 0.3215
+      D3_norm: 0.0
+      D4_precedent: 0
+      D5_delivery: 2
+      weights:
+        D1: 0.25
+        D2: 0.15
+        D3: 0.2
+        D4: 0.2
+        D5: 0.2
+      missing_data_rule: weight-renormalised mean over available dimensions
+  TGT_007:
+    canonical_target_id: TGT_007
+    gene_symbol: SDHA
+    uniprot: P31040
+    legacy_identifiers:
+      mitocorex_target_registry_id: MITO_TGT_004
+      mitocorex_pocket_library_id: MITO_PKT_004
+      note: MITO_TGT_NNN identifiers belong to a different 25 protein MitoCorex series and are NOT interchangeable
+        with TGT_NNN. See id_crosswalk_v1.1.csv.
+    druggability_tier: 1
+    binding_site_type: FAD-containing catalytic domain; succinate/fumarate binding cleft; oxaloacetate
+      inhibition site
+    pocket_accessibility: Matrix-facing; fully accessible
+    ligand_efficiency_evidence_published: STRONG, crystal structures with multiple substrate analogs and
+      inhibitors
+    structural_evidence:
+      assessed_structure: 8DYE
+      assessed_protein: SDHA
+      structure_source: RCSB_human
+      chains_assessed: A
+      experimental_method: ''
+      resolution_angstrom: 1.44
+      organism: Homo sapiens
+      withdrawn_pdb_citations: []
+      mutation: none recorded in the entry
+      fragment: not stated in the entry
+      uniprot_coverage:
+        uniprot_sequence_length: 664
+        uniprot_range_declared_by_entry: 54-664
+        residues_resolved_per_retained_chain: A:611
+        coverage_percent: 92.0
+        basis: amino acid residues resolved in the single best retained chain, divided by the UniProt
+          reference sequence length
+        partial: false
+    fpocket_v4_0:
+      executed: fpocket 4.0 (Le Guilloux et al. 2009), default parameters, re-executed 1 September 2026
+      determinism_check: three independent runs on an identical input file return identical output
+      structure: 8DYE
+      chains_retained: A
+      n_chains_in_entity: 1
+      n_chains_retained: 1
+      chain_cap: at most two chains of the matching polymer entity are retained; where the entity carries
+        more, this is a deliberate and disclosed truncation
+      apo:
+        preparation: ligands, cofactors, metals, lipids and waters removed
+        n_heteroatoms_removed: 144
+        n_pockets_detected: 32
+        rank1_druggability_score: 0.103
+        rank1_pocket_volume_A3: 139.294
+        max_druggability_score: 0.923
+        max_druggability_pocket_rank: 26
+        max_pocket_volume_A3: 1303.142
+        max_pocket_apolar_sasa_A2: 239.11
+        max_pocket_polarity: 18.0
+      holo:
+        preparation: waters removed only; ligands, cofactors, metals and lipids retained
+        n_pockets_detected: 34
+        rank1_druggability_score: 0.065
+        rank1_pocket_volume_A3: 838.249
+        max_druggability_score: 0.679
+        max_druggability_pocket_rank: 2
+        max_pocket_volume_A3: 618.408
+        max_pocket_apolar_sasa_A2: 59.174
+        max_pocket_polarity: 8.0
+      delta_drugscore_apo_minus_holo: 0.244
+      analysis_set: all 25 targets enter every reported comparison; no target is excluded on any structural
+        ground
+      full_pocket_listing: SupplementaryTable_S3_fpocket_all_pockets.csv
+      superseded_by: 'site_matched_R2: the apo/holo whole-structure pocket scores below are retained for
+        provenance; the current structural score is the site-matched value'
+    pharmacological_precedent_corrected:
+      precedent_status: Substrate analogue only
+      compound: Malonate (competitive substrate analogue)
+      site: FAD and succinate site
+      caveat: Lonidamine is withdrawn as an SDHA precedent. Its dominant target is the mitochondrial pyruvate
+        carrier (Ki 2.5 micromolar) and it inhibits succinate ubiquinone reductase at the quinone step
+        while sparing SDH activity (doi:10.1042/BJ20151120). Its highest registered stage was phase 3,
+        terminated (NCT00435448), not phase 2. Carboxin and atpenin A5 bind the SDHC and SDHD quinone
+        site, not the SDHA flavoprotein.
+    mechanism_of_action_class: Substrate competitive inhibitor OR activator of FAD-mediated electron transfer;
+      succinate analog
+    delivery:
+      category: B_matrix_MTP_or_TPP
+      strategy: Matrix targeting peptide or triphenylphosphonium cation conjugation
+      binding_site_compartment: matrix (Complex II flavoprotein)
+      encoding: nDNA
+    design_priority: HIGHEST
+    design_rationale: Unique TCA/OXPHOS bridge. FAD-binding site is deeply characterized with crystal
+      structures of bound substrate analogs. Loss-of-function mutations (Leigh syndrome, paraganglioma)
+      make rescue molecule design directly clinically relevant.
+    quantitative_scores:
+      D1_pocket_druggability:
+        apo_max: 0.923
+        holo_max: 0.679
+        apo_rank1: 0.103
+        normalised_apo_max: 0.8587
+      D2_pocket_geometry:
+        apo_max_volume_A3: 1303.1
+        normalised_log10: 0.6298
+      D3_ligand_efficiency:
+        chembl_target: CHEMBL5758
+        n_compounds_at_or_below_10uM: 3
+        class_published: STRONG
+        class_observed: MODERATE
+        reclassified: true
+        normalised_log10: 0.2377
+      D4_pharmacological_precedent:
+        score: 1
+        score_in_v1_1: 1
+        basis: validated tool or preclinical compound
+        normalised: 0.3333
+      D5_delivery_feasibility:
+        score: 2
+        category: B_matrix_MTP_or_TPP
+        normalised: 0.6667
+      weights:
+        D1: 0.25
+        D2: 0.15
+        D3: 0.2
+        D4: 0.2
+        D5: 0.2
+      composite:
+        apo_max: 0.5567
+        holo_max: 0.4327
+        apo_rank1: 0.3706
+      rank_of_25:
+        apo_max: 7
+        holo_max: 10
+        apo_rank1: 8
+    first_wave_selection:
+      stage_2_verdict: PASS
+      basis: FAD and succinate site with human crystal structures and direct Leigh syndrome variant relevance
+    site_matched_R2:
+      a_priori_site: FAD / dicarboxylate site
+      site_definition: ligand/cofactor anchored
+      anchor: FAD
+      basis: succinate/malonate site; anchor by FAD
+      D1_site_druggability:
+        isolated_chain: 0.923
+        biological_assembly: 0.988
+        best_context_used: 0.988
+      D2_site_volume_A3:
+        isolated_chain: 1346.8
+        biological_assembly: 1177.3
+        best_context_used: 1177.3
+      global_best_pocket_exploratory: 0.923
+    bioactivity_evidence_R2:
+      definition: distinct ChEMBL compounds; count of chemical matter, not a per-compound ligand efficiency
+      chembl_target: CHEMBL5758
+      status: OK
+      n_at_or_below_10uM: 3
+      n_pchembl_ge5: 3
+      n_pchembl_ge5_binding_assay: 3
+      used_in_composite: n_pchembl_ge5
+    bioactivity_evidence_note: field ligand_efficiency_evidence_published is retained for provenance only;
+      the dimension is renamed bioactivity evidence and uses the pChEMBL count above
+    quantitative_scores_v1_3:
+      composite: 0.5774
+      rank: 5
+      published_tier: 1
+      site_tier: D
+      D1_norm: 0.988
+      D2_norm: 0.5512
+      D3_norm: 0.2388
+      D4_precedent: 1
+      D5_delivery: 2
+      weights:
+        D1: 0.25
+        D2: 0.15
+        D3: 0.2
+        D4: 0.2
+        D5: 0.2
+      missing_data_rule: weight-renormalised mean over available dimensions
+  TGT_008:
+    canonical_target_id: TGT_008
+    gene_symbol: UQCRC2
+    uniprot: P22695
+    legacy_identifiers:
+      mitocorex_target_registry_id: NOT_IN_THAT_SERIES
+      mitocorex_pocket_library_id: NOT_IN_THAT_SERIES
+      note: MITO_TGT_NNN identifiers belong to a different 25 protein MitoCorex series and are NOT interchangeable
+        with TGT_NNN. See id_crosswalk_v1.1.csv.
+    druggability_tier: 2
+    binding_site_type: Structural core subunit of Complex III; no defined small molecule binding site
+    pocket_accessibility: Partially buried; assembly factor function
+    ligand_efficiency_evidence_published: WEAK
+    structural_evidence:
+      assessed_structure: 9HZL
+      assessed_protein: UQCRC2
+      structure_source: RCSB_human
+      chains_assessed: K;W
+      experimental_method: ''
+      resolution_angstrom: 2.52
+      organism: Homo sapiens
+      withdrawn_pdb_citations: []
+      mutation: none recorded in the entry
+      fragment: not stated in the entry
+      uniprot_coverage:
+        uniprot_sequence_length: 453
+        uniprot_range_declared_by_entry: 1-453
+        residues_resolved_per_retained_chain: K:422;W:419
+        coverage_percent: 93.2
+        basis: amino acid residues resolved in the single best retained chain, divided by the UniProt
+          reference sequence length
+        partial: false
+    fpocket_v4_0:
+      executed: fpocket 4.0 (Le Guilloux et al. 2009), default parameters, re-executed 1 September 2026
+      determinism_check: three independent runs on an identical input file return identical output
+      structure: 9HZL
+      chains_retained: K;W
+      n_chains_in_entity: 2
+      n_chains_retained: 2
+      chain_cap: at most two chains of the matching polymer entity are retained; where the entity carries
+        more, this is a deliberate and disclosed truncation
+      apo:
+        preparation: ligands, cofactors, metals, lipids and waters removed
+        n_heteroatoms_removed: 0
+        n_pockets_detected: 68
+        rank1_druggability_score: 0.024
+        rank1_pocket_volume_A3: 136.078
+        max_druggability_score: 0.924
+        max_druggability_pocket_rank: 7
+        max_pocket_volume_A3: 474.587
+        max_pocket_apolar_sasa_A2: 112.626
+        max_pocket_polarity: 7.0
+      holo:
+        preparation: waters removed only; ligands, cofactors, metals and lipids retained
+        n_pockets_detected: 68
+        rank1_druggability_score: 0.024
+        rank1_pocket_volume_A3: 138.125
+        max_druggability_score: 0.924
+        max_druggability_pocket_rank: 7
+        max_pocket_volume_A3: 499.618
+        max_pocket_apolar_sasa_A2: 112.626
+        max_pocket_polarity: 7.0
+      delta_drugscore_apo_minus_holo: 0.0
+      analysis_set: all 25 targets enter every reported comparison; no target is excluded on any structural
+        ground
+      full_pocket_listing: SupplementaryTable_S3_fpocket_all_pockets.csv
+      superseded_by: 'site_matched_R2: the apo/holo whole-structure pocket scores below are retained for
+        provenance; the current structural score is the site-matched value'
+    pharmacological_precedent: []
+    mechanism_of_action_class: Chaperone-assisted folding enhancer; complex assembly stabilizer
+    delivery:
+      category: C_IMS_or_membrane_embedded
+      strategy: Matrix targeting peptide or cell penetrating peptide; intermembrane space or membrane
+        accessible
+      binding_site_compartment: IMM, matrix facing core subunit
+      encoding: nDNA
+    design_priority: LOW
+    design_rationale: null
+    quantitative_scores:
+      D1_pocket_druggability:
+        apo_max: 0.924
+        holo_max: 0.924
+        apo_rank1: 0.024
+        normalised_apo_max: 0.8606
+      D2_pocket_geometry:
+        apo_max_volume_A3: 474.6
+        normalised_log10: 0.2875
+      D3_ligand_efficiency:
+        chembl_target: CHEMBL6066941
+        n_compounds_at_or_below_10uM: 2
+        class_published: ABSENT
+        class_observed: MODERATE
+        reclassified: true
+        normalised_log10: 0.1884
+      D4_pharmacological_precedent:
+        score: 0
+        score_in_v1_1: 0
+        basis: none at this site
+        normalised: 0.0
+      D5_delivery_feasibility:
+        score: 1
+        category: C_IMS_or_membrane_embedded
+        normalised: 0.3333
+      weights:
+        D1: 0.25
+        D2: 0.15
+        D3: 0.2
+        D4: 0.2
+        D5: 0.2
+      composite:
+        apo_max: 0.3626
+        holo_max: 0.3601
+        apo_rank1: 0.1539
+      rank_of_25:
+        apo_max: 14
+        holo_max: 14
+        apo_rank1: 24
+    site_matched_R2:
+      a_priori_site: structural core subunit
+      site_definition: no defined small-molecule site
+      anchor: UniProt active/binding residues (5 A neighbourhood)
+      basis: no defined small-molecule site
+      structural_dimension: NA
+      reason: no defined small-molecule site; structural dimensions not applicable
+    bioactivity_evidence_R2:
+      definition: distinct ChEMBL compounds; count of chemical matter, not a per-compound ligand efficiency
+      chembl_target: CHEMBL6066941
+      status: OK
+      n_at_or_below_10uM: 2
+      n_pchembl_ge5: 2
+      n_pchembl_ge5_binding_assay: 2
+      used_in_composite: n_pchembl_ge5
+    bioactivity_evidence_note: field ligand_efficiency_evidence_published is retained for provenance only;
+      the dimension is renamed bioactivity evidence and uses the pChEMBL count above
+    quantitative_scores_v1_3:
+      composite: 0.1742
+      rank: 20
+      published_tier: 2
+      site_tier: N
+      D1_norm: null
+      D2_norm: null
+      D3_norm: 0.1892
+      D4_precedent: 0
+      D5_delivery: 1
+      weights:
+        D1: 0.25
+        D2: 0.15
+        D3: 0.2
+        D4: 0.2
+        D5: 0.2
+      missing_data_rule: weight-renormalised mean over available dimensions
+  TGT_009:
+    canonical_target_id: TGT_009
+    gene_symbol: COX4I1
+    uniprot: P13073
+    legacy_identifiers:
+      mitocorex_target_registry_id: NOT_IN_THAT_SERIES
+      mitocorex_pocket_library_id: NOT_IN_THAT_SERIES
+      note: MITO_TGT_NNN identifiers belong to a different 25 protein MitoCorex series and are NOT interchangeable
+        with TGT_NNN. See id_crosswalk_v1.1.csv.
+    druggability_tier: 2
+    binding_site_type: Allosteric ATP/ADP sensor site; oxygen-sensing interface; COX1 interaction surface
+    pocket_accessibility: IMM matrix-facing regulatory subunit; partially accessible
+    ligand_efficiency_evidence_published: WEAK, regulatory subunit; no small molecule ligands characterized
+    structural_evidence:
+      assessed_structure: 9I6F
+      assessed_protein: COX4I1
+      structure_source: RCSB_human
+      chains_assessed: D
+      experimental_method: ''
+      resolution_angstrom: 2.95
+      organism: Homo sapiens
+      withdrawn_pdb_citations: []
+      mutation: none recorded in the entry
+      fragment: not stated in the entry
+      uniprot_coverage:
+        uniprot_sequence_length: 169
+        uniprot_range_declared_by_entry: 1-169
+        residues_resolved_per_retained_chain: D:139
+        coverage_percent: 82.2
+        basis: amino acid residues resolved in the single best retained chain, divided by the UniProt
+          reference sequence length
+        partial: false
+    fpocket_v4_0:
+      executed: fpocket 4.0 (Le Guilloux et al. 2009), default parameters, re-executed 1 September 2026
+      determinism_check: three independent runs on an identical input file return identical output
+      structure: 9I6F
+      chains_retained: D
+      n_chains_in_entity: 1
+      n_chains_retained: 1
+      chain_cap: at most two chains of the matching polymer entity are retained; where the entity carries
+        more, this is a deliberate and disclosed truncation
+      apo:
+        preparation: ligands, cofactors, metals, lipids and waters removed
+        n_heteroatoms_removed: 0
+        n_pockets_detected: 13
+        rank1_druggability_score: 0.642
+        rank1_pocket_volume_A3: 404.565
+        max_druggability_score: 0.642
+        max_druggability_pocket_rank: 1
+        max_pocket_volume_A3: 404.565
+        max_pocket_apolar_sasa_A2: 72.458
+        max_pocket_polarity: 5.0
+      holo:
+        preparation: waters removed only; ligands, cofactors, metals and lipids retained
+        n_pockets_detected: 13
+        rank1_druggability_score: 0.642
+        rank1_pocket_volume_A3: 402.598
+        max_druggability_score: 0.642
+        max_druggability_pocket_rank: 1
+        max_pocket_volume_A3: 402.598
+        max_pocket_apolar_sasa_A2: 72.458
+        max_pocket_polarity: 5.0
+      delta_drugscore_apo_minus_holo: 0.0
+      analysis_set: all 25 targets enter every reported comparison; no target is excluded on any structural
+        ground
+      full_pocket_listing: SupplementaryTable_S3_fpocket_all_pockets.csv
+      superseded_by: 'site_matched_R2: the apo/holo whole-structure pocket scores below are retained for
+        provenance; the current structural score is the site-matched value'
+    pharmacological_precedent: []
+    mechanism_of_action_class: Allosteric activity modulator; oxygen-sensing axis regulator
+    delivery:
+      category: C_IMS_or_membrane_embedded
+      strategy: Matrix targeting peptide or cell penetrating peptide; intermembrane space or membrane
+        accessible
+      binding_site_compartment: IMM
+      encoding: nDNA
+    design_priority: MODERATE
+    design_rationale: null
+    quantitative_scores:
+      D1_pocket_druggability:
+        apo_max: 0.642
+        holo_max: 0.642
+        apo_rank1: 0.642
+        normalised_apo_max: 0.3431
+      D2_pocket_geometry:
+        apo_max_volume_A3: 404.6
+        normalised_log10: 0.2335
+      D3_ligand_efficiency:
+        chembl_target: CHEMBL6066293
+        n_compounds_at_or_below_10uM: 1
+        class_published: ABSENT
+        class_observed: MODERATE
+        reclassified: true
+        normalised_log10: 0.1189
+      D4_pharmacological_precedent:
+        score: 0
+        score_in_v1_1: 0
+        basis: none at this site
+        normalised: 0.0
+      D5_delivery_feasibility:
+        score: 1
+        category: C_IMS_or_membrane_embedded
+        normalised: 0.3333
+      weights:
+        D1: 0.25
+        D2: 0.15
+        D3: 0.2
+        D4: 0.2
+        D5: 0.2
+      composite:
+        apo_max: 0.2112
+        holo_max: 0.1977
+        apo_rank1: 0.3053
+      rank_of_25:
+        apo_max: 24
+        holo_max: 25
+        apo_rank1: 12
+    site_matched_R2:
+      a_priori_site: allosteric regulatory subunit
+      site_definition: no defined small-molecule site
+      anchor: UniProt active/binding residues (5 A neighbourhood)
+      basis: no validated small-molecule site
+      structural_dimension: NA
+      reason: no defined small-molecule site; structural dimensions not applicable
+    bioactivity_evidence_R2:
+      definition: distinct ChEMBL compounds; count of chemical matter, not a per-compound ligand efficiency
+      chembl_target: CHEMBL6066293
+      status: OK
+      n_at_or_below_10uM: 1
+      n_pchembl_ge5: 1
+      n_pchembl_ge5_binding_assay: 1
+      used_in_composite: n_pchembl_ge5
+    bioactivity_evidence_note: field ligand_efficiency_evidence_published is retained for provenance only;
+      the dimension is renamed bioactivity evidence and uses the pChEMBL count above
+    quantitative_scores_v1_3:
+      composite: 0.1509
+      rank: 21
+      published_tier: 2
+      site_tier: N
+      D1_norm: null
+      D2_norm: null
+      D3_norm: 0.1194
+      D4_precedent: 0
+      D5_delivery: 1
+      weights:
+        D1: 0.25
+        D2: 0.15
+        D3: 0.2
+        D4: 0.2
+        D5: 0.2
+      missing_data_rule: weight-renormalised mean over available dimensions
+  TGT_010:
+    canonical_target_id: TGT_010
+    gene_symbol: ATP5F1A
+    uniprot: P25705
+    legacy_identifiers:
+      mitocorex_target_registry_id: NOT_IN_THAT_SERIES
+      mitocorex_pocket_library_id: NOT_IN_THAT_SERIES
+      note: MITO_TGT_NNN identifiers belong to a different 25 protein MitoCorex series and are NOT interchangeable
+        with TGT_NNN. See id_crosswalk_v1.1.csv.
+    druggability_tier: 1
+    binding_site_type: Rotary catalytic site (alpha-beta interface); oligomycin sensitivity conferring
+      protein (OSCP) binding domain; adenine nucleotide binding cleft
+    pocket_accessibility: F1 head group fully matrix-exposed; rotary mechanism with three catalytic sites
+    ligand_efficiency_evidence_published: STRONG, highest structural resolution of any ETC complex component
+    structural_evidence:
+      assessed_structure: 8H9E
+      assessed_protein: ATP5F1A
+      structure_source: RCSB_human
+      chains_assessed: A
+      experimental_method: ''
+      resolution_angstrom: 2.53
+      organism: Homo sapiens
+      withdrawn_pdb_citations:
+      - pdb_id: 6TT1
+        actual_content: Crystal structure of 'Res_S2 mutant human Angiotensin-1 converting enz
+      mutation: none recorded in the entry
+      fragment: not stated in the entry
+      uniprot_coverage:
+        uniprot_sequence_length: 553
+        uniprot_range_declared_by_entry: 44-553
+        residues_resolved_per_retained_chain: A:503
+        coverage_percent: 91.0
+        basis: amino acid residues resolved in the single best retained chain, divided by the UniProt
+          reference sequence length
+        partial: false
+      replaced_after_review:
+        was: 8H9E chains A;B
+        now: 8H9E chain A
+        reason: The two retained chains lie 58 A apart; the beta subunits carrying every nucleotide site
+          had been deleted from between them. Reassessed on a single alpha subunit.
+    fpocket_v4_0:
+      executed: fpocket 4.0 (Le Guilloux et al. 2009), default parameters, re-executed 1 September 2026
+      determinism_check: three independent runs on an identical input file return identical output
+      structure: 8H9E
+      chains_retained: A
+      n_chains_in_entity: 3
+      n_chains_retained: 1
+      chain_cap: at most two chains of the matching polymer entity are retained; where the entity carries
+        more, this is a deliberate and disclosed truncation
+      apo:
+        preparation: ligands, cofactors, metals, lipids and waters removed
+        n_heteroatoms_removed: 32
+        n_pockets_detected: 33
+        rank1_druggability_score: 0.001
+        rank1_pocket_volume_A3: 91.911
+        max_druggability_score: 0.764
+        max_druggability_pocket_rank: 25
+        max_pocket_volume_A3: 1199.3
+        max_pocket_apolar_sasa_A2: 203.198
+        max_pocket_polarity: 14.0
+      holo:
+        preparation: waters removed only; ligands, cofactors, metals and lipids retained
+        n_pockets_detected: 33
+        rank1_druggability_score: 0.911
+        rank1_pocket_volume_A3: 1171.319
+        max_druggability_score: 0.911
+        max_druggability_pocket_rank: 1
+        max_pocket_volume_A3: 1171.319
+        max_pocket_apolar_sasa_A2: 127.118
+        max_pocket_polarity: 14.0
+      delta_drugscore_apo_minus_holo: -0.147
+      analysis_set: all 25 targets enter every reported comparison; no target is excluded on any structural
+        ground
+      full_pocket_listing: SupplementaryTable_S3_fpocket_all_pockets.csv
+      superseded_by: 'site_matched_R2: the apo/holo whole-structure pocket scores below are retained for
+        provenance; the current structural score is the site-matched value'
+    pharmacological_precedent:
+    - compound: Oligomycin
+      class: Macrolide antibiotic
+      site: F0 subunit c-ring (adjacent to alpha)
+      status: Research tool; antifungal lead
+    - compound: Resveratrol
+      class: Polyphenol
+      site: OSCP-alpha interface
+      status: Research; multiple clinical trials
+    - compound: Bz-423
+      class: Benzodiazepine
+      site: OSCP
+      status: Preclinical autoimmune
+    mechanism_of_action_class: ATP synthesis modulator; rotary motor stabilizer; OSCP allosteric modulator
+    delivery:
+      category: B_matrix_MTP_or_TPP
+      strategy: Matrix targeting peptide or triphenylphosphonium cation conjugation
+      binding_site_compartment: matrix (F1 head)
+      encoding: nDNA
+    design_priority: HIGH
+    design_rationale: Best-resolved ETC target structurally. Three distinct pharmacological sites. OSCP
+      interface is validated protein-protein interaction target with known binders.
+    quantitative_scores:
+      D1_pocket_druggability:
+        apo_max: 0.764
+        holo_max: 0.911
+        apo_rank1: 0.001
+        normalised_apo_max: 0.567
+      D2_pocket_geometry:
+        apo_max_volume_A3: 1199.3
+        normalised_log10: 0.6017
+      D3_ligand_efficiency:
+        chembl_target: CHEMBL2062351
+        n_compounds_at_or_below_10uM: 2
+        class_published: STRONG
+        class_observed: MODERATE
+        reclassified: true
+        normalised_log10: 0.1884
+      D4_pharmacological_precedent:
+        score: 1
+        score_in_v1_1: 1
+        basis: validated tool or preclinical compound
+        normalised: 0.3333
+      D5_delivery_feasibility:
+        score: 2
+        category: B_matrix_MTP_or_TPP
+        normalised: 0.6667
+      weights:
+        D1: 0.25
+        D2: 0.15
+        D3: 0.2
+        D4: 0.2
+        D5: 0.2
+      composite:
+        apo_max: 0.4697
+        holo_max: 0.5341
+        apo_rank1: 0.3279
+      rank_of_25:
+        apo_max: 8
+        holo_max: 7
+        apo_rank1: 10
+    first_wave_selection:
+      stage_2_verdict: HOLD
+      basis: only 2 compounds below 10 micromolar; assessed on a single alpha subunit so no nucleotide
+        site is present
+    site_matched_R2:
+      a_priori_site: F1 nucleotide site
+      site_definition: ligand/cofactor anchored
+      anchor: ANP/ADP
+      basis: catalytic/non-catalytic nucleotide site; anchor by bound nucleotide
+      D1_site_druggability:
+        isolated_chain: 0.764
+        biological_assembly: 0.184
+        best_context_used: 0.764
+      D2_site_volume_A3:
+        isolated_chain: 1178.3
+        biological_assembly: 1880.3
+        best_context_used: 1178.3
+      global_best_pocket_exploratory: 0.764
+    bioactivity_evidence_R2:
+      definition: distinct ChEMBL compounds; count of chemical matter, not a per-compound ligand efficiency
+      chembl_target: CHEMBL2062351
+      status: OK
+      n_at_or_below_10uM: 2
+      n_pchembl_ge5: 2
+      n_pchembl_ge5_binding_assay: 2
+      used_in_composite: n_pchembl_ge5
+    bioactivity_evidence_note: field ligand_efficiency_evidence_published is retained for provenance only;
+      the dimension is renamed bioactivity evidence and uses the pChEMBL count above
+    quantitative_scores_v1_3:
+      composite: 0.5116
+      rank: 8
+      published_tier: 1
+      site_tier: D
+      D1_norm: 0.764
+      D2_norm: 0.5515
+      D3_norm: 0.1892
+      D4_precedent: 1
+      D5_delivery: 2
+      weights:
+        D1: 0.25
+        D2: 0.15
+        D3: 0.2
+        D4: 0.2
+        D5: 0.2
+      missing_data_rule: weight-renormalised mean over available dimensions
+  TGT_011:
+    canonical_target_id: TGT_011
+    gene_symbol: POLG
+    uniprot: P54098
+    legacy_identifiers:
+      mitocorex_target_registry_id: MITO_TGT_018
+      mitocorex_pocket_library_id: MITO_PKT_018
+      note: MITO_TGT_NNN identifiers belong to a different 25 protein MitoCorex series and are NOT interchangeable
+        with TGT_NNN. See id_crosswalk_v1.1.csv.
+    druggability_tier: 1
+    binding_site_type: DNA polymerase active site (pol gamma domain); 3-to-5 exonuclease proofreading
+      domain; processivity subunit (POLG2) interaction interface
+    pocket_accessibility: Matrix-localized; both domains fully accessible
+    ligand_efficiency_evidence_published: STRONG, crystal structures with bound nucleotide analogs; antiretroviral
+      binding extensively characterized
+    structural_evidence:
+      assessed_structure: 8UDL
+      assessed_protein: POLG
+      structure_source: RCSB_human
+      chains_assessed: A
+      experimental_method: ''
+      resolution_angstrom: 2.37
+      organism: Homo sapiens
+      withdrawn_pdb_citations: []
+      mutation: none recorded in the entry
+      fragment: not stated in the entry
+      uniprot_coverage:
+        uniprot_sequence_length: 1239
+        uniprot_range_declared_by_entry: 1-1239
+        residues_resolved_per_retained_chain: A:974
+        coverage_percent: 78.6
+        basis: amino acid residues resolved in the single best retained chain, divided by the UniProt
+          reference sequence length
+        partial: false
+    fpocket_v4_0:
+      executed: fpocket 4.0 (Le Guilloux et al. 2009), default parameters, re-executed 1 September 2026
+      determinism_check: three independent runs on an identical input file return identical output
+      structure: 8UDL
+      chains_retained: A
+      n_chains_in_entity: 1
+      n_chains_retained: 1
+      chain_cap: at most two chains of the matching polymer entity are retained; where the entity carries
+        more, this is a deliberate and disclosed truncation
+      apo:
+        preparation: ligands, cofactors, metals, lipids and waters removed
+        n_heteroatoms_removed: 0
+        n_pockets_detected: 87
+        rank1_druggability_score: 0.019
+        rank1_pocket_volume_A3: 688.417
+        max_druggability_score: 0.913
+        max_druggability_pocket_rank: 5
+        max_pocket_volume_A3: 935.448
+        max_pocket_apolar_sasa_A2: 182.173
+        max_pocket_polarity: 11.0
+      holo:
+        preparation: waters removed only; ligands, cofactors, metals and lipids retained
+        n_pockets_detected: 87
+        rank1_druggability_score: 0.019
+        rank1_pocket_volume_A3: 675.534
+        max_druggability_score: 0.913
+        max_druggability_pocket_rank: 5
+        max_pocket_volume_A3: 970.858
+        max_pocket_apolar_sasa_A2: 182.173
+        max_pocket_polarity: 11.0
+      delta_drugscore_apo_minus_holo: 0.0
+      analysis_set: all 25 targets enter every reported comparison; no target is excluded on any structural
+        ground
+      full_pocket_listing: SupplementaryTable_S3_fpocket_all_pockets.csv
+      superseded_by: 'site_matched_R2: the apo/holo whole-structure pocket scores below are retained for
+        provenance; the current structural score is the site-matched value'
+    pharmacological_precedent:
+    - compound: Zidovudine (AZT), mitotoxic (adverse precedent)
+      class: NRTI
+      site: Polymerase active site
+      status: FDA-approved; mitochondrial toxicity is off-target
+    - compound: DdC (zalcitabine), mitotoxic (adverse precedent)
+      class: NRTI
+      site: Polymerase active site
+      status: Withdrawn; severe POLG toxicity
+    - compound: N-acetylcysteine (indirect)
+      class: Antioxidant
+      site: Non-specific upstream
+      status: Used clinically in POLG disease management
+    mechanism_of_action_class: Polymerase activator (for loss-of-function variants); fidelity enhancer;
+      processivity stabilizer. NOTE, inhibitor precedent exists but design goal is activation/rescue,
+      not inhibition.
+    delivery:
+      category: B_matrix_MTP_or_TPP
+      strategy: Matrix targeting peptide or triphenylphosphonium cation conjugation
+      binding_site_compartment: matrix (nucleoid)
+      encoding: nDNA
+    design_priority: HIGH
+    design_rationale: Most clinically important mtDNA replication target. Adverse precedent from NRTIs
+      defines the constraint space precisely, rescue molecules must activate or stabilize without inhibiting
+      pol activity. Design challenge is high but pharmacological space is well-mapped.
+    quantitative_scores:
+      D1_pocket_druggability:
+        apo_max: 0.913
+        holo_max: 0.913
+        apo_rank1: 0.019
+        normalised_apo_max: 0.8404
+      D2_pocket_geometry:
+        apo_max_volume_A3: 935.4
+        normalised_log10: 0.5174
+      D3_ligand_efficiency:
+        chembl_target: CHEMBL2732
+        n_compounds_at_or_below_10uM: 12
+        class_published: STRONG
+        class_observed: STRONG
+        reclassified: false
+        normalised_log10: 0.4398
+      D4_pharmacological_precedent:
+        score: 2
+        score_in_v1_1: 2
+        basis: clinical stage at this site
+        normalised: 0.6667
+      D5_delivery_feasibility:
+        score: 2
+        category: B_matrix_MTP_or_TPP
+        normalised: 0.6667
+      weights:
+        D1: 0.25
+        D2: 0.15
+        D3: 0.2
+        D4: 0.2
+        D5: 0.2
+      composite:
+        apo_max: 0.6423
+        holo_max: 0.6394
+        apo_rank1: 0.4373
+      rank_of_25:
+        apo_max: 3
+        holo_max: 4
+        apo_rank1: 6
+    first_wave_selection:
+      stage_2_verdict: FAIL
+      basis: the nucleoside analogue precedent is inhibition and mitochondrial toxicity, while POLG disease
+        requires polymerase rescue
+    site_matched_R2:
+      a_priori_site: pol gamma active site
+      site_definition: UniProt residue anchored
+      anchor: UniProt active/binding residues (5 A neighbourhood)
+      basis: polymerase and 3-5 exonuclease catalytic residues (UniProt)
+      D1_site_druggability:
+        isolated_chain: 0.019
+        biological_assembly: 0.015
+        best_context_used: 0.019
+      D2_site_volume_A3:
+        isolated_chain: 695.1
+        biological_assembly: 688.4
+        best_context_used: 695.1
+      global_best_pocket_exploratory: 0.019
+    bioactivity_evidence_R2:
+      definition: distinct ChEMBL compounds; count of chemical matter, not a per-compound ligand efficiency
+      chembl_target: CHEMBL2732
+      status: OK
+      n_at_or_below_10uM: 12
+      n_pchembl_ge5: 9
+      n_pchembl_ge5_binding_assay: 9
+      used_in_composite: n_pchembl_ge5
+    bioactivity_evidence_note: field ligand_efficiency_evidence_published is retained for provenance only;
+      the dimension is renamed bioactivity evidence and uses the pChEMBL count above
+    quantitative_scores_v1_3:
+      composite: 0.4031
+      rank: 11
+      published_tier: 1
+      site_tier: U
+      D1_norm: 0.019
+      D2_norm: 0.3488
+      D3_norm: 0.3966
+      D4_precedent: 2
+      D5_delivery: 2
+      weights:
+        D1: 0.25
+        D2: 0.15
+        D3: 0.2
+        D4: 0.2
+        D5: 0.2
+      missing_data_rule: weight-renormalised mean over available dimensions
+  TGT_012:
+    canonical_target_id: TGT_012
+    gene_symbol: TWNK
+    uniprot: Q96RR1
+    legacy_identifiers:
+      mitocorex_target_registry_id: MITO_TGT_019
+      mitocorex_pocket_library_id: MITO_PKT_019
+      note: MITO_TGT_NNN identifiers belong to a different 25 protein MitoCorex series and are NOT interchangeable
+        with TGT_NNN. See id_crosswalk_v1.1.csv.
+    druggability_tier: 2
+    binding_site_type: Hexameric helicase ring; ATP-binding motifs (Walker A/B); ssDNA binding channel;
+      POLG interaction surface
+    pocket_accessibility: Matrix-localized; helicase ring partially accessible
+    ligand_efficiency_evidence_published: WEAK, helicase domain characterized; no reported small molecule
+      binders
+    structural_evidence:
+      assessed_structure: 7T8B
+      assessed_protein: TWNK
+      structure_source: RCSB_human
+      chains_assessed: A;B
+      experimental_method: ''
+      resolution_angstrom: 3.8
+      organism: Homo sapiens
+      withdrawn_pdb_citations:
+      - pdb_id: 5YVD
+        actual_content: 'Structural and biochemical characterization of endoribonuclease Nsp15 '
+      mutation: W315L
+      fragment: not stated in the entry
+      uniprot_coverage:
+        uniprot_sequence_length: 684
+        uniprot_range_declared_by_entry: 1-684
+        residues_resolved_per_retained_chain: A:519;B:516
+        coverage_percent: 75.9
+        basis: amino acid residues resolved in the single best retained chain, divided by the UniProt
+          reference sequence length
+        partial: false
+    fpocket_v4_0:
+      executed: fpocket 4.0 (Le Guilloux et al. 2009), default parameters, re-executed 1 September 2026
+      determinism_check: three independent runs on an identical input file return identical output
+      structure: 7T8B
+      chains_retained: A;B
+      n_chains_in_entity: 8
+      n_chains_retained: 2
+      chain_cap: at most two chains of the matching polymer entity are retained; where the entity carries
+        more, this is a deliberate and disclosed truncation
+      apo:
+        preparation: ligands, cofactors, metals, lipids and waters removed
+        n_heteroatoms_removed: 0
+        n_pockets_detected: 97
+        rank1_druggability_score: 0.004
+        rank1_pocket_volume_A3: 379.195
+        max_druggability_score: 0.549
+        max_druggability_pocket_rank: 32
+        max_pocket_volume_A3: 456.276
+        max_pocket_apolar_sasa_A2: 94.195
+        max_pocket_polarity: 4.0
+      holo:
+        preparation: waters removed only; ligands, cofactors, metals and lipids retained
+        n_pockets_detected: 97
+        rank1_druggability_score: 0.004
+        rank1_pocket_volume_A3: 379.036
+        max_druggability_score: 0.549
+        max_druggability_pocket_rank: 32
+        max_pocket_volume_A3: 427.967
+        max_pocket_apolar_sasa_A2: 94.195
+        max_pocket_polarity: 4.0
+      delta_drugscore_apo_minus_holo: 0.0
+      analysis_set: all 25 targets enter every reported comparison; no target is excluded on any structural
+        ground
+      full_pocket_listing: SupplementaryTable_S3_fpocket_all_pockets.csv
+      superseded_by: 'site_matched_R2: the apo/holo whole-structure pocket scores below are retained for
+        provenance; the current structural score is the site-matched value'
+    pharmacological_precedent: []
+    mechanism_of_action_class: Helicase unwinding activator; replisome stabilizer; POLG-Twinkle interaction
+      enhancer
+    delivery:
+      category: B_matrix_MTP_or_TPP
+      strategy: Matrix targeting peptide or triphenylphosphonium cation conjugation
+      binding_site_compartment: matrix (nucleoid)
+      encoding: nDNA
+    design_priority: MODERATE
+    design_rationale: null
+    quantitative_scores:
+      D1_pocket_druggability:
+        apo_max: 0.549
+        holo_max: 0.549
+        apo_rank1: 0.004
+        normalised_apo_max: 0.1725
+      D2_pocket_geometry:
+        apo_max_volume_A3: 456.3
+        normalised_log10: 0.2742
+      D3_ligand_efficiency:
+        chembl_target: no human entity
+        n_compounds_at_or_below_10uM: 0
+        class_published: ABSENT
+        class_observed: ABSENT
+        reclassified: false
+        normalised_log10: 0.0
+      D4_pharmacological_precedent:
+        score: 0
+        score_in_v1_1: 0
+        basis: none at this site
+        normalised: 0.0
+      D5_delivery_feasibility:
+        score: 2
+        category: B_matrix_MTP_or_TPP
+        normalised: 0.6667
+      weights:
+        D1: 0.25
+        D2: 0.15
+        D3: 0.2
+        D4: 0.2
+        D5: 0.2
+      composite:
+        apo_max: 0.2176
+        holo_max: 0.2004
+        apo_rank1: 0.1753
+      rank_of_25:
+        apo_max: 23
+        holo_max: 24
+        apo_rank1: 22
+    site_matched_R2:
+      a_priori_site: helicase ATP site
+      site_definition: UniProt residue anchored
+      anchor: UniProt active/binding residues (5 A neighbourhood)
+      basis: Walker A/B ATP site (UniProt)
+      D1_site_druggability:
+        isolated_chain: 0.001
+        biological_assembly: 0.001
+        best_context_used: 0.001
+      D2_site_volume_A3:
+        isolated_chain: 280.0
+        biological_assembly: 272.1
+        best_context_used: 280.0
+      global_best_pocket_exploratory: 0.001
+    bioactivity_evidence_R2:
+      definition: distinct ChEMBL compounds; count of chemical matter, not a per-compound ligand efficiency
+      chembl_target: ''
+      status: NO_ENTITY_coverage_gap
+      n_at_or_below_10uM: 0
+      n_pchembl_ge5: 0
+      n_pchembl_ge5_binding_assay: 0
+      used_in_composite: n_pchembl_ge5
+    bioactivity_evidence_note: field ligand_efficiency_evidence_published is retained for provenance only;
+      the dimension is renamed bioactivity evidence and uses the pChEMBL count above
+    quantitative_scores_v1_3:
+      composite: 0.1336
+      rank: 22
+      published_tier: 2
+      site_tier: U
+      D1_norm: 0.001
+      D2_norm: 0.0
+      D3_norm: 0.0
+      D4_precedent: 0
+      D5_delivery: 2
+      weights:
+        D1: 0.25
+        D2: 0.15
+        D3: 0.2
+        D4: 0.2
+        D5: 0.2
+      missing_data_rule: weight-renormalised mean over available dimensions
+  TGT_013:
+    canonical_target_id: TGT_013
+    gene_symbol: TFAM
+    uniprot: Q00059
+    legacy_identifiers:
+      mitocorex_target_registry_id: NOT_IN_THAT_SERIES
+      mitocorex_pocket_library_id: NOT_IN_THAT_SERIES
+      note: MITO_TGT_NNN identifiers belong to a different 25 protein MitoCorex series and are NOT interchangeable
+        with TGT_NNN. See id_crosswalk_v1.1.csv.
+    druggability_tier: 2
+    binding_site_type: HMG-box DNA binding domains (box A and B); LONP1 degradation motif; mitochondrial
+      promoter binding interface
+    pocket_accessibility: Matrix-localized; DNA-binding surface accessible
+    ligand_efficiency_evidence_published: MODERATE, crystal structures of TFAM-DNA complex; some intercalating
+      molecules characterized
+    structural_evidence:
+      assessed_structure: 3TMM
+      assessed_protein: TFAM
+      structure_source: RCSB_human
+      chains_assessed: A
+      experimental_method: ''
+      resolution_angstrom: 2.5001
+      organism: Homo sapiens
+      withdrawn_pdb_citations:
+      - pdb_id: 4NOV
+        actual_content: Xsa43E, a GH43 family enzyme from Butyrivibrio proteoclasticus
+      mutation: none recorded in the entry
+      fragment: not stated in the entry
+      uniprot_coverage:
+        uniprot_sequence_length: 246
+        uniprot_range_declared_by_entry: 43-246
+        residues_resolved_per_retained_chain: A:195
+        coverage_percent: 79.3
+        basis: amino acid residues resolved in the single best retained chain, divided by the UniProt
+          reference sequence length
+        partial: false
+      replaced_after_review:
+        was: 3FGH
+        now: 3TMM
+        reason: HMG box 2 only, 27 per cent UniProt coverage; it also anchored the D1 normalisation floor.
+          Replaced with the full length protein.
+    fpocket_v4_0:
+      executed: fpocket 4.0 (Le Guilloux et al. 2009), default parameters, re-executed 1 September 2026
+      determinism_check: three independent runs on an identical input file return identical output
+      structure: 3TMM
+      chains_retained: A
+      n_chains_in_entity: 1
+      n_chains_retained: 1
+      chain_cap: at most two chains of the matching polymer entity are retained; where the entity carries
+        more, this is a deliberate and disclosed truncation
+      apo:
+        preparation: ligands, cofactors, metals, lipids and waters removed
+        n_heteroatoms_removed: 0
+        n_pockets_detected: 19
+        rank1_druggability_score: 0.003
+        rank1_pocket_volume_A3: 485.878
+        max_druggability_score: 0.497
+        max_druggability_pocket_rank: 2
+        max_pocket_volume_A3: 615.634
+        max_pocket_apolar_sasa_A2: 113.517
+        max_pocket_polarity: 9.0
+      holo:
+        preparation: waters removed only; ligands, cofactors, metals and lipids retained
+        n_pockets_detected: 19
+        rank1_druggability_score: 0.003
+        rank1_pocket_volume_A3: 469.721
+        max_druggability_score: 0.497
+        max_druggability_pocket_rank: 2
+        max_pocket_volume_A3: 615.76
+        max_pocket_apolar_sasa_A2: 113.517
+        max_pocket_polarity: 9.0
+      delta_drugscore_apo_minus_holo: 0.0
+      analysis_set: all 25 targets enter every reported comparison; no target is excluded on any structural
+        ground
+      full_pocket_listing: SupplementaryTable_S3_fpocket_all_pockets.csv
+      superseded_by: 'site_matched_R2: the apo/holo whole-structure pocket scores below are retained for
+        provenance; the current structural score is the site-matched value'
+    pharmacological_precedent:
+    - compound: Doxorubicin (adverse effect, TFAM depletion)
+      class: Anthracycline
+      site: mtDNA intercalation reducing TFAM binding
+      status: FDA-approved; cardiotoxicity via TFAM depletion
+    mechanism_of_action_class: TFAM stabilizer (prevent LONP1 degradation); mtDNA-TFAM binding enhancer;
+      copy number augmenter
+    delivery:
+      category: B_matrix_MTP_or_TPP
+      strategy: Matrix targeting peptide or triphenylphosphonium cation conjugation
+      binding_site_compartment: matrix (nucleoid)
+      encoding: nDNA
+    design_priority: MODERATE
+    design_rationale: null
+    quantitative_scores:
+      D1_pocket_druggability:
+        apo_max: 0.497
+        holo_max: 0.497
+        apo_rank1: 0.003
+        normalised_apo_max: 0.0771
+      D2_pocket_geometry:
+        apo_max_volume_A3: 615.6
+        normalised_log10: 0.3756
+      D3_ligand_efficiency:
+        chembl_target: CHEMBL6067181
+        n_compounds_at_or_below_10uM: 1
+        class_published: MODERATE
+        class_observed: MODERATE
+        reclassified: false
+        normalised_log10: 0.1189
+      D4_pharmacological_precedent:
+        score: 0
+        score_in_v1_1: 0
+        basis: none at this site
+        normalised: 0.0
+      D5_delivery_feasibility:
+        score: 2
+        category: B_matrix_MTP_or_TPP
+        normalised: 0.6667
+      weights:
+        D1: 0.25
+        D2: 0.15
+        D3: 0.2
+        D4: 0.2
+        D5: 0.2
+      composite:
+        apo_max: 0.2327
+        holo_max: 0.2135
+        apo_rank1: 0.214
+      rank_of_25:
+        apo_max: 21
+        holo_max: 22
+        apo_rank1: 16
+    site_matched_R2:
+      a_priori_site: HMG-box DNA interface
+      site_definition: no defined small-molecule site
+      anchor: UniProt active/binding residues (5 A neighbourhood)
+      basis: DNA-binding protein; no small-molecule site
+      structural_dimension: NA
+      reason: no defined small-molecule site; structural dimensions not applicable
+    bioactivity_evidence_R2:
+      definition: distinct ChEMBL compounds; count of chemical matter, not a per-compound ligand efficiency
+      chembl_target: CHEMBL6067181
+      status: OK
+      n_at_or_below_10uM: 1
+      n_pchembl_ge5: 1
+      n_pchembl_ge5_binding_assay: 1
+      used_in_composite: n_pchembl_ge5
+    bioactivity_evidence_note: field ligand_efficiency_evidence_published is retained for provenance only;
+      the dimension is renamed bioactivity evidence and uses the pChEMBL count above
+    quantitative_scores_v1_3:
+      composite: 0.262
+      rank: 15
+      published_tier: 2
+      site_tier: N
+      D1_norm: null
+      D2_norm: null
+      D3_norm: 0.1194
+      D4_precedent: 0
+      D5_delivery: 2
+      weights:
+        D1: 0.25
+        D2: 0.15
+        D3: 0.2
+        D4: 0.2
+        D5: 0.2
+      missing_data_rule: weight-renormalised mean over available dimensions
+  TGT_014:
+    canonical_target_id: TGT_014
+    gene_symbol: TIMM23
+    uniprot: O14925
+    legacy_identifiers:
+      mitocorex_target_registry_id: NOT_IN_THAT_SERIES
+      mitocorex_pocket_library_id: NOT_IN_THAT_SERIES
+      note: MITO_TGT_NNN identifiers belong to a different 25 protein MitoCorex series and are NOT interchangeable
+        with TGT_NNN. See id_crosswalk_v1.1.csv.
+    druggability_tier: 3
+    binding_site_type: Transmembrane channel (beta-hairpin pore-forming); TIM23 complex assembly interface;
+      lateral gate region
+    pocket_accessibility: IMM, IMS-facing; channel interior not accessible to conventional small molecules
+    ligand_efficiency_evidence_published: ABSENT
+    structural_evidence:
+      assessed_structure: AF-O14925
+      assessed_protein: TIMM23
+      structure_source: AlphaFoldDB
+      chains_assessed: A
+      experimental_method: AlphaFold2
+      resolution_angstrom: null
+      organism: Homo sapiens
+      withdrawn_pdb_citations:
+      - pdb_id: 6LO8
+        actual_content: Cryo-EM structure of the TIM22 complex from yeast
+      mutation: none recorded in the entry
+      fragment: predicted model
+      uniprot_coverage:
+        uniprot_sequence_length: 209
+        uniprot_range_declared_by_entry: 1-209
+        residues_resolved_per_retained_chain: A:209
+        coverage_percent: 100.0
+        basis: predicted model spans the complete UniProt sequence by construction
+        partial: false
+    fpocket_v4_0:
+      executed: fpocket 4.0 (Le Guilloux et al. 2009), default parameters, re-executed 1 September 2026
+      determinism_check: three independent runs on an identical input file return identical output
+      structure: AF-O14925
+      chains_retained: A
+      n_chains_in_entity: 1
+      n_chains_retained: 1
+      chain_cap: at most two chains of the matching polymer entity are retained; where the entity carries
+        more, this is a deliberate and disclosed truncation
+      apo:
+        preparation: ligands, cofactors, metals, lipids and waters removed
+        n_heteroatoms_removed: 0
+        n_pockets_detected: 21
+        rank1_druggability_score: 0.003
+        rank1_pocket_volume_A3: 274.127
+        max_druggability_score: 0.934
+        max_druggability_pocket_rank: 21
+        max_pocket_volume_A3: 778.165
+        max_pocket_apolar_sasa_A2: 233.072
+        max_pocket_polarity: 4.0
+      holo:
+        preparation: waters removed only; ligands, cofactors, metals and lipids retained
+        n_pockets_detected: 21
+        rank1_druggability_score: 0.003
+        rank1_pocket_volume_A3: 274.657
+        max_druggability_score: 0.934
+        max_druggability_pocket_rank: 21
+        max_pocket_volume_A3: 769.808
+        max_pocket_apolar_sasa_A2: 233.072
+        max_pocket_polarity: 4.0
+      delta_drugscore_apo_minus_holo: 0.0
+      analysis_set: all 25 targets enter every reported comparison; no target is excluded on any structural
+        ground
+      full_pocket_listing: SupplementaryTable_S3_fpocket_all_pockets.csv
+      superseded_by: 'site_matched_R2: the apo/holo whole-structure pocket scores below are retained for
+        provenance; the current structural score is the site-matched value'
+    pharmacological_precedent: []
+    mechanism_of_action_class: Channel gating modulator (highly speculative); TIM23 complex stabilizer
+      via assembly factors
+    delivery:
+      category: E_no_viable_small_molecule
+      strategy: No viable small molecule strategy; assembly factor or chaperone approach
+      binding_site_compartment: IMM channel
+      encoding: nDNA
+    design_priority: LOW
+    design_rationale: null
+    quantitative_scores:
+      D1_pocket_druggability:
+        apo_max: 0.934
+        holo_max: 0.934
+        apo_rank1: 0.003
+        normalised_apo_max: 0.8789
+      D2_pocket_geometry:
+        apo_max_volume_A3: 778.2
+        normalised_log10: 0.455
+      D3_ligand_efficiency:
+        chembl_target: no human entity
+        n_compounds_at_or_below_10uM: 0
+        class_published: ABSENT
+        class_observed: ABSENT
+        reclassified: false
+        normalised_log10: 0.0
+      D4_pharmacological_precedent:
+        score: 0
+        score_in_v1_1: 0
+        basis: none at this site
+        normalised: 0.0
+      D5_delivery_feasibility:
+        score: 0
+        category: E_no_viable_small_molecule
+        normalised: 0.0
+      weights:
+        D1: 0.25
+        D2: 0.15
+        D3: 0.2
+        D4: 0.2
+        D5: 0.2
+      composite:
+        apo_max: 0.288
+        holo_max: 0.2859
+        apo_rank1: 0.0688
+      rank_of_25:
+        apo_max: 20
+        holo_max: 20
+        apo_rank1: 25
+    site_matched_R2:
+      a_priori_site: TM import channel
+      site_definition: no defined small-molecule site
+      anchor: UniProt active/binding residues (5 A neighbourhood)
+      basis: membrane channel; no validated small-molecule site
+      structural_dimension: NA
+      reason: no defined small-molecule site; structural dimensions not applicable
+      alphafold_confidence:
+        global_pLDDT: 59.2
+        site_pLDDT: null
+        mean_PAE_A: 21.8
+        interpretation: 'treated as NA: low confidence / disordered'
+    bioactivity_evidence_R2:
+      definition: distinct ChEMBL compounds; count of chemical matter, not a per-compound ligand efficiency
+      chembl_target: ''
+      status: NO_ENTITY_coverage_gap
+      n_at_or_below_10uM: 0
+      n_pchembl_ge5: 0
+      n_pchembl_ge5_binding_assay: 0
+      used_in_composite: n_pchembl_ge5
+    bioactivity_evidence_note: field ligand_efficiency_evidence_published is retained for provenance only;
+      the dimension is renamed bioactivity evidence and uses the pChEMBL count above
+    quantitative_scores_v1_3:
+      composite: 0.0
+      rank: 25
+      published_tier: 3
+      site_tier: N
+      D1_norm: null
+      D2_norm: null
+      D3_norm: 0.0
+      D4_precedent: 0
+      D5_delivery: 0
+      weights:
+        D1: 0.25
+        D2: 0.15
+        D3: 0.2
+        D4: 0.2
+        D5: 0.2
+      missing_data_rule: weight-renormalised mean over available dimensions
+  TGT_015:
+    canonical_target_id: TGT_015
+    gene_symbol: TOMM40
+    uniprot: O96008
+    legacy_identifiers:
+      mitocorex_target_registry_id: NOT_IN_THAT_SERIES
+      mitocorex_pocket_library_id: NOT_IN_THAT_SERIES
+      note: MITO_TGT_NNN identifiers belong to a different 25 protein MitoCorex series and are NOT interchangeable
+        with TGT_NNN. See id_crosswalk_v1.1.csv.
+    druggability_tier: 2
+    binding_site_type: Beta-barrel import channel; presequence-binding groove; TOM complex assembly interface
+    pocket_accessibility: OMM, cytoplasm-accessible
+    ligand_efficiency_evidence_published: WEAK, NMR structure available; no small molecule ligands reported
+    structural_evidence:
+      assessed_structure: 7VD2
+      assessed_protein: TOMM40
+      structure_source: RCSB_human
+      chains_assessed: B;I
+      experimental_method: ''
+      resolution_angstrom: 2.53
+      organism: Homo sapiens
+      withdrawn_pdb_citations:
+      - pdb_id: 2LME
+        actual_content: Solid-state NMR structure of the membrane anchor domain of the trimeri
+      mutation: none recorded in the entry
+      fragment: not stated in the entry
+      uniprot_coverage:
+        uniprot_sequence_length: 361
+        uniprot_range_declared_by_entry: 1-361
+        residues_resolved_per_retained_chain: B:286;I:286
+        coverage_percent: 79.2
+        basis: amino acid residues resolved in the single best retained chain, divided by the UniProt
+          reference sequence length
+        partial: false
+    fpocket_v4_0:
+      executed: fpocket 4.0 (Le Guilloux et al. 2009), default parameters, re-executed 1 September 2026
+      determinism_check: three independent runs on an identical input file return identical output
+      structure: 7VD2
+      chains_retained: B;I
+      n_chains_in_entity: 2
+      n_chains_retained: 2
+      chain_cap: at most two chains of the matching polymer entity are retained; where the entity carries
+        more, this is a deliberate and disclosed truncation
+      apo:
+        preparation: ligands, cofactors, metals, lipids and waters removed
+        n_heteroatoms_removed: 682
+        n_pockets_detected: 54
+        rank1_druggability_score: 0.212
+        rank1_pocket_volume_A3: 425.871
+        max_druggability_score: 0.455
+        max_druggability_pocket_rank: 53
+        max_pocket_volume_A3: 1147.146
+        max_pocket_apolar_sasa_A2: 240.318
+        max_pocket_polarity: 3.0
+      holo:
+        preparation: waters removed only; ligands, cofactors, metals and lipids retained
+        n_pockets_detected: 54
+        rank1_druggability_score: 0.212
+        rank1_pocket_volume_A3: 433.802
+        max_druggability_score: 0.835
+        max_druggability_pocket_rank: 2
+        max_pocket_volume_A3: 1151.521
+        max_pocket_apolar_sasa_A2: 72.458
+        max_pocket_polarity: 3.0
+      delta_drugscore_apo_minus_holo: -0.38
+      analysis_set: all 25 targets enter every reported comparison; no target is excluded on any structural
+        ground
+      full_pocket_listing: SupplementaryTable_S3_fpocket_all_pockets.csv
+      superseded_by: 'site_matched_R2: the apo/holo whole-structure pocket scores below are retained for
+        provenance; the current structural score is the site-matched value'
+    pharmacological_precedent: []
+    mechanism_of_action_class: Import channel gating modulator; preprotein delivery enhancer; TOM complex
+      stabilizer
+    delivery:
+      category: C_IMS_or_membrane_embedded
+      strategy: Matrix targeting peptide or cell penetrating peptide; intermembrane space or membrane
+        accessible
+      binding_site_compartment: OMM beta barrel
+      encoding: nDNA
+    design_priority: MODERATE
+    design_rationale: null
+    quantitative_scores:
+      D1_pocket_druggability:
+        apo_max: 0.455
+        holo_max: 0.835
+        apo_rank1: 0.212
+        normalised_apo_max: 0.0
+      D2_pocket_geometry:
+        apo_max_volume_A3: 1147.1
+        normalised_log10: 0.5866
+      D3_ligand_efficiency:
+        chembl_target: CHEMBL4523158
+        n_compounds_at_or_below_10uM: 0
+        class_published: ABSENT
+        class_observed: ABSENT
+        reclassified: false
+        normalised_log10: 0.0
+      D4_pharmacological_precedent:
+        score: 0
+        score_in_v1_1: 0
+        basis: none at this site
+        normalised: 0.0
+      D5_delivery_feasibility:
+        score: 1
+        category: C_IMS_or_membrane_embedded
+        normalised: 0.3333
+      weights:
+        D1: 0.25
+        D2: 0.15
+        D3: 0.2
+        D4: 0.2
+        D5: 0.2
+      composite:
+        apo_max: 0.1547
+        holo_max: 0.323
+        apo_rank1: 0.2139
+      rank_of_25:
+        apo_max: 25
+        holo_max: 16
+        apo_rank1: 18
+    site_matched_R2:
+      a_priori_site: beta-barrel import channel
+      site_definition: no defined small-molecule site
+      anchor: UniProt active/binding residues (5 A neighbourhood)
+      basis: no validated small-molecule site
+      structural_dimension: NA
+      reason: no defined small-molecule site; structural dimensions not applicable
+    bioactivity_evidence_R2:
+      definition: distinct ChEMBL compounds; count of chemical matter, not a per-compound ligand efficiency
+      chembl_target: CHEMBL4523158
+      status: ENTITY_zero_potent_compounds
+      n_at_or_below_10uM: 0
+      n_pchembl_ge5: 0
+      n_pchembl_ge5_binding_assay: 0
+      used_in_composite: n_pchembl_ge5
+    bioactivity_evidence_note: field ligand_efficiency_evidence_published is retained for provenance only;
+      the dimension is renamed bioactivity evidence and uses the pChEMBL count above
+    quantitative_scores_v1_3:
+      composite: 0.1111
+      rank: 24
+      published_tier: 2
+      site_tier: N
+      D1_norm: null
+      D2_norm: null
+      D3_norm: 0.0
+      D4_precedent: 0
+      D5_delivery: 1
+      weights:
+        D1: 0.25
+        D2: 0.15
+        D3: 0.2
+        D4: 0.2
+        D5: 0.2
+      missing_data_rule: weight-renormalised mean over available dimensions
+  TGT_016:
+    canonical_target_id: TGT_016
+    gene_symbol: DNM1L
+    uniprot: O00429
+    legacy_identifiers:
+      mitocorex_target_registry_id: MITO_TGT_013
+      mitocorex_pocket_library_id: MITO_PKT_013
+      note: MITO_TGT_NNN identifiers belong to a different 25 protein MitoCorex series and are NOT interchangeable
+        with TGT_NNN. See id_crosswalk_v1.1.csv.
+    druggability_tier: 1
+    binding_site_type: GTPase domain (G1-G4 motifs); middle domain (stalk); GED domain; B-insert (cytoplasm-facing);
+      receptor interaction site (MFF, FIS1, MiD49/51)
+    pocket_accessibility: Cytoplasmic; fully accessible. Assembles into oligomeric ring on OMM surface.
+    ligand_efficiency_evidence_published: STRONG, GTPase domain crystallized with GDP/GTP analogs; multiple
+      inhibitor co-crystal structures
+    structural_evidence:
+      assessed_structure: 3W6P
+      assessed_protein: DNM1L
+      structure_source: RCSB_human
+      chains_assessed: A;B
+      experimental_method: ''
+      resolution_angstrom: 1.7
+      organism: Homo sapiens;Homo sapiens
+      withdrawn_pdb_citations:
+      - pdb_id: 5WE4
+        actual_content: 70S ribosome-EF-Tu wt complex with GppNHp
+      - pdb_id: 6DLQ
+        actual_content: PRPP Riboswitch bound to PRPP, manganese chloride soaked structure
+      mutation: none recorded in the entry
+      fragment: not stated in the entry
+      uniprot_coverage:
+        uniprot_sequence_length: 736
+        uniprot_range_declared_by_entry: 1-736
+        residues_resolved_per_retained_chain: A:333;B:342
+        coverage_percent: 46.5
+        basis: amino acid residues resolved in the single best retained chain, divided by the UniProt
+          reference sequence length
+        partial: true
+    fpocket_v4_0:
+      executed: fpocket 4.0 (Le Guilloux et al. 2009), default parameters, re-executed 1 September 2026
+      determinism_check: three independent runs on an identical input file return identical output
+      structure: 3W6P
+      chains_retained: A;B
+      n_chains_in_entity: 2
+      n_chains_retained: 2
+      chain_cap: at most two chains of the matching polymer entity are retained; where the entity carries
+        more, this is a deliberate and disclosed truncation
+      apo:
+        preparation: ligands, cofactors, metals, lipids and waters removed
+        n_heteroatoms_removed: 97
+        n_pockets_detected: 59
+        rank1_druggability_score: 0.892
+        rank1_pocket_volume_A3: 1997.229
+        max_druggability_score: 0.892
+        max_druggability_pocket_rank: 1
+        max_pocket_volume_A3: 1997.229
+        max_pocket_apolar_sasa_A2: 322.437
+        max_pocket_polarity: 18.0
+      holo:
+        preparation: waters removed only; ligands, cofactors, metals and lipids retained
+        n_pockets_detected: 55
+        rank1_druggability_score: 0.92
+        rank1_pocket_volume_A3: 2022.745
+        max_druggability_score: 0.92
+        max_druggability_pocket_rank: 1
+        max_pocket_volume_A3: 2022.745
+        max_pocket_apolar_sasa_A2: 307.945
+        max_pocket_polarity: 19.0
+      delta_drugscore_apo_minus_holo: -0.028
+      analysis_set: all 25 targets enter every reported comparison; no target is excluded on any structural
+        ground
+      full_pocket_listing: SupplementaryTable_S3_fpocket_all_pockets.csv
+      superseded_by: 'site_matched_R2: the apo/holo whole-structure pocket scores below are retained for
+        provenance; the current structural score is the site-matched value'
+    pharmacological_precedent_corrected:
+      precedent_status: Research tool, selectivity disputed
+      compound: Mdivi-1
+      site: GTPase domain
+      verified: doi:10.1016/j.devcel.2017.02.020
+      caveat: Mdivi-1 inhibits recombinant DRP1 GTPase only weakly (Ki above 1.2 mM) and reversibly inhibits
+        complex I at the 50 micromolar concentrations used to induce apparent fission blockade. It is
+        retained as a pharmacophore hypothesis only, not as a validated DRP1 chemical probe.
+    mechanism_of_action_class: GTPase inhibitor (fission inhibition); oligomerization modulator; receptor
+      interaction blocker
+    delivery:
+      category: A_no_targeting_required
+      strategy: Standard systemic delivery; no mitochondrial targeting moiety required
+      binding_site_compartment: cytosol / OMM cytosolic face
+      encoding: nDNA
+    design_priority: HIGHEST
+    design_rationale: Cytoplasmic GTPase with established tool compounds. Best delivery profile of all
+      15 Tier 1 targets, no mitochondrial targeting required. Mdivi-1 provides validated scaffold. Multiple
+      interaction sites offer selectivity engineering opportunities.
+    quantitative_scores:
+      D1_pocket_druggability:
+        apo_max: 0.892
+        holo_max: 0.92
+        apo_rank1: 0.892
+        normalised_apo_max: 0.8018
+      D2_pocket_geometry:
+        apo_max_volume_A3: 1997.2
+        normalised_log10: 0.7746
+      D3_ligand_efficiency:
+        chembl_target: CHEMBL4523118
+        n_compounds_at_or_below_10uM: 47
+        class_published: STRONG
+        class_observed: STRONG
+        reclassified: false
+        normalised_log10: 0.6638
+      D4_pharmacological_precedent:
+        score: 1
+        score_in_v1_1: 1
+        basis: validated tool or preclinical compound
+        normalised: 0.3333
+      D5_delivery_feasibility:
+        score: 3
+        category: A_no_targeting_required
+        normalised: 1.0
+      weights:
+        D1: 0.25
+        D2: 0.15
+        D3: 0.2
+        D4: 0.2
+        D5: 0.2
+      composite:
+        apo_max: 0.7161
+        holo_max: 0.7263
+        apo_rank1: 0.7656
+      rank_of_25:
+        apo_max: 2
+        holo_max: 2
+        apo_rank1: 2
+    first_wave_selection:
+      stage_2_verdict: PASS
+      basis: fission modulation is therapeutically relevant in both directions
+    site_matched_R2:
+      a_priori_site: GTPase site
+      site_definition: UniProt residue anchored
+      anchor: UniProt active/binding residues (5 A neighbourhood)
+      basis: G1-G4 GTP-binding motifs (UniProt)
+      D1_site_druggability:
+        isolated_chain: 0.892
+        biological_assembly: 0.892
+        best_context_used: 0.892
+      D2_site_volume_A3:
+        isolated_chain: 2027.8
+        biological_assembly: 2025.3
+        best_context_used: 2027.8
+      global_best_pocket_exploratory: 0.892
+    bioactivity_evidence_R2:
+      definition: distinct ChEMBL compounds; count of chemical matter, not a per-compound ligand efficiency
+      chembl_target: CHEMBL4523118
+      status: OK
+      n_at_or_below_10uM: 47
+      n_pchembl_ge5: 47
+      n_pchembl_ge5_binding_assay: 47
+      used_in_composite: n_pchembl_ge5
+    bioactivity_evidence_note: field ligand_efficiency_evidence_published is retained for provenance only;
+      the dimension is renamed bioactivity evidence and uses the pChEMBL count above
+    quantitative_scores_v1_3:
+      composite: 0.7371
+      rank: 1
+      published_tier: 1
+      site_tier: U
+      D1_norm: 0.892
+      D2_norm: 0.7602
+      D3_norm: 0.6669
+      D4_precedent: 1
+      D5_delivery: 3
+      weights:
+        D1: 0.25
+        D2: 0.15
+        D3: 0.2
+        D4: 0.2
+        D5: 0.2
+      missing_data_rule: weight-renormalised mean over available dimensions
+  TGT_017:
+    canonical_target_id: TGT_017
+    gene_symbol: OPA1
+    uniprot: O60313
+    legacy_identifiers:
+      mitocorex_target_registry_id: MITO_TGT_015
+      mitocorex_pocket_library_id: MITO_PKT_015
+      note: MITO_TGT_NNN identifiers belong to a different 25 protein MitoCorex series and are NOT interchangeable
+        with TGT_NNN. See id_crosswalk_v1.1.csv.
+    druggability_tier: 1
+    binding_site_type: GTPase domain; middle domain; stalk domain; transmembrane anchor (IMS-facing)
+    pocket_accessibility: IMS-facing; GTPase domain accessible from IMS. IMM-anchored but catalytic domain
+      exposed.
+    ligand_efficiency_evidence_published: MODERATE, structural resolution improving; fewer co-crystal
+      structures than DRP1
+    structural_evidence:
+      assessed_structure: 6JTG
+      assessed_protein: OPA1
+      structure_source: RCSB_human
+      chains_assessed: A
+      experimental_method: ''
+      resolution_angstrom: 2.4
+      organism: Homo sapiens;Homo sapiens
+      withdrawn_pdb_citations:
+      - pdb_id: 7CVF
+        actual_content: not present in the PDB
+      mutation: none recorded in the entry
+      fragment: UNP residues 267-318,UNP residues 254-276
+      uniprot_coverage:
+        uniprot_sequence_length: 960
+        uniprot_range_declared_by_entry: 267-575
+        residues_resolved_per_retained_chain: A:330
+        coverage_percent: 34.4
+        basis: amino acid residues resolved in the single best retained chain, divided by the UniProt
+          reference sequence length
+        partial: true
+    fpocket_v4_0:
+      executed: fpocket 4.0 (Le Guilloux et al. 2009), default parameters, re-executed 1 September 2026
+      determinism_check: three independent runs on an identical input file return identical output
+      structure: 6JTG
+      chains_retained: A
+      n_chains_in_entity: 1
+      n_chains_retained: 1
+      chain_cap: at most two chains of the matching polymer entity are retained; where the entity carries
+        more, this is a deliberate and disclosed truncation
+      apo:
+        preparation: ligands, cofactors, metals, lipids and waters removed
+        n_heteroatoms_removed: 34
+        n_pockets_detected: 24
+        rank1_druggability_score: 0.121
+        rank1_pocket_volume_A3: 658.03
+        max_druggability_score: 0.906
+        max_druggability_pocket_rank: 2
+        max_pocket_volume_A3: 666.956
+        max_pocket_apolar_sasa_A2: 134.047
+        max_pocket_polarity: 12.0
+      holo:
+        preparation: waters removed only; ligands, cofactors, metals and lipids retained
+        n_pockets_detected: 23
+        rank1_druggability_score: 0.906
+        rank1_pocket_volume_A3: 680.134
+        max_druggability_score: 0.906
+        max_druggability_pocket_rank: 1
+        max_pocket_volume_A3: 680.134
+        max_pocket_apolar_sasa_A2: 134.047
+        max_pocket_polarity: 12.0
+      delta_drugscore_apo_minus_holo: 0.0
+      analysis_set: all 25 targets enter every reported comparison; no target is excluded on any structural
+        ground
+      full_pocket_listing: SupplementaryTable_S3_fpocket_all_pockets.csv
+      superseded_by: 'site_matched_R2: the apo/holo whole-structure pocket scores below are retained for
+        provenance; the current structural score is the site-matched value'
+    pharmacological_precedent:
+    - compound: MYLS22
+      class: Small molecule
+      site: GTPase domain
+      status: Preclinical; first-in-class OPA1 activator; cardiac protection
+    - compound: Leflunomide (indirect)
+      class: DHODH inhibitor
+      site: OPA1 processing (indirect)
+      status: FDA-approved; OPA1 modulation is secondary effect
+    mechanism_of_action_class: GTPase activator (fusion promotion); OMA1 processing inhibitor (prevent
+      OPA1 cleavage); cristae remodeling stabilizer
+    delivery:
+      category: C_IMS_or_membrane_embedded
+      strategy: Matrix targeting peptide or cell penetrating peptide; intermembrane space or membrane
+        accessible
+      binding_site_compartment: IMS and IMM
+      encoding: nDNA
+    design_priority: HIGH
+    design_rationale: MYLS22 establishes proof of concept for OPA1 GTPase activation. Therapeutic relevance
+      for dominant optic atrophy (haploinsufficiency model, activation is the correct pharmacological
+      direction). Structural data improving rapidly.
+    quantitative_scores:
+      D1_pocket_druggability:
+        apo_max: 0.906
+        holo_max: 0.906
+        apo_rank1: 0.121
+        normalised_apo_max: 0.8275
+      D2_pocket_geometry:
+        apo_max_volume_A3: 667.0
+        normalised_log10: 0.4028
+      D3_ligand_efficiency:
+        chembl_target: CHEMBL4105705
+        n_compounds_at_or_below_10uM: 4
+        class_published: MODERATE
+        class_observed: MODERATE
+        reclassified: false
+        normalised_log10: 0.276
+      D4_pharmacological_precedent:
+        score: 1
+        score_in_v1_1: 1
+        basis: validated tool or preclinical compound
+        normalised: 0.3333
+      D5_delivery_feasibility:
+        score: 1
+        category: C_IMS_or_membrane_embedded
+        normalised: 0.3333
+      weights:
+        D1: 0.25
+        D2: 0.15
+        D3: 0.2
+        D4: 0.2
+        D5: 0.2
+      composite:
+        apo_max: 0.4558
+        holo_max: 0.4526
+        apo_rank1: 0.2826
+      rank_of_25:
+        apo_max: 9
+        holo_max: 8
+        apo_rank1: 13
+    first_wave_selection:
+      stage_2_verdict: HOLD
+      basis: GTPase site selectivity unresolved
+    site_matched_R2:
+      a_priori_site: GTPase site
+      site_definition: UniProt residue anchored
+      anchor: UniProt active/binding residues (5 A neighbourhood)
+      basis: GTP-binding motifs (UniProt)
+      D1_site_druggability:
+        isolated_chain: 0.121
+        biological_assembly: 0.121
+        best_context_used: 0.121
+      D2_site_volume_A3:
+        isolated_chain: 643.6
+        biological_assembly: 636.8
+        best_context_used: 643.6
+      global_best_pocket_exploratory: 0.121
+    bioactivity_evidence_R2:
+      definition: distinct ChEMBL compounds; count of chemical matter, not a per-compound ligand efficiency
+      chembl_target: CHEMBL4105705
+      status: OK
+      n_at_or_below_10uM: 4
+      n_pchembl_ge5: 4
+      n_pchembl_ge5_binding_assay: 4
+      used_in_composite: n_pchembl_ge5
+    bioactivity_evidence_note: field ligand_efficiency_evidence_published is retained for provenance only;
+      the dimension is renamed bioactivity evidence and uses the pChEMBL count above
+    quantitative_scores_v1_3:
+      composite: 0.2669
+      rank: 14
+      published_tier: 1
+      site_tier: U
+      D1_norm: 0.121
+      D2_norm: 0.3193
+      D3_norm: 0.2772
+      D4_precedent: 1
+      D5_delivery: 1
+      weights:
+        D1: 0.25
+        D2: 0.15
+        D3: 0.2
+        D4: 0.2
+        D5: 0.2
+      missing_data_rule: weight-renormalised mean over available dimensions
+  TGT_018:
+    canonical_target_id: TGT_018
+    gene_symbol: PINK1
+    uniprot: Q9BXM7
+    legacy_identifiers:
+      mitocorex_target_registry_id: MITO_TGT_023
+      mitocorex_pocket_library_id: MITO_PKT_023
+      note: MITO_TGT_NNN identifiers belong to a different 25 protein MitoCorex series and are NOT interchangeable
+        with TGT_NNN. See id_crosswalk_v1.1.csv.
+    druggability_tier: 1
+    binding_site_type: Serine/threonine kinase domain; ATP-binding cleft; substrate recognition domain;
+      ubiquitin-binding region
+    pocket_accessibility: Cytoplasmic kinase domain exposed on OMM surface upon depolarization
+    ligand_efficiency_evidence_published: STRONG, kinase domain crystal structures; multiple ATP-competitive
+      and allosteric binding sites characterized
+    structural_evidence:
+      assessed_structure: 9EII
+      assessed_protein: PINK1
+      structure_source: RCSB_human
+      chains_assessed: B
+      experimental_method: ''
+      resolution_angstrom: 2.75
+      organism: Homo sapiens
+      withdrawn_pdb_citations:
+      - pdb_id: 6EQT
+        actual_content: CRYSTAL STRUCTURE OF THE HUMAN KINETOCHORE PROTEIN CENP-N
+      - pdb_id: 7DUN
+        actual_content: Crystal structure of Fab fragment of Daratumumab
+      mutation: none recorded in the entry
+      fragment: not stated in the entry
+      uniprot_coverage:
+        uniprot_sequence_length: 581
+        uniprot_range_declared_by_entry: 1-581
+        residues_resolved_per_retained_chain: B:443
+        coverage_percent: 76.2
+        basis: amino acid residues resolved in the single best retained chain, divided by the UniProt
+          reference sequence length
+        partial: false
+    fpocket_v4_0:
+      executed: fpocket 4.0 (Le Guilloux et al. 2009), default parameters, re-executed 1 September 2026
+      determinism_check: three independent runs on an identical input file return identical output
+      structure: 9EII
+      chains_retained: B
+      n_chains_in_entity: 1
+      n_chains_retained: 1
+      chain_cap: at most two chains of the matching polymer entity are retained; where the entity carries
+        more, this is a deliberate and disclosed truncation
+      apo:
+        preparation: ligands, cofactors, metals, lipids and waters removed
+        n_heteroatoms_removed: 0
+        n_pockets_detected: 38
+        rank1_druggability_score: 0.214
+        rank1_pocket_volume_A3: 1043.978
+        max_druggability_score: 0.573
+        max_druggability_pocket_rank: 11
+        max_pocket_volume_A3: 202.839
+        max_pocket_apolar_sasa_A2: 75.506
+        max_pocket_polarity: 1.0
+      holo:
+        preparation: waters removed only; ligands, cofactors, metals and lipids retained
+        n_pockets_detected: 38
+        rank1_druggability_score: 0.214
+        rank1_pocket_volume_A3: 1060.308
+        max_druggability_score: 0.573
+        max_druggability_pocket_rank: 11
+        max_pocket_volume_A3: 200.507
+        max_pocket_apolar_sasa_A2: 75.506
+        max_pocket_polarity: 1.0
+      delta_drugscore_apo_minus_holo: 0.0
+      analysis_set: all 25 targets enter every reported comparison; no target is excluded on any structural
+        ground
+      full_pocket_listing: SupplementaryTable_S3_fpocket_all_pockets.csv
+      superseded_by: 'site_matched_R2: the apo/holo whole-structure pocket scores below are retained for
+        provenance; the current structural score is the site-matched value'
+    pharmacological_precedent_corrected:
+      precedent_status: Preclinical only
+      compound: MTK-458 (Mitokinin, AbbVie)
+      site: kinase ATP cleft
+      caveat: The prior claim of kinetin phase 2 precedent is withdrawn. No PINK1 activator has entered
+        any registered clinical trial. Kinetin trial NCT02274051 is phase 1 in familial dysautonomia and
+        acts by ELP1 splicing modulation, unrelated to PINK1.
+    mechanism_of_action_class: Kinase activator (for loss-of-function Parkinson variants); mitophagy flux
+      enhancer; Parkin recruitment promoter
+    delivery:
+      category: A_no_targeting_required
+      strategy: Standard systemic delivery; no mitochondrial targeting moiety required
+      binding_site_compartment: OMM, kinase domain cytosol facing
+      encoding: nDNA
+    design_priority: HIGHEST
+    design_rationale: Serine/threonine kinase with ATP-binding cleft, most pharmacologically tractable
+      class of drug target. Kinetin clinical trial establishes translational pathway. Loss-of-function
+      PINK1 mutations are the second most common cause of early-onset Parkinson disease.
+    quantitative_scores:
+      D1_pocket_druggability:
+        apo_max: 0.573
+        holo_max: 0.573
+        apo_rank1: 0.214
+        normalised_apo_max: 0.2165
+      D2_pocket_geometry:
+        apo_max_volume_A3: 202.8
+        normalised_log10: 0.0
+      D3_ligand_efficiency:
+        chembl_target: CHEMBL3337330
+        n_compounds_at_or_below_10uM: 7
+        class_published: STRONG
+        class_observed: MODERATE
+        reclassified: true
+        normalised_log10: 0.3566
+      D4_pharmacological_precedent:
+        score: 1
+        score_in_v1_1: 1
+        basis: validated tool or preclinical compound
+        normalised: 0.3333
+      D5_delivery_feasibility:
+        score: 3
+        category: A_no_targeting_required
+        normalised: 1.0
+      weights:
+        D1: 0.25
+        D2: 0.15
+        D3: 0.2
+        D4: 0.2
+        D5: 0.2
+      composite:
+        apo_max: 0.3921
+        holo_max: 0.3758
+        apo_rank1: 0.3977
+      rank_of_25:
+        apo_max: 13
+        holo_max: 13
+        apo_rank1: 7
+    first_wave_selection:
+      stage_2_verdict: HOLD
+      basis: no PINK1 activator has entered a registered trial
+    site_matched_R2:
+      a_priori_site: kinase ATP cleft
+      site_definition: UniProt residue anchored
+      anchor: UniProt active/binding residues (5 A neighbourhood)
+      basis: ATP-binding and catalytic residues (UniProt)
+      D1_site_druggability:
+        isolated_chain: 0.543
+        biological_assembly: 0.284
+        best_context_used: 0.543
+      D2_site_volume_A3:
+        isolated_chain: 560.7
+        biological_assembly: 581.2
+        best_context_used: 560.7
+      global_best_pocket_exploratory: 0.543
+    bioactivity_evidence_R2:
+      definition: distinct ChEMBL compounds; count of chemical matter, not a per-compound ligand efficiency
+      chembl_target: CHEMBL3337330
+      status: OK
+      n_at_or_below_10uM: 7
+      n_pchembl_ge5: 7
+      n_pchembl_ge5_binding_assay: 7
+      used_in_composite: n_pchembl_ge5
+    bioactivity_evidence_note: field ligand_efficiency_evidence_published is retained for provenance only;
+      the dimension is renamed bioactivity evidence and uses the pChEMBL count above
+    quantitative_scores_v1_3:
+      composite: 0.514
+      rank: 7
+      published_tier: 1
+      site_tier: U
+      D1_norm: 0.543
+      D2_norm: 0.2663
+      D3_norm: 0.3582
+      D4_precedent: 1
+      D5_delivery: 3
+      weights:
+        D1: 0.25
+        D2: 0.15
+        D3: 0.2
+        D4: 0.2
+        D5: 0.2
+      missing_data_rule: weight-renormalised mean over available dimensions
+  TGT_019:
+    canonical_target_id: TGT_019
+    gene_symbol: SOD2
+    uniprot: P04179
+    legacy_identifiers:
+      mitocorex_target_registry_id: NOT_IN_THAT_SERIES
+      mitocorex_pocket_library_id: NOT_IN_THAT_SERIES
+      note: MITO_TGT_NNN identifiers belong to a different 25 protein MitoCorex series and are NOT interchangeable
+        with TGT_NNN. See id_crosswalk_v1.1.csv.
+    druggability_tier: 1
+    binding_site_type: Manganese-containing active site; substrate access channel; dimer and tetramer
+      interface
+    pocket_accessibility: Matrix-localized; active site accessible via substrate channel
+    ligand_efficiency_evidence_published: MODERATE, SOD2 crystal structures well-resolved; small molecule
+      mimetics characterized
+    structural_evidence:
+      assessed_structure: 1LUV
+      assessed_protein: SOD2
+      structure_source: RCSB_human
+      chains_assessed: A;B
+      experimental_method: ''
+      resolution_angstrom: 1.85
+      organism: Homo sapiens
+      withdrawn_pdb_citations:
+      - pdb_id: 1ZUK
+        actual_content: Yeast BBC1 Sh3 domain complexed with a peptide from Las17
+      - pdb_id: 3SO4
+        actual_content: Methionine-adenosyltransferase from Entamoeba histolytica
+      mutation: none recorded in the entry
+      fragment: not stated in the entry
+      uniprot_coverage:
+        uniprot_sequence_length: 222
+        uniprot_range_declared_by_entry: 25-222
+        residues_resolved_per_retained_chain: A:198;B:198
+        coverage_percent: 89.2
+        basis: amino acid residues resolved in the single best retained chain, divided by the UniProt
+          reference sequence length
+        partial: false
+      replaced_after_review:
+        was: 9NSJ
+        now: 1LUV
+        reason: Q143N active site mutant expressed in Escherichia coli. Replaced with the human wild type
+          enzyme.
+    fpocket_v4_0:
+      executed: fpocket 4.0 (Le Guilloux et al. 2009), default parameters, re-executed 1 September 2026
+      determinism_check: three independent runs on an identical input file return identical output
+      structure: 1LUV
+      chains_retained: A;B
+      n_chains_in_entity: 2
+      n_chains_retained: 2
+      chain_cap: at most two chains of the matching polymer entity are retained; where the entity carries
+        more, this is a deliberate and disclosed truncation
+      apo:
+        preparation: ligands, cofactors, metals, lipids and waters removed
+        n_heteroatoms_removed: 2
+        n_pockets_detected: 24
+        rank1_druggability_score: 0.098
+        rank1_pocket_volume_A3: 855.667
+        max_druggability_score: 0.566
+        max_druggability_pocket_rank: 3
+        max_pocket_volume_A3: 422.198
+        max_pocket_apolar_sasa_A2: 62.797
+        max_pocket_polarity: 6.0
+      holo:
+        preparation: waters removed only; ligands, cofactors, metals and lipids retained
+        n_pockets_detected: 24
+        rank1_druggability_score: 0.098
+        rank1_pocket_volume_A3: 848.559
+        max_druggability_score: 0.566
+        max_druggability_pocket_rank: 3
+        max_pocket_volume_A3: 420.907
+        max_pocket_apolar_sasa_A2: 62.797
+        max_pocket_polarity: 6.0
+      delta_drugscore_apo_minus_holo: 0.0
+      analysis_set: all 25 targets enter every reported comparison; no target is excluded on any structural
+        ground
+      full_pocket_listing: SupplementaryTable_S3_fpocket_all_pockets.csv
+      superseded_by: 'site_matched_R2: the apo/holo whole-structure pocket scores below are retained for
+        provenance; the current structural score is the site-matched value'
+    pharmacological_precedent:
+    - compound: MnTBAP
+      class: Mn porphyrin
+      site: Mn active site mimetic
+      status: Research tool; SOD2 functional mimetic
+    - compound: MitoTEMPO
+      class: TPP+-nitroxide conjugate
+      site: Matrix-targeted radical scavenger
+      status: Preclinical; mitochondria-targeted antioxidant
+    - compound: EUK-134
+      class: Salen-Mn complex
+      site: SOD/catalase mimetic
+      status: Preclinical
+    mechanism_of_action_class: SOD2 functional mimetic (enzyme replacement approach); allosteric activator;
+      acetylation site modulator (K68 deacetylation by SIRT3 activates SOD2)
+    delivery:
+      category: B_matrix_MTP_or_TPP
+      strategy: Matrix targeting peptide or triphenylphosphonium cation conjugation
+      binding_site_compartment: matrix
+      encoding: nDNA
+    design_priority: HIGH
+    design_rationale: MitoTEMPO establishes the delivery and pharmacological blueprint. SIRT3-K68 axis
+      offers an alternative non-mimetic pharmacological approach. Relevant across mitochondrial disease,
+      neurodegeneration, and aging.
+    quantitative_scores:
+      D1_pocket_druggability:
+        apo_max: 0.566
+        holo_max: 0.566
+        apo_rank1: 0.098
+        normalised_apo_max: 0.2037
+      D2_pocket_geometry:
+        apo_max_volume_A3: 422.2
+        normalised_log10: 0.2479
+      D3_ligand_efficiency:
+        chembl_target: CHEMBL4105776
+        n_compounds_at_or_below_10uM: 0
+        class_published: MODERATE
+        class_observed: ABSENT
+        reclassified: true
+        normalised_log10: 0.0
+      D4_pharmacological_precedent:
+        score: 1
+        score_in_v1_1: 1
+        basis: validated tool or preclinical compound
+        normalised: 0.3333
+      D5_delivery_feasibility:
+        score: 2
+        category: B_matrix_MTP_or_TPP
+        normalised: 0.6667
+      weights:
+        D1: 0.25
+        D2: 0.15
+        D3: 0.2
+        D4: 0.2
+        D5: 0.2
+      composite:
+        apo_max: 0.2881
+        holo_max: 0.2715
+        apo_rank1: 0.2644
+      rank_of_25:
+        apo_max: 19
+        holo_max: 21
+        apo_rank1: 14
+    first_wave_selection:
+      stage_2_verdict: HOLD
+      basis: zero ChEMBL compounds; metal active site with no drug like precedent
+    site_matched_R2:
+      a_priori_site: Mn active site
+      site_definition: ligand/cofactor anchored
+      anchor: MN
+      basis: superoxide dismutase Mn centre; anchor by Mn
+      D1_site_druggability:
+        isolated_chain: 0.219
+        biological_assembly: 0.219
+        best_context_used: 0.219
+      D2_site_volume_A3:
+        isolated_chain: 296.2
+        biological_assembly: 298.3
+        best_context_used: 296.2
+      global_best_pocket_exploratory: 0.219
+    bioactivity_evidence_R2:
+      definition: distinct ChEMBL compounds; count of chemical matter, not a per-compound ligand efficiency
+      chembl_target: CHEMBL4105776
+      status: ENTITY_zero_potent_compounds
+      n_at_or_below_10uM: 0
+      n_pchembl_ge5: 0
+      n_pchembl_ge5_binding_assay: 0
+      used_in_composite: n_pchembl_ge5
+    bioactivity_evidence_note: field ligand_efficiency_evidence_published is retained for provenance only;
+      the dimension is renamed bioactivity evidence and uses the pChEMBL count above
+    quantitative_scores_v1_3:
+      composite: 0.258
+      rank: 16
+      published_tier: 1
+      site_tier: D
+      D1_norm: 0.219
+      D2_norm: 0.0216
+      D3_norm: 0.0
+      D4_precedent: 1
+      D5_delivery: 2
+      weights:
+        D1: 0.25
+        D2: 0.15
+        D3: 0.2
+        D4: 0.2
+        D5: 0.2
+      missing_data_rule: weight-renormalised mean over available dimensions
+  TGT_020:
+    canonical_target_id: TGT_020
+    gene_symbol: PPARGC1A
+    uniprot: Q9UBK2
+    legacy_identifiers:
+      mitocorex_target_registry_id: NOT_IN_THAT_SERIES
+      mitocorex_pocket_library_id: NOT_IN_THAT_SERIES
+      note: MITO_TGT_NNN identifiers belong to a different 25 protein MitoCorex series and are NOT interchangeable
+        with TGT_NNN. See id_crosswalk_v1.1.csv.
+    druggability_tier: 2
+    binding_site_type: LXXLL nuclear receptor interaction motifs; AMPK phosphorylation sites (T177, S538);
+      SIRT1 deacetylation sites; MEF2 and NRF1 interaction domains
+    pocket_accessibility: Nuclear/cytoplasmic; no conventional orthosteric binding pocket; IDR (intrinsically
+      disordered regions) predominate
+    ligand_efficiency_evidence_published: WEAK, no crystal structures of PGC-1alpha; all drugging is indirect
+      via upstream activators
+    structural_evidence:
+      assessed_structure: AF-Q9UBK2
+      assessed_protein: PPARGC1A
+      structure_source: AlphaFoldDB
+      chains_assessed: A
+      experimental_method: AlphaFold2 (DB v6)
+      resolution_angstrom: null
+      organism: Homo sapiens
+      withdrawn_pdb_citations: []
+      mutation: none recorded in the entry
+      fragment: predicted model
+      uniprot_coverage:
+        uniprot_sequence_length: 798
+        uniprot_range_declared_by_entry: 1-798
+        residues_resolved_per_retained_chain: A:798
+        coverage_percent: 100.0
+        basis: predicted model spans the complete UniProt sequence by construction
+        partial: false
+    fpocket_v4_0:
+      executed: fpocket 4.0 (Le Guilloux et al. 2009), default parameters, re-executed 1 September 2026
+      determinism_check: three independent runs on an identical input file return identical output
+      structure: AF-Q9UBK2
+      chains_retained: A
+      n_chains_in_entity: 1
+      n_chains_retained: 1
+      chain_cap: at most two chains of the matching polymer entity are retained; where the entity carries
+        more, this is a deliberate and disclosed truncation
+      apo:
+        preparation: ligands, cofactors, metals, lipids and waters removed
+        n_heteroatoms_removed: 0
+        n_pockets_detected: 54
+        rank1_druggability_score: 0.006
+        rank1_pocket_volume_A3: 468.447
+        max_druggability_score: 0.656
+        max_druggability_pocket_rank: 5
+        max_pocket_volume_A3: 636.916
+        max_pocket_apolar_sasa_A2: 114.15
+        max_pocket_polarity: 5.0
+      holo:
+        preparation: waters removed only; ligands, cofactors, metals and lipids retained
+        n_pockets_detected: 54
+        rank1_druggability_score: 0.006
+        rank1_pocket_volume_A3: 484.406
+        max_druggability_score: 0.656
+        max_druggability_pocket_rank: 5
+        max_pocket_volume_A3: 641.418
+        max_pocket_apolar_sasa_A2: 114.15
+        max_pocket_polarity: 5.0
+      delta_drugscore_apo_minus_holo: 0.0
+      analysis_set: all 25 targets enter every reported comparison; no target is excluded on any structural
+        ground
+      full_pocket_listing: SupplementaryTable_S3_fpocket_all_pockets.csv
+      superseded_by: 'site_matched_R2: the apo/holo whole-structure pocket scores below are retained for
+        provenance; the current structural score is the site-matched value'
+    pharmacological_precedent:
+    - compound: AICAR
+      class: AMPK activator (upstream)
+      site: AMPK (activates PGC-1alpha via T177 phosphorylation)
+      status: Research tool; indirect PGC-1alpha activator
+    - compound: Metformin
+      class: Biguanide
+      site: Complex I/AMPK (upstream)
+      status: FDA-approved; indirect PGC-1alpha activator
+    - compound: SRT1720
+      class: SIRT1 activator
+      site: SIRT1 (deacetylates/activates PGC-1alpha)
+      status: Preclinical
+    mechanism_of_action_class: Upstream activator (AMPK, SIRT1 agonism); LXXLL-mediated interaction enhancer;
+      mRNA stabilizer
+    delivery:
+      category: A_no_targeting_required
+      strategy: Standard systemic delivery; no mitochondrial targeting moiety required
+      binding_site_compartment: nucleus and cytosol
+      encoding: nDNA
+    design_priority: HIGH (as upstream target via AMPK/SIRT1 axis)
+    design_rationale: null
+    quantitative_scores:
+      D1_pocket_druggability:
+        apo_max: 0.656
+        holo_max: 0.656
+        apo_rank1: 0.006
+        normalised_apo_max: 0.3688
+      D2_pocket_geometry:
+        apo_max_volume_A3: 636.9
+        normalised_log10: 0.3872
+      D3_ligand_efficiency:
+        chembl_target: CHEMBL6116
+        n_compounds_at_or_below_10uM: 0
+        class_published: ABSENT
+        class_observed: ABSENT
+        reclassified: false
+        normalised_log10: 0.0
+      D4_pharmacological_precedent:
+        score: 1
+        score_in_v1_1: 1
+        basis: validated tool or preclinical compound
+        normalised: 0.3333
+      D5_delivery_feasibility:
+        score: 3
+        category: A_no_targeting_required
+        normalised: 1.0
+      weights:
+        D1: 0.25
+        D2: 0.15
+        D3: 0.2
+        D4: 0.2
+        D5: 0.2
+      composite:
+        apo_max: 0.4169
+        holo_max: 0.4039
+        apo_rank1: 0.3261
+      rank_of_25:
+        apo_max: 11
+        holo_max: 11
+        apo_rank1: 11
+    site_matched_R2:
+      a_priori_site: intrinsically disordered coactivator
+      site_definition: no defined small-molecule site
+      anchor: UniProt active/binding residues (5 A neighbourhood)
+      basis: AlphaFold low confidence, disordered; treat structure as NA (also comment 8)
+      structural_dimension: NA
+      reason: no defined small-molecule site; structural dimensions not applicable
+      alphafold_confidence:
+        global_pLDDT: 52.7
+        site_pLDDT: null
+        mean_PAE_A: 28.1
+        interpretation: 'treated as NA: low confidence / disordered'
+    bioactivity_evidence_R2:
+      definition: distinct ChEMBL compounds; count of chemical matter, not a per-compound ligand efficiency
+      chembl_target: CHEMBL6116
+      status: ENTITY_zero_potent_compounds
+      n_at_or_below_10uM: 0
+      n_pchembl_ge5: 0
+      n_pchembl_ge5_binding_assay: 0
+      used_in_composite: n_pchembl_ge5
+    bioactivity_evidence_note: field ligand_efficiency_evidence_published is retained for provenance only;
+      the dimension is renamed bioactivity evidence and uses the pChEMBL count above
+    quantitative_scores_v1_3:
+      composite: 0.4444
+      rank: 9
+      published_tier: 2
+      site_tier: N
+      D1_norm: null
+      D2_norm: null
+      D3_norm: 0.0
+      D4_precedent: 1
+      D5_delivery: 3
+      weights:
+        D1: 0.25
+        D2: 0.15
+        D3: 0.2
+        D4: 0.2
+        D5: 0.2
+      missing_data_rule: weight-renormalised mean over available dimensions
+  TGT_021:
+    canonical_target_id: TGT_021
+    gene_symbol: SLC25A4
+    uniprot: P12235
+    legacy_identifiers:
+      mitocorex_target_registry_id: MITO_TGT_010
+      mitocorex_pocket_library_id: MITO_PKT_010
+      note: MITO_TGT_NNN identifiers belong to a different 25 protein MitoCorex series and are NOT interchangeable
+        with TGT_NNN. See id_crosswalk_v1.1.csv.
+    druggability_tier: 1
+    binding_site_type: Substrate binding cavity (ADP/ATP binding site); bongkrekic acid binding site (matrix
+      face); atractyloside binding site (IMS face); mPTP interaction surface
+    pocket_accessibility: IMM-embedded but substrate cavity accessible from both matrix and IMS sides
+    ligand_efficiency_evidence_published: STRONG, multiple crystal structures with bound inhibitors and
+      substrate analogs; highest structural resolution of any SLC25 family member
+    structural_evidence:
+      assessed_structure: AF-P12235
+      assessed_protein: SLC25A4
+      structure_source: AlphaFoldDB
+      chains_assessed: A
+      experimental_method: AlphaFold2
+      resolution_angstrom: null
+      organism: Homo sapiens
+      withdrawn_pdb_citations: []
+      mutation: none recorded in the entry
+      fragment: predicted model
+      uniprot_coverage:
+        uniprot_sequence_length: 298
+        uniprot_range_declared_by_entry: 1-298
+        residues_resolved_per_retained_chain: A:298
+        coverage_percent: 100.0
+        basis: predicted model spans the complete UniProt sequence by construction
+        partial: false
+    fpocket_v4_0:
+      executed: fpocket 4.0 (Le Guilloux et al. 2009), default parameters, re-executed 1 September 2026
+      determinism_check: three independent runs on an identical input file return identical output
+      structure: AF-P12235
+      chains_retained: A
+      n_chains_in_entity: 1
+      n_chains_retained: 1
+      chain_cap: at most two chains of the matching polymer entity are retained; where the entity carries
+        more, this is a deliberate and disclosed truncation
+      apo:
+        preparation: ligands, cofactors, metals, lipids and waters removed
+        n_heteroatoms_removed: 0
+        n_pockets_detected: 25
+        rank1_druggability_score: 0.109
+        rank1_pocket_volume_A3: 671.517
+        max_druggability_score: 0.726
+        max_druggability_pocket_rank: 22
+        max_pocket_volume_A3: 342.346
+        max_pocket_apolar_sasa_A2: 128.009
+        max_pocket_polarity: 1.0
+      holo:
+        preparation: waters removed only; ligands, cofactors, metals and lipids retained
+        n_pockets_detected: 25
+        rank1_druggability_score: 0.109
+        rank1_pocket_volume_A3: 675.676
+        max_druggability_score: 0.726
+        max_druggability_pocket_rank: 22
+        max_pocket_volume_A3: 346.795
+        max_pocket_apolar_sasa_A2: 128.009
+        max_pocket_polarity: 1.0
+      delta_drugscore_apo_minus_holo: 0.0
+      analysis_set: all 25 targets enter every reported comparison; no target is excluded on any structural
+        ground
+      full_pocket_listing: SupplementaryTable_S3_fpocket_all_pockets.csv
+      superseded_by: 'site_matched_R2: the apo/holo whole-structure pocket scores below are retained for
+        provenance; the current structural score is the site-matched value'
+    pharmacological_precedent:
+    - compound: Atractyloside
+      class: Diterpene glycoside
+      site: IMS-facing c-state binding
+      status: Research tool; natural toxin
+    - compound: Bongkrekic acid
+      class: Polyunsaturated fatty acid
+      site: Matrix-facing m-state binding
+      status: Research tool; natural toxin
+    - compound: Carboxyatractyloside
+      class: Diterpene
+      site: IMS face
+      status: Research tool; most potent ANT inhibitor
+    mechanism_of_action_class: Substrate analog (ADP/ATP exchange modulator); mPTP modulator; conformational
+      state stabilizer (c-state vs m-state)
+    delivery:
+      category: C_IMS_or_membrane_embedded
+      strategy: Matrix targeting peptide or cell penetrating peptide; intermembrane space or membrane
+        accessible
+      binding_site_compartment: IMM; cavity opens alternately to IMS and matrix
+      encoding: nDNA
+    design_priority: HIGH
+    design_rationale: Best-characterized metabolite carrier in the SLC25 family. Two pharmacologically
+      distinct binding sites on opposite faces provide exceptional design flexibility. mPTP component
+      role creates therapeutic opportunity in ischemia-reperfusion.
+    quantitative_scores:
+      D1_pocket_druggability:
+        apo_max: 0.726
+        holo_max: 0.726
+        apo_rank1: 0.109
+        normalised_apo_max: 0.4972
+      D2_pocket_geometry:
+        apo_max_volume_A3: 342.3
+        normalised_log10: 0.1769
+      D3_ligand_efficiency:
+        chembl_target: CHEMBL1879
+        n_compounds_at_or_below_10uM: 1
+        class_published: STRONG
+        class_observed: MODERATE
+        reclassified: true
+        normalised_log10: 0.1189
+      D4_pharmacological_precedent:
+        score: 1
+        score_in_v1_1: 1
+        basis: validated tool or preclinical compound
+        normalised: 0.3333
+      D5_delivery_feasibility:
+        score: 1
+        category: C_IMS_or_membrane_embedded
+        normalised: 0.3333
+      weights:
+        D1: 0.25
+        D2: 0.15
+        D3: 0.2
+        D4: 0.2
+        D5: 0.2
+      composite:
+        apo_max: 0.308
+        holo_max: 0.2977
+        apo_rank1: 0.2139
+      rank_of_25:
+        apo_max: 18
+        holo_max: 19
+        apo_rank1: 17
+    first_wave_selection:
+      stage_2_verdict: HOLD
+      basis: CATR site tight; assessed on an AlphaFold model
+    site_matched_R2:
+      a_priori_site: ADP/ATP carrier cavity
+      site_definition: UniProt residue anchored
+      anchor: UniProt active/binding residues (5 A neighbourhood)
+      basis: substrate cavity residues (UniProt); CATR/BKA site
+      D1_site_druggability:
+        isolated_chain: 0.109
+        biological_assembly: 0.109
+        best_context_used: 0.109
+      D2_site_volume_A3:
+        isolated_chain: 684.2
+        biological_assembly: 684.2
+        best_context_used: 684.2
+      global_best_pocket_exploratory: 0.109
+      alphafold_confidence:
+        global_pLDDT: 92.1
+        site_pLDDT: 91.7
+        mean_PAE_A: 4.5
+        interpretation: 'retained: high confidence at site'
+    bioactivity_evidence_R2:
+      definition: distinct ChEMBL compounds; count of chemical matter, not a per-compound ligand efficiency
+      chembl_target: CHEMBL1879
+      status: OK
+      n_at_or_below_10uM: 1
+      n_pchembl_ge5: 1
+      n_pchembl_ge5_binding_assay: 1
+      used_in_composite: n_pchembl_ge5
+    bioactivity_evidence_note: field ligand_efficiency_evidence_published is retained for provenance only;
+      the dimension is renamed bioactivity evidence and uses the pChEMBL count above
+    quantitative_scores_v1_3:
+      composite: 0.2359
+      rank: 17
+      published_tier: 1
+      site_tier: U
+      D1_norm: 0.109
+      D2_norm: 0.3428
+      D3_norm: 0.1194
+      D4_precedent: 1
+      D5_delivery: 1
+      weights:
+        D1: 0.25
+        D2: 0.15
+        D3: 0.2
+        D4: 0.2
+        D5: 0.2
+      missing_data_rule: weight-renormalised mean over available dimensions
+  TGT_022:
+    canonical_target_id: TGT_022
+    gene_symbol: VDAC1
+    uniprot: P21796
+    legacy_identifiers:
+      mitocorex_target_registry_id: MITO_TGT_009
+      mitocorex_pocket_library_id: MITO_PKT_009
+      note: MITO_TGT_NNN identifiers belong to a different 25 protein MitoCorex series and are NOT interchangeable
+        with TGT_NNN. See id_crosswalk_v1.1.csv.
+    druggability_tier: 1
+    binding_site_type: Beta-barrel channel pore; N-terminal alpha-helix (voltage sensor and gating); hexokinase
+      binding surface; Bcl-2 family interaction surface; VDAC oligomerization interface
+    pocket_accessibility: OMM, fully cytoplasm-accessible. Multiple distinct surface sites.
+    ligand_efficiency_evidence_published: STRONG, NMR and crystal structures; multiple drug-like binders
+      characterized
+    structural_evidence:
+      assessed_structure: 6G6U
+      assessed_protein: VDAC1
+      structure_source: RCSB_human
+      chains_assessed: A;B
+      experimental_method: ''
+      resolution_angstrom: 2.74
+      organism: Homo sapiens
+      withdrawn_pdb_citations: []
+      mutation: none recorded in the entry
+      fragment: not stated in the entry
+      uniprot_coverage:
+        uniprot_sequence_length: 283
+        uniprot_range_declared_by_entry: 1-283
+        residues_resolved_per_retained_chain: A:282;B:282
+        coverage_percent: 99.6
+        basis: amino acid residues resolved in the single best retained chain, divided by the UniProt
+          reference sequence length
+        partial: false
+    fpocket_v4_0:
+      executed: fpocket 4.0 (Le Guilloux et al. 2009), default parameters, re-executed 1 September 2026
+      determinism_check: three independent runs on an identical input file return identical output
+      structure: 6G6U
+      chains_retained: A;B
+      n_chains_in_entity: 2
+      n_chains_retained: 2
+      chain_cap: at most two chains of the matching polymer entity are retained; where the entity carries
+        more, this is a deliberate and disclosed truncation
+      apo:
+        preparation: ligands, cofactors, metals, lipids and waters removed
+        n_heteroatoms_removed: 77
+        n_pockets_detected: 62
+        rank1_druggability_score: 0.526
+        rank1_pocket_volume_A3: 603.82
+        max_druggability_score: 0.598
+        max_druggability_pocket_rank: 7
+        max_pocket_volume_A3: 489.025
+        max_pocket_apolar_sasa_A2: 155.784
+        max_pocket_polarity: 5.0
+      holo:
+        preparation: waters removed only; ligands, cofactors, metals and lipids retained
+        n_pockets_detected: 62
+        rank1_druggability_score: 0.5
+        rank1_pocket_volume_A3: 442.225
+        max_druggability_score: 0.598
+        max_druggability_pocket_rank: 2
+        max_pocket_volume_A3: 476.059
+        max_pocket_apolar_sasa_A2: 77.288
+        max_pocket_polarity: 5.0
+      delta_drugscore_apo_minus_holo: 0.0
+      analysis_set: all 25 targets enter every reported comparison; no target is excluded on any structural
+        ground
+      full_pocket_listing: SupplementaryTable_S3_fpocket_all_pockets.csv
+      superseded_by: 'site_matched_R2: the apo/holo whole-structure pocket scores below are retained for
+        provenance; the current structural score is the site-matched value'
+    pharmacological_precedent:
+    - compound: DIDS (4,4-diisothiocyanostilbene-2,2-disulfonic acid)
+      class: Anion transport inhibitor
+      site: Channel pore
+      status: Research tool
+    - compound: Erastin
+      class: Synthetic
+      site: VDAC2/3 interaction
+      status: Research tool; ferroptosis inducer
+    - compound: G3139 (oblimersen)
+      class: Antisense oligonucleotide
+      site: Bcl-2/VDAC interaction (indirect)
+      status: Clinical trials; oncology
+    - compound: Ketone bodies (indirect)
+      class: Metabolite
+      site: VDAC gating modulation
+      status: Research
+    mechanism_of_action_class: Channel gating modulator; hexokinase-VDAC interaction disruptor; oligomerization
+      inhibitor (anti-apoptotic); Bcl-2 interaction modulator
+    delivery:
+      category: A_no_targeting_required
+      strategy: Standard systemic delivery; no mitochondrial targeting moiety required
+      binding_site_compartment: OMM, cytosol facing
+      encoding: nDNA
+    design_priority: HIGH
+    design_rationale: Cytoplasm-accessible OMM protein with multiple distinct pharmacological sites. Oligomerization
+      inhibition approach is validated for anti-apoptotic protection. Hexokinase-VDAC disruption is established
+      cancer metabolism target.
+    quantitative_scores:
+      D1_pocket_druggability:
+        apo_max: 0.598
+        holo_max: 0.598
+        apo_rank1: 0.526
+        normalised_apo_max: 0.2624
+      D2_pocket_geometry:
+        apo_max_volume_A3: 489.0
+        normalised_log10: 0.2977
+      D3_ligand_efficiency:
+        chembl_target: CHEMBL4295729
+        n_compounds_at_or_below_10uM: 2
+        class_published: STRONG
+        class_observed: MODERATE
+        reclassified: true
+        normalised_log10: 0.1884
+      D4_pharmacological_precedent:
+        score: 1
+        score_in_v1_1: 1
+        basis: validated tool or preclinical compound
+        normalised: 0.3333
+      D5_delivery_feasibility:
+        score: 3
+        category: A_no_targeting_required
+        normalised: 1.0
+      weights:
+        D1: 0.25
+        D2: 0.15
+        D3: 0.2
+        D4: 0.2
+        D5: 0.2
+      composite:
+        apo_max: 0.4146
+        holo_max: 0.3993
+        apo_rank1: 0.4963
+      rank_of_25:
+        apo_max: 12
+        holo_max: 12
+        apo_rank1: 5
+    first_wave_selection:
+      stage_2_verdict: HOLD
+      basis: large channel with multiple sub sites; no single defined pharmacophore
+    site_matched_R2:
+      a_priori_site: channel pore / NTD
+      site_definition: UniProt residue anchored
+      anchor: UniProt active/binding residues (5 A neighbourhood)
+      basis: pore and N-terminal helix residues (UniProt)
+      D1_site_druggability:
+        isolated_chain: 0.219
+        biological_assembly: 0.219
+        best_context_used: 0.219
+      D2_site_volume_A3:
+        isolated_chain: 652.4
+        biological_assembly: 644.5
+        best_context_used: 652.4
+      global_best_pocket_exploratory: 0.219
+    bioactivity_evidence_R2:
+      definition: distinct ChEMBL compounds; count of chemical matter, not a per-compound ligand efficiency
+      chembl_target: CHEMBL4295729
+      status: OK
+      n_at_or_below_10uM: 2
+      n_pchembl_ge5: 2
+      n_pchembl_ge5_binding_assay: 2
+      used_in_composite: n_pchembl_ge5
+    bioactivity_evidence_note: field ligand_efficiency_evidence_published is retained for provenance only;
+      the dimension is renamed bioactivity evidence and uses the pChEMBL count above
+    quantitative_scores_v1_3:
+      composite: 0.4079
+      rank: 10
+      published_tier: 1
+      site_tier: U
+      D1_norm: 0.219
+      D2_norm: 0.3245
+      D3_norm: 0.1892
+      D4_precedent: 1
+      D5_delivery: 3
+      weights:
+        D1: 0.25
+        D2: 0.15
+        D3: 0.2
+        D4: 0.2
+        D5: 0.2
+      missing_data_rule: weight-renormalised mean over available dimensions
+  TGT_023:
+    canonical_target_id: TGT_023
+    gene_symbol: LONP1
+    uniprot: P36776
+    legacy_identifiers:
+      mitocorex_target_registry_id: MITO_TGT_021
+      mitocorex_pocket_library_id: MITO_PKT_021
+      note: MITO_TGT_NNN identifiers belong to a different 25 protein MitoCorex series and are NOT interchangeable
+        with TGT_NNN. See id_crosswalk_v1.1.csv.
+    druggability_tier: 1
+    binding_site_type: Serine protease active site (Ser855-Lys898 catalytic dyad); AAA+ ATPase domain;
+      substrate recognition N-domain; ring oligomerization interface
+    pocket_accessibility: Matrix-localized; hexameric barrel with axial substrate access pore
+    ligand_efficiency_evidence_published: STRONG, cryo-EM structures at near-atomic resolution; inhibitor
+      co-crystal structures available
+    structural_evidence:
+      assessed_structure: 2X36
+      assessed_protein: LONP1
+      structure_source: RCSB_human
+      chains_assessed: A;B
+      experimental_method: ''
+      resolution_angstrom: 2.0
+      organism: HOMO SAPIENS
+      withdrawn_pdb_citations:
+      - pdb_id: 6AGO
+        actual_content: Crystal structure of MRG15-ASH1L Histone methyltransferase complex
+      - pdb_id: 7L0S
+        actual_content: Structure of NTS-NTSR1-Gi complex in lipid nanodisc, noncanonical stat
+      - pdb_id: 7MKH
+        actual_content: 'Paired helical tau filament extracted from GSS Patient brain tissue | '
+      mutation: none recorded in the entry
+      fragment: PROTEOLYTIC DOMAIN, RESIDUES 753-959
+      uniprot_coverage:
+        uniprot_sequence_length: 959
+        uniprot_range_declared_by_entry: 753-959
+        residues_resolved_per_retained_chain: A:190;B:180
+        coverage_percent: 19.8
+        basis: amino acid residues resolved in the single best retained chain, divided by the UniProt
+          reference sequence length
+        partial: true
+    fpocket_v4_0:
+      executed: fpocket 4.0 (Le Guilloux et al. 2009), default parameters, re-executed 1 September 2026
+      determinism_check: three independent runs on an identical input file return identical output
+      structure: 2X36
+      chains_retained: A;B
+      n_chains_in_entity: 6
+      n_chains_retained: 2
+      chain_cap: at most two chains of the matching polymer entity are retained; where the entity carries
+        more, this is a deliberate and disclosed truncation
+      apo:
+        preparation: ligands, cofactors, metals, lipids and waters removed
+        n_heteroatoms_removed: 0
+        n_pockets_detected: 24
+        rank1_druggability_score: 0.88
+        rank1_pocket_volume_A3: 614.304
+        max_druggability_score: 0.88
+        max_druggability_pocket_rank: 1
+        max_pocket_volume_A3: 614.304
+        max_pocket_apolar_sasa_A2: 106.35
+        max_pocket_polarity: 6.0
+      holo:
+        preparation: waters removed only; ligands, cofactors, metals and lipids retained
+        n_pockets_detected: 24
+        rank1_druggability_score: 0.88
+        rank1_pocket_volume_A3: 619.119
+        max_druggability_score: 0.88
+        max_druggability_pocket_rank: 1
+        max_pocket_volume_A3: 619.119
+        max_pocket_apolar_sasa_A2: 106.35
+        max_pocket_polarity: 6.0
+      delta_drugscore_apo_minus_holo: 0.0
+      analysis_set: all 25 targets enter every reported comparison; no target is excluded on any structural
+        ground
+      full_pocket_listing: SupplementaryTable_S3_fpocket_all_pockets.csv
+      superseded_by: 'site_matched_R2: the apo/holo whole-structure pocket scores below are retained for
+        provenance; the current structural score is the site-matched value'
+    pharmacological_precedent:
+    - compound: CDDO (2-cyano-3,12-dioxooleana-1,9-dien-28-oic acid)
+      class: Triterpenoid
+      site: Protease active site (covalent Ser855 modifier)
+      status: Preclinical; LONP1 inhibitor class
+    - compound: MG262
+      class: Boronate proteasome inhibitor
+      site: Serine protease active site
+      status: Research tool; cross-reactive LONP1 inhibitor
+    - compound: Obtusilactone A
+      class: Natural product butanolide
+      site: LONP1 (mechanism under investigation)
+      status: Preclinical
+    mechanism_of_action_class: Serine protease inhibitor; AAA+ ATPase modulator; substrate delivery enhancer
+      (for misfolded protein clearance)
+    delivery:
+      category: B_matrix_MTP_or_TPP
+      strategy: Matrix targeting peptide or triphenylphosphonium cation conjugation
+      binding_site_compartment: matrix
+      encoding: nDNA
+    design_priority: HIGH
+    design_rationale: Near-atomic cryo-EM structures available. Covalent inhibitor precedent (CDDO) provides
+      pharmacophore. Dual proteolytic/ATPase activity offers two distinct mechanistic entry points. CODAS
+      syndrome loss-of-function mutations define the disease-relevant variant space.
+    quantitative_scores:
+      D1_pocket_druggability:
+        apo_max: 0.88
+        holo_max: 0.88
+        apo_rank1: 0.88
+        normalised_apo_max: 0.7798
+      D2_pocket_geometry:
+        apo_max_volume_A3: 614.3
+        normalised_log10: 0.3749
+      D3_ligand_efficiency:
+        chembl_target: CHEMBL4879436
+        n_compounds_at_or_below_10uM: 26
+        class_published: STRONG
+        class_observed: STRONG
+        reclassified: false
+        normalised_log10: 0.5651
+      D4_pharmacological_precedent:
+        score: 1
+        score_in_v1_1: 1
+        basis: validated tool or preclinical compound
+        normalised: 0.3333
+      D5_delivery_feasibility:
+        score: 2
+        category: B_matrix_MTP_or_TPP
+        normalised: 0.6667
+      weights:
+        D1: 0.25
+        D2: 0.15
+        D3: 0.2
+        D4: 0.2
+        D5: 0.2
+      composite:
+        apo_max: 0.5642
+        holo_max: 0.56
+        apo_rank1: 0.6159
+      rank_of_25:
+        apo_max: 6
+        holo_max: 6
+        apo_rank1: 4
+    first_wave_selection:
+      stage_2_verdict: PASS
+      basis: protease with 26 compounds below 10 micromolar and a documented dual activation and inhibition
+        strategy
+    site_matched_R2:
+      a_priori_site: protease + AAA+ ATPase sites
+      site_definition: UniProt residue anchored
+      anchor: UniProt active/binding residues (5 A neighbourhood)
+      basis: Ser-Lys protease dyad and Walker motifs (UniProt)
+      D1_site_druggability:
+        isolated_chain: 0.88
+        biological_assembly: 0.88
+        best_context_used: 0.88
+      D2_site_volume_A3:
+        isolated_chain: 611.9
+        biological_assembly: 622.2
+        best_context_used: 611.9
+      global_best_pocket_exploratory: 0.88
+    bioactivity_evidence_R2:
+      definition: distinct ChEMBL compounds; count of chemical matter, not a per-compound ligand efficiency
+      chembl_target: CHEMBL4879436
+      status: OK
+      n_at_or_below_10uM: 26
+      n_pchembl_ge5: 26
+      n_pchembl_ge5_binding_assay: 26
+      used_in_composite: n_pchembl_ge5
+    bioactivity_evidence_note: field ligand_efficiency_evidence_published is retained for provenance only;
+      the dimension is renamed bioactivity evidence and uses the pChEMBL count above
+    quantitative_scores_v1_3:
+      composite: 0.5785
+      rank: 4
+      published_tier: 1
+      site_tier: U
+      D1_norm: 0.88
+      D2_norm: 0.2999
+      D3_norm: 0.5677
+      D4_precedent: 1
+      D5_delivery: 2
+      weights:
+        D1: 0.25
+        D2: 0.15
+        D3: 0.2
+        D4: 0.2
+        D5: 0.2
+      missing_data_rule: weight-renormalised mean over available dimensions
+  TGT_024:
+    canonical_target_id: TGT_024
+    gene_symbol: NFE2L2
+    uniprot: Q16236
+    legacy_identifiers:
+      mitocorex_target_registry_id: NOT_IN_THAT_SERIES
+      mitocorex_pocket_library_id: NOT_IN_THAT_SERIES
+      note: MITO_TGT_NNN identifiers belong to a different 25 protein MitoCorex series and are NOT interchangeable
+        with TGT_NNN. See id_crosswalk_v1.1.csv.
+    druggability_tier: 1
+    binding_site_type: Keap1-binding domain (ETGE and DLG motifs on Nrf2); Keap1-Nrf2 protein-protein
+      interaction interface; DNA-binding bZIP domain; ARE promoter binding
+    pocket_accessibility: Cytoplasmic (Keap1-Nrf2 complex); nuclear (ARE binding)
+    ligand_efficiency_evidence_published: STRONG. Keap1 kelch domain is one of the most extensively characterized
+      PPI drug targets in oncology
+    structural_evidence:
+      assessed_structure: 8XGK
+      assessed_protein: KEAP1
+      structure_source: RCSB_human
+      chains_assessed: A
+      experimental_method: ''
+      resolution_angstrom: 1.32
+      organism: Homo sapiens
+      withdrawn_pdb_citations: []
+      mutation: none recorded in the entry
+      fragment: not stated in the entry
+      uniprot_coverage:
+        uniprot_sequence_length: 624
+        uniprot_range_declared_by_entry: 310-624
+        residues_resolved_per_retained_chain: A:291
+        coverage_percent: 46.6
+        basis: amino acid residues resolved in the single best retained chain, divided by the UniProt
+          reference sequence length
+        partial: true
+    fpocket_v4_0:
+      executed: fpocket 4.0 (Le Guilloux et al. 2009), default parameters, re-executed 1 September 2026
+      determinism_check: three independent runs on an identical input file return identical output
+      structure: 8XGK
+      chains_retained: A
+      n_chains_in_entity: 1
+      n_chains_retained: 1
+      chain_cap: at most two chains of the matching polymer entity are retained; where the entity carries
+        more, this is a deliberate and disclosed truncation
+      apo:
+        preparation: ligands, cofactors, metals, lipids and waters removed
+        n_heteroatoms_removed: 71
+        n_pockets_detected: 12
+        rank1_druggability_score: 0.582
+        rank1_pocket_volume_A3: 477.232
+        max_druggability_score: 0.582
+        max_druggability_pocket_rank: 1
+        max_pocket_volume_A3: 477.232
+        max_pocket_apolar_sasa_A2: 83.326
+        max_pocket_polarity: 6.0
+      holo:
+        preparation: waters removed only; ligands, cofactors, metals and lipids retained
+        n_pockets_detected: 12
+        rank1_druggability_score: 0.759
+        rank1_pocket_volume_A3: 477.232
+        max_druggability_score: 0.759
+        max_druggability_pocket_rank: 1
+        max_pocket_volume_A3: 477.232
+        max_pocket_apolar_sasa_A2: 6.038
+        max_pocket_polarity: 6.0
+      delta_drugscore_apo_minus_holo: -0.177
+      analysis_set: all 25 targets enter every reported comparison; no target is excluded on any structural
+        ground
+      full_pocket_listing: SupplementaryTable_S3_fpocket_all_pockets.csv
+      superseded_by: 'site_matched_R2: the apo/holo whole-structure pocket scores below are retained for
+        provenance; the current structural score is the site-matched value'
+    pharmacological_precedent_corrected:
+      precedent_status: FDA approved (class), on KEAP1
+      compound: Omaveloxolone (SKYCLARYS)
+      indication: Friedreich ataxia, adults and patients aged 16 years and older, approved 28 February
+        2023
+      site: KEAP1 Kelch domain, not NFE2L2
+      verified: doi:10.1002/ana.25934
+      caveat: Bardoxolone methyl is withdrawn as a phase 3 precedent. FDA issued a complete response letter
+        in February 2022, the EU application was withdrawn in November 2022, FALCON was terminated and
+        Kyowa Kirin discontinued development in May 2023. Bardoxolone is approved in no jurisdiction.
+    mechanism_of_action_class: Keap1-Nrf2 PPI disruptor (Nrf2 release and nuclear translocation); electrophilic
+      Keap1 cysteine modifier; direct Nrf2 stabilizer
+    delivery:
+      category: A_no_targeting_required
+      strategy: Standard systemic delivery; no mitochondrial targeting moiety required
+      binding_site_compartment: cytosol and nucleus; druggable site on KEAP1 (cytosolic)
+      encoding: nDNA
+    design_priority: HIGHEST
+    design_rationale: One of the most extensively validated PPI targets in translational medicine. Bardoxolone
+      Phase III establishes clinical precedent. Activating Nrf2 produces indirect benefits across ROS_MGT,
+      MT_QC, and OXPHOS. Non-covalent Keap1 disruptors (KI696) provide clean design starting points.
+    precedent_score_correction:
+      score_in_v1_1: 3
+      score_in_v1_2: 1
+      reason: Omaveloxolone acts at Cys151 in the KEAP1 BTB domain. The assessed structure 8XGK spans
+        residues 322 to 612, the Kelch domain. The FDA label states the mechanism is not fully established.
+        No Kelch domain protein protein interaction inhibitor is approved in any jurisdiction.
+    quantitative_scores:
+      D1_pocket_druggability:
+        apo_max: 0.582
+        holo_max: 0.759
+        apo_rank1: 0.582
+        normalised_apo_max: 0.233
+      D2_pocket_geometry:
+        apo_max_volume_A3: 477.2
+        normalised_log10: 0.2894
+      D3_ligand_efficiency:
+        chembl_target: CHEMBL2069156
+        n_compounds_at_or_below_10uM: 340
+        class_published: STRONG
+        class_observed: STRONG
+        reclassified: false
+        normalised_log10: 1.0
+      D4_pharmacological_precedent:
+        score: 1
+        score_in_v1_1: 3
+        basis: validated tool or preclinical; omaveloxolone acts at BTB Cys151, not the assessed Kelch
+          domain
+        normalised: 0.3333
+      D5_delivery_feasibility:
+        score: 3
+        category: A_no_targeting_required
+        normalised: 1.0
+      weights:
+        D1: 0.25
+        D2: 0.15
+        D3: 0.2
+        D4: 0.2
+        D5: 0.2
+      composite:
+        apo_max: 0.5683
+        holo_max: 0.6406
+        apo_rank1: 0.6731
+      rank_of_25:
+        apo_max: 5
+        holo_max: 3
+        apo_rank1: 3
+    first_wave_selection:
+      stage_2_verdict: PASS
+      basis: KEAP1 antagonism stabilises NFE2L2; 340 compounds below 10 micromolar is the largest chemical
+        matter set in the panel
+    site_matched_R2:
+      a_priori_site: KEAP1 Kelch central pocket
+      site_definition: ligand/cofactor anchored
+      anchor: Nrf2 peptide / Kelch pocket
+      basis: Nrf2 ETGE/DLG binding pocket in the Kelch beta-propeller; anchor by bound peptide/ligand
+        or the canonical Kelch pocket residues R415 R483 S363 N382 S508 S602 Y525 Y572 Q530
+      D1_site_druggability:
+        isolated_chain: 0.582
+        biological_assembly: 0.582
+        best_context_used: 0.582
+      D2_site_volume_A3:
+        isolated_chain: 478.9
+        biological_assembly: 471.7
+        best_context_used: 478.9
+      global_best_pocket_exploratory: 0.582
+    bioactivity_evidence_R2:
+      definition: distinct ChEMBL compounds; count of chemical matter, not a per-compound ligand efficiency
+      chembl_target: CHEMBL2069156
+      status: OK
+      n_at_or_below_10uM: 340
+      n_pchembl_ge5: 331
+      n_pchembl_ge5_binding_assay: 331
+      used_in_composite: n_pchembl_ge5
+    bioactivity_evidence_note: field ligand_efficiency_evidence_published is retained for provenance only;
+      the dimension is renamed bioactivity evidence and uses the pChEMBL count above
+    quantitative_scores_v1_3:
+      composite: 0.643
+      rank: 2
+      published_tier: 1
+      site_tier: D
+      D1_norm: 0.582
+      D2_norm: 0.2058
+      D3_norm: 1.0
+      D4_precedent: 1
+      D5_delivery: 3
+      weights:
+        D1: 0.25
+        D2: 0.15
+        D3: 0.2
+        D4: 0.2
+        D5: 0.2
+      missing_data_rule: weight-renormalised mean over available dimensions
+  TGT_025:
+    canonical_target_id: TGT_025
+    gene_symbol: CLPP
+    uniprot: Q16740
+    legacy_identifiers:
+      mitocorex_target_registry_id: MITO_TGT_022
+      mitocorex_pocket_library_id: MITO_PKT_022
+      note: MITO_TGT_NNN identifiers belong to a different 25 protein MitoCorex series and are NOT interchangeable
+        with TGT_NNN. See id_crosswalk_v1.1.csv.
+    druggability_tier: 1
+    binding_site_type: Serine protease active site (Ser153-His178-Asp227 catalytic triad); substrate access
+      pore; ClpX interaction interface (IGF loop); acyldepsipeptide binding site
+    pocket_accessibility: Matrix-localized; tetradecameric barrel with axial access pore; ADEP binding
+      site on exterior face
+    ligand_efficiency_evidence_published: STRONG, crystal structures with ADEP bound; catalytic triad
+      structurally resolved
+    structural_evidence:
+      assessed_structure: 8HGK
+      assessed_protein: CLPP
+      structure_source: RCSB_human
+      chains_assessed: A;B
+      experimental_method: ''
+      resolution_angstrom: 1.9
+      organism: Homo sapiens
+      withdrawn_pdb_citations:
+      - pdb_id: 3O0F
+        actual_content: Crystal structure of a putative metal-dependent phosphoesterase (BAD_1
+      mutation: none recorded in the entry
+      fragment: not stated in the entry
+      uniprot_coverage:
+        uniprot_sequence_length: 277
+        uniprot_range_declared_by_entry: 57-277
+        residues_resolved_per_retained_chain: A:181;B:175
+        coverage_percent: 65.3
+        basis: amino acid residues resolved in the single best retained chain, divided by the UniProt
+          reference sequence length
+        partial: false
+    fpocket_v4_0:
+      executed: fpocket 4.0 (Le Guilloux et al. 2009), default parameters, re-executed 1 September 2026
+      determinism_check: three independent runs on an identical input file return identical output
+      structure: 8HGK
+      chains_retained: A;B
+      n_chains_in_entity: 14
+      n_chains_retained: 2
+      chain_cap: at most two chains of the matching polymer entity are retained; where the entity carries
+        more, this is a deliberate and disclosed truncation
+      apo:
+        preparation: ligands, cofactors, metals, lipids and waters removed
+        n_heteroatoms_removed: 53
+        n_pockets_detected: 22
+        rank1_druggability_score: 0.766
+        rank1_pocket_volume_A3: 685.34
+        max_druggability_score: 0.766
+        max_druggability_pocket_rank: 1
+        max_pocket_volume_A3: 685.34
+        max_pocket_apolar_sasa_A2: 143.708
+        max_pocket_polarity: 9.0
+      holo:
+        preparation: waters removed only; ligands, cofactors, metals and lipids retained
+        n_pockets_detected: 22
+        rank1_druggability_score: 0.939
+        rank1_pocket_volume_A3: 689.515
+        max_druggability_score: 0.939
+        max_druggability_pocket_rank: 1
+        max_pocket_volume_A3: 689.515
+        max_pocket_apolar_sasa_A2: 16.907
+        max_pocket_polarity: 9.0
+      delta_drugscore_apo_minus_holo: -0.173
+      analysis_set: all 25 targets enter every reported comparison; no target is excluded on any structural
+        ground
+      full_pocket_listing: SupplementaryTable_S3_fpocket_all_pockets.csv
+      superseded_by: 'site_matched_R2: the apo/holo whole-structure pocket scores below are retained for
+        provenance; the current structural score is the site-matched value'
+    pharmacological_precedent_corrected:
+      precedent_status: FDA accelerated approval
+      compound: Dordaviprone (ONC201, MODEYSO, Jazz Pharmaceuticals)
+      indication: H3 K27M mutant diffuse midline glioma, approved 6 August 2025
+      site: ClpP agonist site (hyperactivator, not inhibitor)
+      verified: doi:10.1021/acschembio.9b00222
+      caveat: The manuscript text pairing ONC201 with trilaciclib is withdrawn. Trilaciclib (COSELA, G1
+        Therapeutics) is an unrelated CDK4 and CDK6 inhibitor. ONC201 never progressed beyond phase 1
+        or 2 in multiple myeloma and those trials were terminated. ONC201 hyperactivates ClpP; a design
+        programme assuming inhibition is directionally wrong.
+    mechanism_of_action_class: CLPP activator (ADEP mechanism, dysregulate ClpXP for cancer) OR CLPP inhibitor
+      (restore proteostatic balance in overactive states); ClpX-CLPP interface disruptor
+    delivery:
+      category: B_matrix_MTP_or_TPP
+      strategy: Matrix targeting peptide or triphenylphosphonium cation conjugation
+      binding_site_compartment: matrix
+      encoding: nDNA
+    design_priority: HIGH
+    design_rationale: ONC201 clinical-stage compound establishes that CLPP is a clinically accessible
+      matrix target without specialized delivery engineering. Dual activator/inhibitor pharmacology provides
+      design flexibility for different disease contexts (cancer vs. neurodegeneration).
+    quantitative_scores:
+      D1_pocket_druggability:
+        apo_max: 0.766
+        holo_max: 0.939
+        apo_rank1: 0.766
+        normalised_apo_max: 0.5706
+      D2_pocket_geometry:
+        apo_max_volume_A3: 685.3
+        normalised_log10: 0.412
+      D3_ligand_efficiency:
+        chembl_target: CHEMBL4523305
+        n_compounds_at_or_below_10uM: 224
+        class_published: STRONG
+        class_observed: STRONG
+        reclassified: false
+        normalised_log10: 0.9287
+      D4_pharmacological_precedent:
+        score: 3
+        score_in_v1_1: 3
+        basis: approved drug at this site
+        normalised: 1.0
+      D5_delivery_feasibility:
+        score: 2
+        category: B_matrix_MTP_or_TPP
+        normalised: 0.6667
+      weights:
+        D1: 0.25
+        D2: 0.15
+        D3: 0.2
+        D4: 0.2
+        D5: 0.2
+      composite:
+        apo_max: 0.7235
+        holo_max: 0.801
+        apo_rank1: 0.7955
+      rank_of_25:
+        apo_max: 1
+        holo_max: 1
+        apo_rank1: 1
+    first_wave_selection:
+      stage_2_verdict: PASS
+      basis: ONC201 hyperactivates ClpP; Perrault syndrome is loss of function, so activation is the required
+        direction
+    site_matched_R2:
+      a_priori_site: ClpP protease active site
+      site_definition: UniProt residue anchored
+      anchor: UniProt active/binding residues (5 A neighbourhood)
+      basis: Ser153-His178-Asp227 catalytic triad (UniProt)
+      D1_site_druggability:
+        isolated_chain: 0.007
+        biological_assembly: 0.007
+        best_context_used: 0.007
+      D2_site_volume_A3:
+        isolated_chain: 421.1
+        biological_assembly: 425.2
+        best_context_used: 421.1
+      global_best_pocket_exploratory: 0.007
+    bioactivity_evidence_R2:
+      definition: distinct ChEMBL compounds; count of chemical matter, not a per-compound ligand efficiency
+      chembl_target: CHEMBL4523305
+      status: OK
+      n_at_or_below_10uM: 224
+      n_pchembl_ge5: 183
+      n_pchembl_ge5_binding_assay: 183
+      used_in_composite: n_pchembl_ge5
+    bioactivity_evidence_note: field ligand_efficiency_evidence_published is retained for provenance only;
+      the dimension is renamed bioactivity evidence and uses the pChEMBL count above
+    quantitative_scores_v1_3:
+      composite: 0.5382
+      rank: 6
+      published_tier: 1
+      site_tier: U
+      D1_norm: 0.007
+      D2_norm: 0.1565
+      D3_norm: 0.8983
+      D4_precedent: 3
+      D5_delivery: 2
+      weights:
+        D1: 0.25
+        D2: 0.15
+        D3: 0.2
+        D4: 0.2
+        D5: 0.2
+      missing_data_rule: weight-renormalised mean over available dimensions
+druggability_summary:
+  tier_1_count: 15
+  tier_2_count: 9
+  tier_3_count: 1
+  total: 25
+  delivery_partition:
+    A_no_targeting_required: 5
+    B_matrix_MTP_or_TPP: 9
+    C_IMS_or_membrane_embedded: 7
+    D_gene_therapy_primary: 3
+    E_no_viable_small_molecule: 1
+  delivery_partition_total: 25
+  fpocket_vs_tier_concordance: 'superseded: replaced by site-matched tier_vs_D1_site_druggability (rho
+    -0.037, permutation p 0.93) in R2_statistics'
+  withdrawn_finding:
+    claim: Pocket druggability and delivery feasibility are inversely related among mitochondrial targets.
+    as_reported_in_first_revision: rho -0.43, p 0.032
+    corrected:
+      apo_max: -0.343
+      p: 0.0931
+      benjamini_hochberg_q: 0.149
+      holo_max: -0.289
+      apo_rank1: 0.172
+    status: WITHDRAWN. Not significant under any specification, does not survive multiplicity control,
+      and the sign reverses under the rank 1 pocket rule. The first revision value depended on the contaminated
+      MT-ND1 record and on selecting the maximum scoring pocket.
+  multiplicity_control:
+    method: Benjamini-Hochberg, 8 tests, q < 0.05
+    tests:
+    - test: tier vs composite
+      rho: -0.708
+      p: 0.0001
+      ci:
+      - -0.862
+      - -0.434
+      bh_q: 0.0008
+    - test: tier vs precedent (D4)
+      rho: -0.663
+      p: 0.0003
+      ci:
+      - -0.839
+      - -0.364
+      bh_q: 0.0012
+    - test: tier vs delivery (D5)
+      rho: -0.508
+      p: 0.0095
+      ci:
+      - -0.752
+      - -0.141
+      bh_q: 0.0253
+    - test: tier vs ligand efficiency (D3)
+      rho: -0.482
+      p: 0.0146
+      ci:
+      - -0.737
+      - -0.108
+      bh_q: 0.0292
+    - test: D1 apo vs D5 delivery
+      rho: -0.343
+      p: 0.0931
+      ci:
+      - -0.65
+      - 0.06
+      bh_q: 0.149
+    - test: tier vs pocket druggability (D1)
+      rho: -0.181
+      p: 0.3871
+      ci:
+      - -0.538
+      - 0.231
+      bh_q: 0.5161
+    - test: tier vs pocket geometry (D2)
+      rho: -0.122
+      p: 0.5621
+      ci:
+      - -0.493
+      - 0.287
+      bh_q: 0.6424
+    - test: D1 apo vs precedent (D4)
+      rho: 0.052
+      p: 0.8045
+      ci:
+      - -0.35
+      - 0.438
+      bh_q: 0.8045
+  statistical_power:
+    n: 25
+    alpha: 0.05
+    target_power: 0.8
+    minimum_detectable_rho: 0.535
+    minimum_detectable_rho_bonferroni: 0.642
+    power_at_true_rho:
+      '0.2': 0.16
+      '0.3': 0.31
+      '0.4': 0.51
+      '0.5': 0.73
+  first_wave:
+    selected:
+    - CLPP
+    - DNM1L
+    - NFE2L2
+    - LONP1
+    - SDHA
+    basis: 'two stage selection: composite rank, then a direction of effect and chemical matter check'
+    structural_coverage_caveat: 'Three of the five first wave targets are assessed on partial constructs:
+      LONP1 at 19.8 per cent of the UniProt sequence (proteolytic domain only), DNM1L at 46.5 per cent
+      and NFE2L2 via KEAP1 at 46.6 per cent. Their D1 and D2 values describe the resolved portion of the
+      protein, not the whole protein.'
+  structural_coverage:
+    method: residues resolved in the single best retained chain, divided by the UniProt reference length
+    uniprot_reference_retrieved: 11 September 2026
+    below_60_percent:
+      DNM1L: 46.5
+      OPA1: 34.4
+      LONP1: 19.8
+      NFE2L2: 46.6
+    full_table: SupplementaryTable_S12_structural_coverage.csv
+  R2_statistics:
+    tier_vs_composite:
+      n: 25
+      spearman_rho: -0.709
+      permutation_p: 0.0002
+      bootstrap_ci:
+      - -0.864
+      - -0.431
+      bh_q: 0.0014
+    tier_vs_D4_precedent:
+      n: 25
+      spearman_rho: -0.663
+      permutation_p: 0.00126
+      bootstrap_ci:
+      - -0.889
+      - -0.368
+      bh_q: 0.0044
+    tier_vs_D1_site_druggability:
+      n: 17
+      spearman_rho: -0.037
+      permutation_p: 0.92652
+      bootstrap_ci:
+      - -0.666
+      - 0.57
+      bh_q: 0.9265
+    central_null_D1site_vs_D4:
+      n: 17
+      spearman_rho: -0.1
+      permutation_p: 0.70257
+      bootstrap_ci:
+      - -0.747
+      - 0.531
+      bh_q: 0.8197
+    structure_vs_precedent_specifications:
+      isolated_chain:
+        n: 17
+        rho: 0.117
+        p: 0.6542
+        ci:
+        - -0.385
+        - 0.566
+      biological_assembly:
+        n: 17
+        rho: -0.1
+        p: 0.703
+        ci:
+        - -0.554
+        - 0.4
+      global_best_original_R1:
+        rho: 0.052
+        note: as reported at R1; exploratory comparator
+    minimum_detectable_correlation_n25: 0.535
+    first_wave:
+    - DNM1L
+    - NFE2L2 via KEAP1
+    - LONP1
+    - SDHA
+    - CLPP
+    consistency_check: preflight.py passed with no exceptions before release

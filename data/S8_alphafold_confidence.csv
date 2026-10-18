@@ -1,0 +1,4 @@
+Target,Gene,Model,UniProt,Global pLDDT,Frac pLDDT>=70,Site pLDDT,n site res,Mean PAE (A),Interpretation
+TGT_014,TIMM23,AF-O14925,O14925,59.2,0.24,NA,0,21.8,treated as NA: low confidence / disordered
+TGT_020,PPARGC1A,AF-Q9UBK2,Q9UBK2,52.7,0.21,NA,0,28.1,treated as NA: low confidence / disordered
+TGT_021,SLC25A4,AF-P12235,P12235,92.1,0.99,91.7,3,4.5,retained: high confidence at site

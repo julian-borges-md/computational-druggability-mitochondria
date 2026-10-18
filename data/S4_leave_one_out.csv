@@ -1,0 +1,7 @@
+Composite variant,Spearman rho vs tier (n=25),Change vs full
+Full composite (all 5 dimensions),-0.709,reference
+Drop D1 (pocket druggability),-0.763,-0.054 (strengthens)
+Drop D2 (pocket geometry),-0.688,+0.021 (weakens)
+Drop D3 (bioactivity evidence),-0.617,+0.092 (weakens)
+Drop D4 (pharmacological precedent),-0.591,+0.118 (weakens)
+Drop D5 (delivery feasibility),-0.664,+0.045 (weakens)

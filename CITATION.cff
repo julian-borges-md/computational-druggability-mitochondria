@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use this software or data, please cite the article and the archived dataset."
+title: "MitoCorex: Computational Druggability Assessment of Mitochondrial Targets"
+abstract: "Reproducible pipeline and data for a site matched, assembly aware druggability assessment of 25 mitochondrial targets."
+type: software
+authors:
+  - family-names: Borges
+    given-names: Julian Yin Vieira
+    orcid: "https://orcid.org/0009-0001-9929-3135"
+license: MIT
+repository-code: "https://github.com/julian-borges-md/mitocorex-druggability"
+preferred-citation:
+  type: article
+  title: "Computational Druggability Assessment of Mitochondrial Targets: Structure-Function Constraints and Binding Site Characterization"
+  authors:
+    - family-names: Borges
+      given-names: Julian Yin Vieira
+      orcid: "https://orcid.org/0009-0001-9929-3135"
+  journal: "Computational and Structural Biotechnology Reports"
+  year: 2026
+  doi: "10.34133/csbr.0013"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.19389356"
+    description: "Archived dataset, concept DOI"

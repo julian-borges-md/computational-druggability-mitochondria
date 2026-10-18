@@ -1,0 +1,26 @@
+target_id,gene,assessed_protein,uniprot,structure,tier,site_name,anchor,uniprot_site_residues,basis
+TGT_001,MT-ND1,MT-ND1,P03886,9I4I,D,Complex I quinone cavity (ND1),quinone/UQ region,,rotenone and piericidin bind the ND1 Q-site; anchor by the quinone tunnel residues
+TGT_002,MT-ND4,MT-ND4,P03905,9I4I,N,proton-pumping TMH bundle,,,no defined small-molecule site; structural subunit
+TGT_003,MT-CYB,MT-CYB,P00156,9HZL,D,Qi and Qo ubiquinone sites,HEM/UQ,83;97;182;196;201,antimycin/stigmatellin site; anchor by b-hemes and quinone
+TGT_004,MT-CO1,MT-CO1,P00395,9I6F,D,binuclear CuB-heme a3 centre,HEA/CU,40;45;61;240;244;290;291;368;369;376;378,catalytic centre; anchor by heme a3 and Cu
+TGT_005,MT-ATP6,MT-ATP6,P00846,8H9S,D,a-subunit proton channel,oligomycin region,,oligomycin binds the c-ring/a interface; anchor by the proton hemichannel residues
+TGT_006,NDUFV1,NDUFV1,P49821,9I4I,D,FMN / NADH site,FMN/SF4,87;199;379;382;385;425,catalytic flavin; anchor by FMN
+TGT_007,SDHA,SDHA,P31040,8DYE,D,FAD / dicarboxylate site,FAD,69;72;91;92;98;100;105;221;275;296;340;407;440;451;454;456;457,succinate/malonate site; anchor by FAD
+TGT_008,UQCRC2,UQCRC2,P22695,9HZL,N,structural core subunit,,,no defined small-molecule site
+TGT_009,COX4I1,COX4I1,P13073,9I6F,N,allosteric regulatory subunit,,,no validated small-molecule site
+TGT_010,ATP5F1A,ATP5F1A,P25705,8H9E,D,F1 nucleotide site,ANP/ADP,215;217;218;219;220;312;413;473;475,catalytic/non-catalytic nucleotide site; anchor by bound nucleotide
+TGT_011,POLG,POLG,P54098,8UDL,U,pol gamma active site,,198;306;579;593;754;763;768;806;849;853;863;869;890;891;893;895;943;947;951;1094;1095;1102;1135,polymerase and 3-5 exonuclease catalytic residues (UniProt)
+TGT_012,TWNK,TWNK,Q96RR1,7T8B,U,helicase ATP site,,415,Walker A/B ATP site (UniProt)
+TGT_013,TFAM,TFAM,Q00059,3TMM,N,HMG-box DNA interface,,58;182,DNA-binding protein; no small-molecule site
+TGT_014,TIMM23,TIMM23,O14925,AF-O14925,N,TM import channel,,,membrane channel; no validated small-molecule site
+TGT_015,TOMM40,TOMM40,O96008,7VD2,N,beta-barrel import channel,,,no validated small-molecule site
+TGT_016,DNM1L,DNM1L,O00429,3W6P,U,GTPase site,,32;215;246,G1-G4 GTP-binding motifs (UniProt)
+TGT_017,OPA1,OPA1,O60313,6JTG,U,GTPase site,,194;201;202;298;300;301;302;303;317;323;398;468;470;503;506;507,GTP-binding motifs (UniProt)
+TGT_018,PINK1,PINK1,Q9BXM7,9EII,U,kinase ATP cleft,,162;186;362,ATP-binding and catalytic residues (UniProt)
+TGT_019,SOD2,SOD2,P04179,1LUV,D,Mn active site,MN,50;98;183;187,superoxide dismutase Mn centre; anchor by Mn
+TGT_020,PPARGC1A,PPARGC1A,Q9UBK2,AF-Q9UBK2,N,intrinsically disordered coactivator,,,"AlphaFold low confidence, disordered; treat structure as NA (also comment 8)"
+TGT_021,SLC25A4,SLC25A4,P12235,AF-P12235,U,ADP/ATP carrier cavity,,80;92;235,substrate cavity residues (UniProt); CATR/BKA site
+TGT_022,VDAC1,VDAC1,P21796,6G6U,U,channel pore / NTD,,12;20;73;242;243;244;261;263;264,pore and N-terminal helix residues (UniProt)
+TGT_023,LONP1,LONP1,P36776,2X36,U,protease + AAA+ ATPase sites,,491;492;526;527;528;529;530;531;590;591;614;640;652;661;677;710;713;855;898,Ser-Lys protease dyad and Walker motifs (UniProt)
+TGT_024,NFE2L2,KEAP1,Q14145,8XGK,D,KEAP1 Kelch central pocket,Nrf2 peptide / Kelch pocket,151;257;273;288;434,Nrf2 ETGE/DLG binding pocket in the Kelch beta-propeller; anchor by bound peptide/ligand or the canonical Kelch pocket residues R415 R483 S363 N382 S508 S602 Y525 Y572 Q530
+TGT_025,CLPP,CLPP,Q16740,8HGK,U,ClpP protease active site,,153;178,Ser153-His178-Asp227 catalytic triad (UniProt)

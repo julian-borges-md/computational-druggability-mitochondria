@@ -1,0 +1,35 @@
+{
+  "metadata": {
+    "upload_type": "dataset",
+    "title": "MitoCorex mitochondrial druggability assessment: registry v1.3, supplementary tables and reproduction scripts (CSBR-D-26-00031, R2)",
+    "version": "1.3",
+    "language": "eng",
+    "license": "cc-by-4.0",
+    "access_right": "open",
+    "creators": [
+      {
+        "name": "Borges, Julian Yin Vieira",
+        "orcid": "0009-0001-9929-3135",
+        "affiliation": "Department of Computer Science, Boston University"
+      }
+    ],
+    "keywords": [
+      "druggability",
+      "mitochondrial targets",
+      "binding site",
+      "fpocket",
+      "ChEMBL",
+      "computational pharmacology",
+      "drug delivery",
+      "MitoCorex"
+    ],
+    "related_identifiers": [
+      {
+        "identifier": "10.5281/zenodo.19389356",
+        "relation": "isVersionOf",
+        "scheme": "doi"
+      }
+    ],
+    "description": "Version of record for the second revision (R2) of CSBR-D-26-00031. Adds the site-matched structural re-analysis: the structural dimension is scored at an a priori therapeutic site in the isolated chain and the biological assembly context; the D3 dimension is redefined as a curated pChEMBL bioactivity count; inference uses permutation and bootstrap methods; and the whole package is generated from a single matrix and verified by an automated consistency check. Supersedes registry versions 1.0 to 1.2, which must not be cited."
+  }
+}

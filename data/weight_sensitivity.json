@@ -1,0 +1,68 @@
+{
+ "n_draws": 20000,
+ "mean_rank_corr": 0.982,
+ "membership": [
+  {
+   "gene": "DNM1L",
+   "target_id": "TGT_016",
+   "pct_top5": 100.0
+  },
+  {
+   "gene": "NFE2L2",
+   "target_id": "TGT_024",
+   "pct_top5": 100.0
+  },
+  {
+   "gene": "LONP1",
+   "target_id": "TGT_023",
+   "pct_top5": 98.2
+  },
+  {
+   "gene": "SDHA",
+   "target_id": "TGT_007",
+   "pct_top5": 94.9
+  },
+  {
+   "gene": "CLPP",
+   "target_id": "TGT_025",
+   "pct_top5": 57.5
+  },
+  {
+   "gene": "ATP5F1A",
+   "target_id": "TGT_010",
+   "pct_top5": 25.6
+  },
+  {
+   "gene": "PINK1",
+   "target_id": "TGT_018",
+   "pct_top5": 18.4
+  },
+  {
+   "gene": "PPARGC1A",
+   "target_id": "TGT_020",
+   "pct_top5": 5.4
+  }
+ ],
+ "schemes": [
+  {
+   "scheme": "base",
+   "first_wave": "DNM1L; NFE2L2; LONP1; SDHA; CLPP"
+  },
+  {
+   "scheme": "equal (0.2 each)",
+   "first_wave": "DNM1L; NFE2L2; SDHA; LONP1; CLPP"
+  },
+  {
+   "scheme": "structure-heavy (D1 .40)",
+   "first_wave": "DNM1L; SDHA; LONP1; NFE2L2; ATP5F1A"
+  },
+  {
+   "scheme": "evidence-heavy (D3+D4 .30 each)",
+   "first_wave": "CLPP; NFE2L2; DNM1L; LONP1; POLG"
+  },
+  {
+   "scheme": "precedent-free (D4=0)",
+   "first_wave": "DNM1L; NFE2L2; SDHA; LONP1; PINK1"
+  }
+ ]
+}

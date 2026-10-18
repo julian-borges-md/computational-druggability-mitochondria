@@ -1,0 +1,26 @@
+target_id,protein,pdb,resolution_A,organism,mutation,coverage_pct,chains_kept_in_entity,het_removed
+TGT_025,CLPP,8HGK,1.9,Homo sapiens,none recorded,65.3,2 / 14,53
+TGT_016,DNM1L,3W6P,1.7,Homo sapiens;Homo sapiens,none recorded,46.5,2 / 2,97
+TGT_011,POLG,8UDL,2.37,Homo sapiens,none recorded,78.6,1 / 1,0
+TGT_004,MT-CO1,9I6F,2.95,Homo sapiens,none recorded,100.0,1 / 1,324
+TGT_024,KEAP1,8XGK,1.32,Homo sapiens,none recorded,46.6,1 / 1,71
+TGT_023,LONP1,2X36,2.0,HOMO SAPIENS,none recorded,19.8,2 / 6,0
+TGT_007,SDHA,8DYE,1.44,Homo sapiens,none recorded,92.0,1 / 1,144
+TGT_010,ATP5F1A,8H9E,2.53,Homo sapiens,none recorded,91.0,1 / 3,32
+TGT_017,OPA1,6JTG,2.4,Homo sapiens;Homo sapiens,none recorded,34.4,1 / 1,34
+TGT_003,MT-CYB,9HZL,2.52,Homo sapiens,none recorded,99.7,2 / 2,698
+TGT_020,PPARGC1A,AF-Q9UBK2,n/a,Homo sapiens,none recorded,100.0,1 / 1,0
+TGT_022,VDAC1,6G6U,2.74,Homo sapiens,none recorded,99.6,2 / 2,77
+TGT_018,PINK1,9EII,2.75,Homo sapiens,none recorded,76.2,1 / 1,0
+TGT_008,UQCRC2,9HZL,2.52,Homo sapiens,none recorded,93.2,2 / 2,0
+TGT_006,NDUFV1,9I4I,2.63,Homo sapiens,none recorded,93.5,1 / 1,39
+TGT_001,MT-ND1,9I4I,2.63,Homo sapiens,none recorded,99.4,1 / 1,52
+TGT_002,MT-ND4,9I4I,2.63,Homo sapiens,none recorded,100.0,1 / 1,52
+TGT_021,SLC25A4,AF-P12235,n/a,Homo sapiens,none recorded,100.0,1 / 1,0
+TGT_019,SOD2,1LUV,1.85,Homo sapiens,none recorded,89.2,2 / 2,2
+TGT_014,TIMM23,AF-O14925,n/a,Homo sapiens,none recorded,100.0,1 / 1,0
+TGT_013,TFAM,3TMM,2.5001,Homo sapiens,none recorded,79.3,1 / 1,0
+TGT_005,MT-ATP6,8H9S,2.53,Homo sapiens,none recorded,98.7,1 / 1,0
+TGT_012,TWNK,7T8B,3.8,Homo sapiens,W315L,75.9,2 / 8,0
+TGT_009,COX4I1,9I6F,2.95,Homo sapiens,none recorded,82.2,1 / 1,0
+TGT_015,TOMM40,7VD2,2.53,Homo sapiens,none recorded,79.2,2 / 2,682
