@@ -1,4 +1,4 @@
-# MitoCorex: Computational Druggability Assessment of Mitochondrial Targets
+# Computational Druggability Assessment of Mitochondrial Targets
 
 Code and data to reproduce the analyses in the peer reviewed article:
 

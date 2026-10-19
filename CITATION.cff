@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 message: "If you use this software or data, please cite the article and the archived dataset."
-title: "MitoCorex: Computational Druggability Assessment of Mitochondrial Targets"
+title: "Computational Druggability Assessment of Mitochondrial Targets"
 abstract: "Reproducible pipeline and data for a site matched, assembly aware druggability assessment of 25 mitochondrial targets."
 type: software
 authors:
