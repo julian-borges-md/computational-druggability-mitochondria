@@ -26,7 +26,7 @@ for f in os.listdir(f'{R}/scripts'):
 meta={
  "metadata":{
   "upload_type":"dataset",
-  "title":"MitoCorex mitochondrial druggability assessment: registry v1.3, supplementary tables and reproduction scripts (CSBR-D-26-00031, R2)",
+  "title":"Mitochondrial druggability assessment: registry v1.3, supplementary tables and reproduction scripts (CSBR-D-26-00031, R2)",
   "version":"1.3",
   "language":"eng",
   "license":"cc-by-4.0",
@@ -34,7 +34,7 @@ meta={
   "creators":[{"name":"Borges, Julian Yin Vieira","orcid":"0009-0001-9929-3135",
                "affiliation":"Department of Computer Science, Boston University"}],
   "keywords":["druggability","mitochondrial targets","binding site","fpocket","ChEMBL",
-              "computational pharmacology","drug delivery","MitoCorex"],
+              "computational pharmacology","drug delivery"],
   "related_identifiers":[
     {"identifier":"10.5281/zenodo.19389356","relation":"isVersionOf","scheme":"doi"}],
   "description":("Version of record for the second revision (R2) of CSBR-D-26-00031. Adds the "
@@ -53,7 +53,7 @@ open(f'{Z}/ZENODO_METADATA.txt','w').write(
 ====================================
 Record (concept DOI): 10.5281/zenodo.19389356   [use "New version" on this record]
 Upload type: Dataset
-Title:  MitoCorex mitochondrial druggability assessment: registry v1.3, supplementary
+Title:  Mitochondrial druggability assessment: registry v1.3, supplementary
         tables and reproduction scripts (CSBR-D-26-00031, R2)
 Version: 1.3
 License: Creative Commons Attribution 4.0 International (CC BY 4.0)
@@ -61,7 +61,7 @@ Access:  Open
 Author:  Borges, Julian Yin Vieira  |  ORCID 0009-0001-9929-3135
          Department of Computer Science, Boston University
 Keywords: druggability; mitochondrial targets; binding site; fpocket; ChEMBL;
-          computational pharmacology; drug delivery; MitoCorex
+          computational pharmacology; drug delivery
 
 Description (paste):
 Version of record for the second revision (R2) of CSBR-D-26-00031. This version adds the

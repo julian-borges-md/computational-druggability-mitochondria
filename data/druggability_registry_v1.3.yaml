@@ -1,8 +1,8 @@
 metadata:
-  document_id: DRUGGABILITY_REGISTRY_MITOCOREX_v1.3
+  document_id: DRUGGABILITY_REGISTRY_MITOCHONDRIAL_v1.3
   supersedes: druggability_registry_v1.2.yaml (version 1.2, 2026-09-11) and all earlier versions, which
     must not be cited
-  project: MitoCorex
+  project: Mitochondrial Druggability Assessment
   engine: DrugSynth AI
   chapter: 2B.1
   version: '1.3'
@@ -101,9 +101,9 @@ targets:
     gene_symbol: MT-ND1
     uniprot: P03886
     legacy_identifiers:
-      mitocorex_target_registry_id: MITO_TGT_001
-      mitocorex_pocket_library_id: MITO_PKT_001
-      note: MITO_TGT_NNN identifiers belong to a different 25 protein MitoCorex series and are NOT interchangeable
+      source_target_registry_id: MITO_TGT_001
+      source_pocket_library_id: MITO_PKT_001
+      note: MITO_TGT_NNN identifiers belong to a different 25 protein internal series and are NOT interchangeable
         with TGT_NNN. See id_crosswalk_v1.1.csv.
     druggability_tier: 2
     binding_site_type: Structural subunit of Complex I; no defined catalytic active site; quinone binding
@@ -267,9 +267,9 @@ targets:
     gene_symbol: MT-ND4
     uniprot: P03905
     legacy_identifiers:
-      mitocorex_target_registry_id: NOT_IN_THAT_SERIES
-      mitocorex_pocket_library_id: NOT_IN_THAT_SERIES
-      note: MITO_TGT_NNN identifiers belong to a different 25 protein MitoCorex series and are NOT interchangeable
+      source_target_registry_id: NOT_IN_THAT_SERIES
+      source_pocket_library_id: NOT_IN_THAT_SERIES
+      note: MITO_TGT_NNN identifiers belong to a different 25 protein internal series and are NOT interchangeable
         with TGT_NNN. See id_crosswalk_v1.1.csv.
     druggability_tier: 2
     binding_site_type: Proton-translocating TMH bundle; no solvent-exposed ligand pocket
@@ -417,9 +417,9 @@ targets:
     gene_symbol: MT-CYB
     uniprot: P00156
     legacy_identifiers:
-      mitocorex_target_registry_id: MITO_TGT_005
-      mitocorex_pocket_library_id: MITO_PKT_005
-      note: MITO_TGT_NNN identifiers belong to a different 25 protein MitoCorex series and are NOT interchangeable
+      source_target_registry_id: MITO_TGT_005
+      source_pocket_library_id: MITO_PKT_005
+      note: MITO_TGT_NNN identifiers belong to a different 25 protein internal series and are NOT interchangeable
         with TGT_NNN. See id_crosswalk_v1.1.csv.
     druggability_tier: 1
     binding_site_type: Ubiquinone binding pockets (Qi site, matrix side; Qo site, IMS side)
@@ -592,9 +592,9 @@ targets:
     gene_symbol: MT-CO1
     uniprot: P00395
     legacy_identifiers:
-      mitocorex_target_registry_id: MITO_TGT_006
-      mitocorex_pocket_library_id: MITO_PKT_006
-      note: MITO_TGT_NNN identifiers belong to a different 25 protein MitoCorex series and are NOT interchangeable
+      source_target_registry_id: MITO_TGT_006
+      source_pocket_library_id: MITO_PKT_006
+      note: MITO_TGT_NNN identifiers belong to a different 25 protein internal series and are NOT interchangeable
         with TGT_NNN. See id_crosswalk_v1.1.csv.
     druggability_tier: 1
     binding_site_type: Copper-containing binuclear center (CuA, CuB); heme a3 catalytic center
@@ -768,9 +768,9 @@ targets:
     gene_symbol: MT-ATP6
     uniprot: P00846
     legacy_identifiers:
-      mitocorex_target_registry_id: MITO_TGT_008
-      mitocorex_pocket_library_id: MITO_PKT_008
-      note: MITO_TGT_NNN identifiers belong to a different 25 protein MitoCorex series and are NOT interchangeable
+      source_target_registry_id: MITO_TGT_008
+      source_pocket_library_id: MITO_PKT_008
+      note: MITO_TGT_NNN identifiers belong to a different 25 protein internal series and are NOT interchangeable
         with TGT_NNN. See id_crosswalk_v1.1.csv.
     druggability_tier: 2
     binding_site_type: Proton channel (a subunit of F0); oligomycin binding region (c-ring adjacent)
@@ -931,9 +931,9 @@ targets:
     gene_symbol: NDUFV1
     uniprot: P49821
     legacy_identifiers:
-      mitocorex_target_registry_id: NOT_IN_THAT_SERIES
-      mitocorex_pocket_library_id: NOT_IN_THAT_SERIES
-      note: MITO_TGT_NNN identifiers belong to a different 25 protein MitoCorex series and are NOT interchangeable
+      source_target_registry_id: NOT_IN_THAT_SERIES
+      source_pocket_library_id: NOT_IN_THAT_SERIES
+      note: MITO_TGT_NNN identifiers belong to a different 25 protein internal series and are NOT interchangeable
         with TGT_NNN. See id_crosswalk_v1.1.csv.
     druggability_tier: 1
     binding_site_type: FMN-binding domain; NADH binding cleft; iron-sulfur cluster N3 coordination site
@@ -1104,9 +1104,9 @@ targets:
     gene_symbol: SDHA
     uniprot: P31040
     legacy_identifiers:
-      mitocorex_target_registry_id: MITO_TGT_004
-      mitocorex_pocket_library_id: MITO_PKT_004
-      note: MITO_TGT_NNN identifiers belong to a different 25 protein MitoCorex series and are NOT interchangeable
+      source_target_registry_id: MITO_TGT_004
+      source_pocket_library_id: MITO_PKT_004
+      note: MITO_TGT_NNN identifiers belong to a different 25 protein internal series and are NOT interchangeable
         with TGT_NNN. See id_crosswalk_v1.1.csv.
     druggability_tier: 1
     binding_site_type: FAD-containing catalytic domain; succinate/fumarate binding cleft; oxaloacetate
@@ -1277,9 +1277,9 @@ targets:
     gene_symbol: UQCRC2
     uniprot: P22695
     legacy_identifiers:
-      mitocorex_target_registry_id: NOT_IN_THAT_SERIES
-      mitocorex_pocket_library_id: NOT_IN_THAT_SERIES
-      note: MITO_TGT_NNN identifiers belong to a different 25 protein MitoCorex series and are NOT interchangeable
+      source_target_registry_id: NOT_IN_THAT_SERIES
+      source_pocket_library_id: NOT_IN_THAT_SERIES
+      note: MITO_TGT_NNN identifiers belong to a different 25 protein internal series and are NOT interchangeable
         with TGT_NNN. See id_crosswalk_v1.1.csv.
     druggability_tier: 2
     binding_site_type: Structural core subunit of Complex III; no defined small molecule binding site
@@ -1428,9 +1428,9 @@ targets:
     gene_symbol: COX4I1
     uniprot: P13073
     legacy_identifiers:
-      mitocorex_target_registry_id: NOT_IN_THAT_SERIES
-      mitocorex_pocket_library_id: NOT_IN_THAT_SERIES
-      note: MITO_TGT_NNN identifiers belong to a different 25 protein MitoCorex series and are NOT interchangeable
+      source_target_registry_id: NOT_IN_THAT_SERIES
+      source_pocket_library_id: NOT_IN_THAT_SERIES
+      note: MITO_TGT_NNN identifiers belong to a different 25 protein internal series and are NOT interchangeable
         with TGT_NNN. See id_crosswalk_v1.1.csv.
     druggability_tier: 2
     binding_site_type: Allosteric ATP/ADP sensor site; oxygen-sensing interface; COX1 interaction surface
@@ -1579,9 +1579,9 @@ targets:
     gene_symbol: ATP5F1A
     uniprot: P25705
     legacy_identifiers:
-      mitocorex_target_registry_id: NOT_IN_THAT_SERIES
-      mitocorex_pocket_library_id: NOT_IN_THAT_SERIES
-      note: MITO_TGT_NNN identifiers belong to a different 25 protein MitoCorex series and are NOT interchangeable
+      source_target_registry_id: NOT_IN_THAT_SERIES
+      source_pocket_library_id: NOT_IN_THAT_SERIES
+      note: MITO_TGT_NNN identifiers belong to a different 25 protein internal series and are NOT interchangeable
         with TGT_NNN. See id_crosswalk_v1.1.csv.
     druggability_tier: 1
     binding_site_type: Rotary catalytic site (alpha-beta interface); oligomycin sensitivity conferring
@@ -1761,9 +1761,9 @@ targets:
     gene_symbol: POLG
     uniprot: P54098
     legacy_identifiers:
-      mitocorex_target_registry_id: MITO_TGT_018
-      mitocorex_pocket_library_id: MITO_PKT_018
-      note: MITO_TGT_NNN identifiers belong to a different 25 protein MitoCorex series and are NOT interchangeable
+      source_target_registry_id: MITO_TGT_018
+      source_pocket_library_id: MITO_PKT_018
+      note: MITO_TGT_NNN identifiers belong to a different 25 protein internal series and are NOT interchangeable
         with TGT_NNN. See id_crosswalk_v1.1.csv.
     druggability_tier: 1
     binding_site_type: DNA polymerase active site (pol gamma domain); 3-to-5 exonuclease proofreading
@@ -1940,9 +1940,9 @@ targets:
     gene_symbol: TWNK
     uniprot: Q96RR1
     legacy_identifiers:
-      mitocorex_target_registry_id: MITO_TGT_019
-      mitocorex_pocket_library_id: MITO_PKT_019
-      note: MITO_TGT_NNN identifiers belong to a different 25 protein MitoCorex series and are NOT interchangeable
+      source_target_registry_id: MITO_TGT_019
+      source_pocket_library_id: MITO_PKT_019
+      note: MITO_TGT_NNN identifiers belong to a different 25 protein internal series and are NOT interchangeable
         with TGT_NNN. See id_crosswalk_v1.1.csv.
     druggability_tier: 2
     binding_site_type: Hexameric helicase ring; ATP-binding motifs (Walker A/B); ssDNA binding channel;
@@ -2102,9 +2102,9 @@ targets:
     gene_symbol: TFAM
     uniprot: Q00059
     legacy_identifiers:
-      mitocorex_target_registry_id: NOT_IN_THAT_SERIES
-      mitocorex_pocket_library_id: NOT_IN_THAT_SERIES
-      note: MITO_TGT_NNN identifiers belong to a different 25 protein MitoCorex series and are NOT interchangeable
+      source_target_registry_id: NOT_IN_THAT_SERIES
+      source_pocket_library_id: NOT_IN_THAT_SERIES
+      note: MITO_TGT_NNN identifiers belong to a different 25 protein internal series and are NOT interchangeable
         with TGT_NNN. See id_crosswalk_v1.1.csv.
     druggability_tier: 2
     binding_site_type: HMG-box DNA binding domains (box A and B); LONP1 degradation motif; mitochondrial
@@ -2266,9 +2266,9 @@ targets:
     gene_symbol: TIMM23
     uniprot: O14925
     legacy_identifiers:
-      mitocorex_target_registry_id: NOT_IN_THAT_SERIES
-      mitocorex_pocket_library_id: NOT_IN_THAT_SERIES
-      note: MITO_TGT_NNN identifiers belong to a different 25 protein MitoCorex series and are NOT interchangeable
+      source_target_registry_id: NOT_IN_THAT_SERIES
+      source_pocket_library_id: NOT_IN_THAT_SERIES
+      note: MITO_TGT_NNN identifiers belong to a different 25 protein internal series and are NOT interchangeable
         with TGT_NNN. See id_crosswalk_v1.1.csv.
     druggability_tier: 3
     binding_site_type: Transmembrane channel (beta-hairpin pore-forming); TIM23 complex assembly interface;
@@ -2424,9 +2424,9 @@ targets:
     gene_symbol: TOMM40
     uniprot: O96008
     legacy_identifiers:
-      mitocorex_target_registry_id: NOT_IN_THAT_SERIES
-      mitocorex_pocket_library_id: NOT_IN_THAT_SERIES
-      note: MITO_TGT_NNN identifiers belong to a different 25 protein MitoCorex series and are NOT interchangeable
+      source_target_registry_id: NOT_IN_THAT_SERIES
+      source_pocket_library_id: NOT_IN_THAT_SERIES
+      note: MITO_TGT_NNN identifiers belong to a different 25 protein internal series and are NOT interchangeable
         with TGT_NNN. See id_crosswalk_v1.1.csv.
     druggability_tier: 2
     binding_site_type: Beta-barrel import channel; presequence-binding groove; TOM complex assembly interface
@@ -2578,9 +2578,9 @@ targets:
     gene_symbol: DNM1L
     uniprot: O00429
     legacy_identifiers:
-      mitocorex_target_registry_id: MITO_TGT_013
-      mitocorex_pocket_library_id: MITO_PKT_013
-      note: MITO_TGT_NNN identifiers belong to a different 25 protein MitoCorex series and are NOT interchangeable
+      source_target_registry_id: MITO_TGT_013
+      source_pocket_library_id: MITO_PKT_013
+      note: MITO_TGT_NNN identifiers belong to a different 25 protein internal series and are NOT interchangeable
         with TGT_NNN. See id_crosswalk_v1.1.csv.
     druggability_tier: 1
     binding_site_type: GTPase domain (G1-G4 motifs); middle domain (stalk); GED domain; B-insert (cytoplasm-facing);
@@ -2754,9 +2754,9 @@ targets:
     gene_symbol: OPA1
     uniprot: O60313
     legacy_identifiers:
-      mitocorex_target_registry_id: MITO_TGT_015
-      mitocorex_pocket_library_id: MITO_PKT_015
-      note: MITO_TGT_NNN identifiers belong to a different 25 protein MitoCorex series and are NOT interchangeable
+      source_target_registry_id: MITO_TGT_015
+      source_pocket_library_id: MITO_PKT_015
+      note: MITO_TGT_NNN identifiers belong to a different 25 protein internal series and are NOT interchangeable
         with TGT_NNN. See id_crosswalk_v1.1.csv.
     druggability_tier: 1
     binding_site_type: GTPase domain; middle domain; stalk domain; transmembrane anchor (IMS-facing)
@@ -2930,9 +2930,9 @@ targets:
     gene_symbol: PINK1
     uniprot: Q9BXM7
     legacy_identifiers:
-      mitocorex_target_registry_id: MITO_TGT_023
-      mitocorex_pocket_library_id: MITO_PKT_023
-      note: MITO_TGT_NNN identifiers belong to a different 25 protein MitoCorex series and are NOT interchangeable
+      source_target_registry_id: MITO_TGT_023
+      source_pocket_library_id: MITO_PKT_023
+      note: MITO_TGT_NNN identifiers belong to a different 25 protein internal series and are NOT interchangeable
         with TGT_NNN. See id_crosswalk_v1.1.csv.
     druggability_tier: 1
     binding_site_type: Serine/threonine kinase domain; ATP-binding cleft; substrate recognition domain;
@@ -3105,9 +3105,9 @@ targets:
     gene_symbol: SOD2
     uniprot: P04179
     legacy_identifiers:
-      mitocorex_target_registry_id: NOT_IN_THAT_SERIES
-      mitocorex_pocket_library_id: NOT_IN_THAT_SERIES
-      note: MITO_TGT_NNN identifiers belong to a different 25 protein MitoCorex series and are NOT interchangeable
+      source_target_registry_id: NOT_IN_THAT_SERIES
+      source_pocket_library_id: NOT_IN_THAT_SERIES
+      note: MITO_TGT_NNN identifiers belong to a different 25 protein internal series and are NOT interchangeable
         with TGT_NNN. See id_crosswalk_v1.1.csv.
     druggability_tier: 1
     binding_site_type: Manganese-containing active site; substrate access channel; dimer and tetramer
@@ -3291,9 +3291,9 @@ targets:
     gene_symbol: PPARGC1A
     uniprot: Q9UBK2
     legacy_identifiers:
-      mitocorex_target_registry_id: NOT_IN_THAT_SERIES
-      mitocorex_pocket_library_id: NOT_IN_THAT_SERIES
-      note: MITO_TGT_NNN identifiers belong to a different 25 protein MitoCorex series and are NOT interchangeable
+      source_target_registry_id: NOT_IN_THAT_SERIES
+      source_pocket_library_id: NOT_IN_THAT_SERIES
+      note: MITO_TGT_NNN identifiers belong to a different 25 protein internal series and are NOT interchangeable
         with TGT_NNN. See id_crosswalk_v1.1.csv.
     druggability_tier: 2
     binding_site_type: LXXLL nuclear receptor interaction motifs; AMPK phosphorylation sites (T177, S538);
@@ -3461,9 +3461,9 @@ targets:
     gene_symbol: SLC25A4
     uniprot: P12235
     legacy_identifiers:
-      mitocorex_target_registry_id: MITO_TGT_010
-      mitocorex_pocket_library_id: MITO_PKT_010
-      note: MITO_TGT_NNN identifiers belong to a different 25 protein MitoCorex series and are NOT interchangeable
+      source_target_registry_id: MITO_TGT_010
+      source_pocket_library_id: MITO_PKT_010
+      note: MITO_TGT_NNN identifiers belong to a different 25 protein internal series and are NOT interchangeable
         with TGT_NNN. See id_crosswalk_v1.1.csv.
     druggability_tier: 1
     binding_site_type: Substrate binding cavity (ADP/ATP binding site); bongkrekic acid binding site (matrix
@@ -3643,9 +3643,9 @@ targets:
     gene_symbol: VDAC1
     uniprot: P21796
     legacy_identifiers:
-      mitocorex_target_registry_id: MITO_TGT_009
-      mitocorex_pocket_library_id: MITO_PKT_009
-      note: MITO_TGT_NNN identifiers belong to a different 25 protein MitoCorex series and are NOT interchangeable
+      source_target_registry_id: MITO_TGT_009
+      source_pocket_library_id: MITO_PKT_009
+      note: MITO_TGT_NNN identifiers belong to a different 25 protein internal series and are NOT interchangeable
         with TGT_NNN. See id_crosswalk_v1.1.csv.
     druggability_tier: 1
     binding_site_type: Beta-barrel channel pore; N-terminal alpha-helix (voltage sensor and gating); hexokinase
@@ -3824,9 +3824,9 @@ targets:
     gene_symbol: LONP1
     uniprot: P36776
     legacy_identifiers:
-      mitocorex_target_registry_id: MITO_TGT_021
-      mitocorex_pocket_library_id: MITO_PKT_021
-      note: MITO_TGT_NNN identifiers belong to a different 25 protein MitoCorex series and are NOT interchangeable
+      source_target_registry_id: MITO_TGT_021
+      source_pocket_library_id: MITO_PKT_021
+      note: MITO_TGT_NNN identifiers belong to a different 25 protein internal series and are NOT interchangeable
         with TGT_NNN. See id_crosswalk_v1.1.csv.
     druggability_tier: 1
     binding_site_type: Serine protease active site (Ser855-Lys898 catalytic dyad); AAA+ ATPase domain;
@@ -4008,9 +4008,9 @@ targets:
     gene_symbol: NFE2L2
     uniprot: Q16236
     legacy_identifiers:
-      mitocorex_target_registry_id: NOT_IN_THAT_SERIES
-      mitocorex_pocket_library_id: NOT_IN_THAT_SERIES
-      note: MITO_TGT_NNN identifiers belong to a different 25 protein MitoCorex series and are NOT interchangeable
+      source_target_registry_id: NOT_IN_THAT_SERIES
+      source_pocket_library_id: NOT_IN_THAT_SERIES
+      note: MITO_TGT_NNN identifiers belong to a different 25 protein internal series and are NOT interchangeable
         with TGT_NNN. See id_crosswalk_v1.1.csv.
     druggability_tier: 1
     binding_site_type: Keap1-binding domain (ETGE and DLG motifs on Nrf2); Keap1-Nrf2 protein-protein
@@ -4191,9 +4191,9 @@ targets:
     gene_symbol: CLPP
     uniprot: Q16740
     legacy_identifiers:
-      mitocorex_target_registry_id: MITO_TGT_022
-      mitocorex_pocket_library_id: MITO_PKT_022
-      note: MITO_TGT_NNN identifiers belong to a different 25 protein MitoCorex series and are NOT interchangeable
+      source_target_registry_id: MITO_TGT_022
+      source_pocket_library_id: MITO_PKT_022
+      note: MITO_TGT_NNN identifiers belong to a different 25 protein internal series and are NOT interchangeable
         with TGT_NNN. See id_crosswalk_v1.1.csv.
     druggability_tier: 1
     binding_site_type: Serine protease active site (Ser153-His178-Asp227 catalytic triad); substrate access

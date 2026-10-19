@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-MitoCorex Chapter 2B.1, reproducible fpocket v4.0 druggability run.
+Mitochondrial druggability study, reproducible fpocket v4.0 druggability run.
 
 For each of the 25 targets:
   1. select a HUMAN experimental structure containing the target UniProt accession

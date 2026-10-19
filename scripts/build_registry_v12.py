@@ -147,7 +147,7 @@ for tid, rec in reg['targets'].items():
 
 # ---- metadata -----------------------------------------------------------
 md = reg['metadata']
-md['document_id'] = 'DRUGGABILITY_REGISTRY_MITOCOREX_v1.2'
+md['document_id'] = 'DRUGGABILITY_REGISTRY_MITOCHONDRIAL_v1.2'
 md['version'] = '1.2'
 md['supersedes'] = 'druggability_registry_v1.1.yaml (version 1.1, 2026-08-23), which must not be cited'
 md['date_created'] = '2026-09-11'
@@ -239,7 +239,7 @@ reg['druggability_summary']['structural_coverage'] = {
 
 out = f'{BASE}/out_v2/SupplementaryData_S1_druggability_registry_v1.2.yaml'
 with open(out, 'w') as fh:
-    fh.write('# MitoCorex Chapter 2B.1 druggability registry, version 1.2\n')
+    fh.write('# Mitochondrial druggability registry, version 1.2\n')
     fh.write('# Supersedes druggability_registry_v1.1.yaml. Manuscript CSBR-D-26-00031.\n')
     yaml.safe_dump(json.loads(json.dumps(reg, default=str)), fh,
                    sort_keys=False, width=110, default_flow_style=False, allow_unicode=True)

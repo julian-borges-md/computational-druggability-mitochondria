@@ -26,7 +26,7 @@ FS={r['test']:r for r in json.load(open(f'{OUT}/final_stats.json'))}
 DS=json.load(open(f'{OUT}/derived_stats.json'))
 
 # ---- metadata ----
-reg['metadata']['document_id']='DRUGGABILITY_REGISTRY_MITOCOREX_v1.3'
+reg['metadata']['document_id']='DRUGGABILITY_REGISTRY_MITOCHONDRIAL_v1.3'
 reg['metadata']['version']='1.3'
 reg['metadata']['date_created']='2026-09-30'
 reg['metadata']['supersedes']=('druggability_registry_v1.2.yaml (version 1.2, 2026-09-11) and all earlier '
